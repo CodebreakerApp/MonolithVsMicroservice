@@ -1,0 +1,60 @@
+﻿using CodeBreaker.Backend.Data.Models;
+using CodeBreaker.Backend.Data.Models.Fields;
+using CodeBreaker.Backend.Data.Models.KeyPegs;
+
+namespace CodeBreaker.Backend.GameLogic;
+
+public class DefaultMoveApplier : MoveApplier
+{
+    public DefaultMoveApplier(Game game) : base(game)
+    {
+    }
+
+    public override void ApplyMove(Move move)
+    {
+        if (Game.Type.Holes != move.Fields.Count)
+            throw new InvalidOperationException($"Invalid number of guesses. Given: {move.Fields.Count}; Required: {Game.Type.Holes}");
+
+        if (move.Fields.Any(guessPeg => !Game.Type.PossibleFields.Contains(guessPeg)))
+            throw new InvalidOperationException("The guess contains an invalid value/invalid values");
+
+        List<Field> codeToCheck = Game.Code.ToList();
+        List<Field> guessPegsToCheck = move.Fields.ToList();
+        List<KeyPeg> keyPegs = new();
+
+        // check black
+        for (int i = 0; i < guessPegsToCheck.Count; i++)
+            if (guessPegsToCheck[i] == codeToCheck[i])
+            {
+                keyPegs.Add(new BlackKeyPeg());
+                codeToCheck.RemoveAt(i);
+                guessPegsToCheck.RemoveAt(i);
+                i--;
+            }
+
+        // check white
+        foreach (Field field in guessPegsToCheck)
+        {
+            // value not in the code
+            if (!codeToCheck.Contains(field))
+                continue;
+
+            // peg was already added to the white pegs often enough
+            // (max. the number in the codeToCheck)
+            if (keyPegs.Count(x => x == new WhiteKeyPeg()) == codeToCheck.Count(x => x == field))
+                continue;
+
+            keyPegs.Add(new WhiteKeyPeg());
+        }
+
+        if (keyPegs.Count > Game.Type.Holes)
+            throw new InvalidOperationException("There are more keyPegs than holes for the given gameType"); // Should not be the case
+
+        move.KeyPegs = keyPegs;
+        Game.Moves.Add(move);
+
+        // all holes correct  OR  maxmoves reached
+        if (keyPegs.Count(x => x == new BlackKeyPeg()) == Game.Type.Holes || Game.Moves.Count >= Game.Type.MaxMoves)
+            Game.End = DateTime.Now;
+    }
+}
