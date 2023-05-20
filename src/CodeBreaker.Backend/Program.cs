@@ -2,9 +2,20 @@ using CodeBreaker.Backend.Data.Repositories;
 using CodeBreaker.Backend.Services;
 using Transfer = CodeBreaker.Transfer;
 using System.Text.Json.Serialization;
+using Azure.Identity;
+using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
+DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateSlimBuilder(args);
 builder.Logging.AddConsole();
+
+builder.Configuration.AddAzureAppConfiguration(options =>
+{
+    Uri endpoint = new (builder.Configuration["AzureAppConfigurationEndpoint"] ?? "https://codebreaker-mono-config.azconfig.io");
+    options.Connect(endpoint, azureCredential)
+        .Select(KeyFilter.Any, LabelFilter.Null)
+        .Select(KeyFilter.Any, builder.Environment.EnvironmentName);
+});
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
