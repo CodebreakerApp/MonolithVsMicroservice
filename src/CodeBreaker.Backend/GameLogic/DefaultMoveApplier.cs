@@ -1,6 +1,5 @@
 ﻿using CodeBreaker.Backend.Data.Models;
 using CodeBreaker.Backend.Data.Models.Fields;
-using CodeBreaker.Backend.Data.Models.KeyPegs;
 
 namespace CodeBreaker.Backend.GameLogic;
 
@@ -26,7 +25,7 @@ public class DefaultMoveApplier : MoveApplier
         for (int i = 0; i < guessPegsToCheck.Count; i++)
             if (guessPegsToCheck[i] == codeToCheck[i])
             {
-                keyPegs.Add(new BlackKeyPeg());
+                keyPegs.Add(KeyPeg.Black);
                 codeToCheck.RemoveAt(i);
                 guessPegsToCheck.RemoveAt(i);
                 i--;
@@ -41,10 +40,10 @@ public class DefaultMoveApplier : MoveApplier
 
             // peg was already added to the white pegs often enough
             // (max. the number in the codeToCheck)
-            if (keyPegs.Count(x => x == new WhiteKeyPeg()) == codeToCheck.Count(x => x == field))
+            if (keyPegs.Count(x => x == KeyPeg.White) == codeToCheck.Count(x => x == field))
                 continue;
 
-            keyPegs.Add(new WhiteKeyPeg());
+            keyPegs.Add(KeyPeg.White);
         }
 
         if (keyPegs.Count > Game.Type.Holes)
@@ -54,7 +53,7 @@ public class DefaultMoveApplier : MoveApplier
         Game.Moves.Add(move);
 
         // all holes correct  OR  maxmoves reached
-        if (keyPegs.Count(x => x == new BlackKeyPeg()) == Game.Type.Holes || Game.Moves.Count >= Game.Type.MaxMoves)
+        if (keyPegs.Count(x => x == KeyPeg.Black) == Game.Type.Holes || Game.Moves.Count >= Game.Type.MaxMoves)
             Game.End = DateTime.Now;
     }
 }
