@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateSlimBuilder(args);
 builder.Logging.AddConsole();
+builder.Services.AddApplicationInsightsTelemetry(options =>
+{
+    options.ConnectionString = builder.Configuration.GetRequired("AzureApplicationInsightsConnectionString");
+});
 
 builder.Configuration.AddAzureAppConfiguration(options =>
 {
