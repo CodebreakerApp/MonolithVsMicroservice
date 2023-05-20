@@ -1,7 +1,6 @@
 ﻿using CodeBreaker.Backend.Data.Models;
 using CodeBreaker.Backend.Data.Models.Fields;
 using CodeBreaker.Backend.Data.Models.GameTypes;
-using CodeBreaker.Backend.Data.Models.KeyPegs;
 using CodeBreaker.Backend.Visitors;
 using Riok.Mapperly.Abstractions;
 
@@ -18,6 +17,20 @@ internal static partial class TransferMapping
 
     public static partial Move ToModel(this Transfer.Move transfer);
 
+    public static Field ToModel(this Transfer.Field transfer)
+    {
+        if (transfer.Shape != null && transfer.Color != null)
+            return new ColorShapeField(Enum.Parse<FieldColor>(transfer.Color), Enum.Parse<FieldShape>(transfer.Shape));
+
+        if (transfer.Color != null)
+            return new ColorField(Enum.Parse<FieldColor>(transfer.Color));
+
+        throw new InvalidOperationException("Invalid field");
+    }
+
+    //private static IReadOnlyList<Field> ToModel(IReadOnlyList<Transfer.Field> transfer) =>
+    //    transfer.Select(x => x.ToModel()).ToList();
+
     public static Transfer.Field ToTransfer(this Field field) => field.Accept(new FieldTransferMappingVisitor());
 
     public static Transfer.GameType ToTransfer(this GameType gameType) =>
@@ -33,7 +46,7 @@ internal static partial class TransferMapping
 
     public static string ToName(this GameType gameType) => gameType.GetName();
 
-    public static string ToTransfer(this KeyPeg keyPeg) => keyPeg.GetName();
+    public static string ToTransfer(this KeyPeg keyPeg) => Enum.GetName(keyPeg) ?? throw new InvalidOperationException("The given keypeg value does not exist");
 
     public static partial IEnumerable<string> ToTransfer(this IEnumerable<KeyPeg> keyPegs);
 }
