@@ -8,15 +8,15 @@ public class GameService(IGameRepository repository) : IGameService
     public IAsyncEnumerable<Game> GetAsync(CancellationToken cancellationToken = default) =>
         repository.GetAsync(cancellationToken);
 
-    public Task<Game> GetAsync(Guid id, CancellationToken cancellationToken = default) =>
-        repository.GetAsync(id, cancellationToken);
+    public Task<Game> GetAsync(int gameId, CancellationToken cancellationToken = default) =>
+        repository.GetAsync(gameId, cancellationToken);
 
     public Task<Game> CreateAsync(Game game, CancellationToken cancellationToken = default) =>
         repository.CreateAsync(game, cancellationToken);
 
-    public Task CancelAsync(Game game, CancellationToken cancellationToken = default) =>
-        repository.CancelAsync(game, cancellationToken);
+    public Task CancelAsync(int gameId, CancellationToken cancellationToken = default) =>
+        repository.CancelAsync(gameId, cancellationToken);
 
-    public Task DeleteAsync(Guid id, CancellationToken cancellationToken = default) =>
-        repository.DeleteAsync(id, cancellationToken);
+    public Task DeleteAsync(int gameId, CancellationToken cancellationToken = default) =>
+        repository.DeleteAsync(gameId, cancellationToken);
 }

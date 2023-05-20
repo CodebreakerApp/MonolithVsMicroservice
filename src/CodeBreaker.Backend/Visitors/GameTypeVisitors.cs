@@ -1,6 +1,7 @@
 ﻿using CodeBreaker.Backend.Data.Models;
 using CodeBreaker.Backend.Data.Models.Fields;
 using CodeBreaker.Backend.Data.Models.GameTypes;
+using System.Collections.Immutable;
 
 namespace CodeBreaker.Backend.Visitors;
 
@@ -25,7 +26,6 @@ public class GameFactoryVisitor : IGameTypeVisitor<Game>
     public Game Visit(GameType6x4 gameType) =>
         new Game()
         {
-            Id = Guid.NewGuid(),
             Type = gameType,
             Username = Parameters.Username,
             Start = DateTime.Now,
@@ -41,7 +41,6 @@ public class GameFactoryVisitor : IGameTypeVisitor<Game>
     public Game Visit(GameType8x5 gameType) =>
         new Game()
         {
-            Id = Guid.NewGuid(),
             Type = gameType,
             Username = Parameters.Username,
             Start = DateTime.Now,

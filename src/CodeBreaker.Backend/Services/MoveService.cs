@@ -5,7 +5,7 @@ namespace CodeBreaker.Backend.Services;
 
 public class MoveService(IGameRepository gameRepository) : IMoveService
 {
-    public Task ApplyMoveAsync(Guid gameId, Move move, CancellationToken cancellationToken)
+    public Task ApplyMoveAsync(int gameId, Move move, CancellationToken cancellationToken)
     {
         // game logic here
         return gameRepository.AddMoveAsync(gameId, move, cancellationToken);

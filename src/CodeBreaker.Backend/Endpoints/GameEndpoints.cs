@@ -35,8 +35,8 @@ internal static class GameEndpoints
             });
         });
 
-        group.MapGet("/{id:guid}", async Task<Results<Ok<GetGameResponse>, NotFound>> (
-            [FromRoute] Guid id,
+        group.MapGet("/{id:int:min(0)}", async Task<Results<Ok<GetGameResponse>, NotFound>> (
+            [FromRoute] int id,
             [FromServices] IGameService gameService,
             CancellationToken cancellationToken
         ) =>
@@ -75,8 +75,8 @@ internal static class GameEndpoints
             });
         });
 
-        group.MapDelete("/{id:guid}", async (
-            [FromRoute] Guid id,
+        group.MapDelete("/{id:int:min(0)}", async (
+            [FromRoute] int id,
             [FromServices] IGameService gameService,
             CancellationToken cancellationToken
         ) =>
@@ -85,8 +85,8 @@ internal static class GameEndpoints
             return TypedResults.NoContent();
         });
 
-        group.MapPost("/{gameId:guid}/moves", async Task<Results<Ok<CreateMoveResponse>, NotFound>> (
-            [FromRoute] Guid gameId,
+        group.MapPost("/{gameId:int:min(0)}/moves", async Task<Results<Ok<CreateMoveResponse>, NotFound>> (
+            [FromRoute] int gameId,
             [FromBody] CreateMoveRequest body,
             [FromServices] IMoveService moveService,
             CancellationToken cancellationToken

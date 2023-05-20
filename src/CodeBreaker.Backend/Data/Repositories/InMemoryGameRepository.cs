@@ -1,78 +1,79 @@
 ﻿using CodeBreaker.Backend.Data.Models;
 using CodeBreaker.Backend.Data.Models.Fields;
 using CodeBreaker.Backend.Data.Models.GameTypes;
-using CodeBreaker.Backend.Data.Models.KeyPegs;
 using System.Runtime.CompilerServices;
 
 namespace CodeBreaker.Backend.Data.Repositories;
 
 public class InMemoryGameRepository : IGameRepository
 {
-    private readonly IDictionary<Guid, Game> _games = new Dictionary<Guid, Game>();
+    private readonly IDictionary<int, Game> _games;
+
+    private int _id;
 
     public InMemoryGameRepository()
     {
-        void Add(Game game) { var id = Guid.NewGuid(); game.Id = id; _games.Add(id, game); }
-        Add(new()
+        _games = new Game[]
         {
-            Id = default,
-            Code = new List<Field>() { new ColorField(FieldColor.Green) },
-            Start = DateTime.Now,
-            Username = "Sebastian",
-            Moves = new List<Move>()
+            new()
             {
-                new Move(){ Fields = new () { new ColorField(FieldColor.Red) }, KeyPegs = new (){ new BlackKeyPeg() } },
+                Id = _id++,
+                Code = new List<Field>() { new ColorField(FieldColor.Green) },
+                Start = DateTime.Now,
+                Username = "Sebastian",
+                Moves = new List<Move>()
+                {
+                    new Move(){ Fields = new List<Field> () { new ColorField(FieldColor.Red) }, KeyPegs = new List<KeyPeg> (){ KeyPeg.Black } },
+                },
+                Type = new GameType6x4()
             },
-            Type = new GameType6x4()
-        });
-        Add(new()
-        {
-            Id = default,
-            Code = new List<Field>() { new ColorField(FieldColor.Red) },
-            Start = DateTime.Now,
-            Username = "Caro",
-            Moves = new List<Move>(),
-            Type = new GameType8x5()
-        });
-        Add(new()
-        {
-            Id = default,
-            Code = new List<Field>() { new ColorField(FieldColor.Blue) },
-            Start = DateTime.Now,
-            Username = "Emanuel",
-            Moves = new List<Move>(),
-            Type = new GameType8x5()
-        });
-        Add(new()
-        {
-            Id = default,
-            Code = new List<Field>() { new ColorField(FieldColor.White) },
-            Start = DateTime.Now,
-            Username = "Felix",
-            Moves = new List<Move>(),
-            Type = new GameType6x4()
-        });
+            new()
+            {
+                Id = _id++,
+                Code = new List<Field>() { new ColorField(FieldColor.Red) },
+                Start = DateTime.Now,
+                Username = "Caro",
+                Moves = new List<Move>(),
+                Type = new GameType8x5()
+            },
+            new()
+            {
+                Id = _id++,
+                Code = new List<Field>() { new ColorField(FieldColor.Blue) },
+                Start = DateTime.Now,
+                Username = "Emanuel",
+                Moves = new List<Move>(),
+                Type = new GameType8x5()
+            },
+            new()
+            {
+                Id = _id++,
+                Code = new List<Field>() { new ColorField(FieldColor.White) },
+                Start = DateTime.Now,
+                Username = "Felix",
+                Moves = new List<Move>(),
+                Type = new GameType6x4()
+            }
+        }.ToDictionary(x => x.Id);
     }
 
-    public Task AddMoveAsync(Guid gameId, Move move, CancellationToken cancellationToken = default)
+    public Task AddMoveAsync(int gameId, Move move, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public Task CancelAsync(Game game, CancellationToken cancellationToken = default)
+    public Task CancelAsync(int gameId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
     public Task<Game> CreateAsync(Game game, CancellationToken cancellationToken = default)
     {
-        Guid id = Guid.NewGuid();
-        game.Id = id;
-        _games.Add(id, game);
+        _games.Add(_id++, game);
         return Task.FromResult(game);
     }
 
-    public Task DeleteAsync(Guid gameId, CancellationToken cancellationToken = default)
+    public Task DeleteAsync(int gameId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
@@ -83,12 +84,12 @@ public class InMemoryGameRepository : IGameRepository
             yield return await Task.FromResult(game);
     }
 
-    public Task<Game> GetAsync(Guid gameId, CancellationToken cancellationToken = default)
+    public Task<Game> GetAsync(int gameId, CancellationToken cancellationToken = default)
     {
         return Task.FromResult(_games[gameId]);
     }
 
-    public Task UpdateAsync(Game game, CancellationToken cancellationToken = default)
+    public Task UpdateAsync(int gameId, Game game, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
