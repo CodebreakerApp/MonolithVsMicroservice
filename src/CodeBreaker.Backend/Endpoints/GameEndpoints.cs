@@ -81,7 +81,7 @@ internal static class GameEndpoints
             CancellationToken cancellationToken
         ) =>
         {
-            await gameService.DeleteAsync(id, cancellationToken);
+            await gameService.CancelAsync(id, cancellationToken);
             return TypedResults.NoContent();
         });
 
