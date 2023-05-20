@@ -40,7 +40,7 @@ builder.Services.AddSwaggerGen(options => options.UseOneOfForPolymorphism());
 builder.Services.AddMemoryCache();
 
 // Application services
-builder.Services.AddScoped<IGameRepository, InMemoryGameRepository>();
+builder.Services.AddScoped<IGameRepository, EfcoreSqlGameRepository>();
 builder.Services.AddScoped<IGameTypeRepository, GameTypeRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IMoveService, MoveService>();
