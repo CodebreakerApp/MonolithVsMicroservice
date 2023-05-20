@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ServerGarbageCollection>false</ServerGarbageCollection>
-    <InvariantGlobalization>true</InvariantGlobalization>
+    <InvariantGlobalization>false</InvariantGlobalization>
     <PublishAot>false</PublishAot>
 	<LangVersion>preview</LangVersion>
 	<UserSecretsId>26b8136b-e3d2-4896-ba3c-395d0a27be74</UserSecretsId>
@@ -13,6 +13,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="6.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-preview.3.23174.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.3.23174.2" />
     <PackageReference Include="Riok.Mapperly" Version="2.8.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
@@ -20,6 +25,11 @@
   <ItemGroup>
     <ProjectReference Include="..\CodeBreaker.Common\CodeBreaker.Common.csproj" />
     <ProjectReference Include="..\CodeBreaker.Transfer\CodeBreaker.Transfer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\DatabaseContexts\Comparers\" />
+    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

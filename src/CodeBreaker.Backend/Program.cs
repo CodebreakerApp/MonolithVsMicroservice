@@ -2,6 +2,8 @@ using CodeBreaker.Backend.Data.Repositories;
 using CodeBreaker.Backend.Services;
 using Transfer = CodeBreaker.Transfer;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+using CodeBreaker.Backend.Data.DatabaseContexts;
 using Azure.Identity;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
@@ -21,6 +23,13 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.AddContext<AppJsonSerializerContext>();
     options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+
+// Database
+builder.Services.AddDbContext<CodeBreakerDbContext>(dbBuilder =>
+{
+    var passwordlessConnectionString = builder.Configuration.GetRequired("AzureSqlPasswordlessConnectionString");
+    dbBuilder.UseSqlServer(passwordlessConnectionString);
 });
 
 // Endpoint documentation
