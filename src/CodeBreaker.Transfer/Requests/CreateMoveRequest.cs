@@ -2,5 +2,5 @@
 
 public class CreateMoveRequest
 {
-    public required Move Move { get; set; }
+    public required List<Field> Fields { get; set; }
 }

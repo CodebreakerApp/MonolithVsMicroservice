@@ -9,16 +9,16 @@ public class DefaultMoveApplier : MoveApplier
     {
     }
 
-    public override void ApplyMove(Move move)
+    public override void ApplyMove(in List<Field> guessPegs)
     {
-        if (Game.Type.Holes != move.Fields.Count)
-            throw new InvalidOperationException($"Invalid number of guesses. Given: {move.Fields.Count}; Required: {Game.Type.Holes}");
+        if (Game.Type.Holes != guessPegs.Count)
+            throw new InvalidOperationException($"Invalid number of guesses. Given: {guessPegs.Count}; Required: {Game.Type.Holes}");
 
-        if (move.Fields.Any(guessPeg => !Game.Type.PossibleFields.Contains(guessPeg)))
+        if (guessPegs.Any(guessPeg => !Game.Type.PossibleFields.Contains(guessPeg)))
             throw new InvalidOperationException("The guess contains an invalid value/invalid values");
 
-        List<Field> codeToCheck = Game.Code.ToList();
-        List<Field> guessPegsToCheck = move.Fields.ToList();
+        List<Field> codeToCheck = Game.Code.ToList(); // copy
+        List<Field> guessPegsToCheck = guessPegs.ToList(); // copy
         List<KeyPeg> keyPegs = new();
 
         // check black
@@ -49,6 +49,7 @@ public class DefaultMoveApplier : MoveApplier
         if (keyPegs.Count > Game.Type.Holes)
             throw new InvalidOperationException("There are more keyPegs than holes for the given gameType"); // Should not be the case
 
+        Move move = new() { Fields = guessPegs };
         move.KeyPegs = keyPegs;
         Game.Moves.Add(move);
 

@@ -1,5 +1,6 @@
 ﻿using CodeBreaker.Backend.Data.Models;
 using CodeBreaker.Backend.Data.Models.GameTypes;
+using CodeBreaker.Backend.GameLogic.Extensions;
 using CodeBreaker.Backend.Mapping;
 using CodeBreaker.Backend.Services;
 using CodeBreaker.Common.Exceptions;
@@ -85,27 +86,34 @@ internal static class GameEndpoints
             return TypedResults.NoContent();
         });
 
-        group.MapPost("/{gameId:int:min(0)}/moves", async Task<Results<Ok<CreateMoveResponse>, NotFound>> (
+        group.MapPost("/{gameId:int:min(0)}/moves", async Task<Results<Ok<CreateMoveResponse>, NotFound, BadRequest<string>>> (
             [FromRoute] int gameId,
             [FromBody] CreateMoveRequest body,
             [FromServices] IMoveService moveService,
             CancellationToken cancellationToken
         ) =>
         {
-            Move move = body.Move.ToModel();
-            
+            var guessPegs = body.Fields.Select(x => x.ToModel()).ToList();
+            Game game;
+
             try
             {
-                await moveService.ApplyMoveAsync(gameId, move, cancellationToken);
+                game = await moveService.ApplyMoveAsync(gameId, guessPegs, cancellationToken);
             }
             catch (NotFoundException)
             {
                 return TypedResults.NotFound();
             }
+            catch (GameAlreadyEndedException)
+            {
+                return TypedResults.BadRequest("The game has already ended");
+            }
 
             return TypedResults.Ok(new CreateMoveResponse()
             {
-                KeyPegs = move.KeyPegs?.ToTransfer() ?? Array.Empty<string>(),
+                GameWon = game.HasWon(),
+                GameEnded = game.HasEnded(),
+                KeyPegs = game.Moves.Last().KeyPegs?.ToTransfer() ?? Array.Empty<string>(),
             });
         });
     }
