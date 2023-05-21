@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using CodeBreaker.Backend.Data.DatabaseContexts;
 using Azure.Identity;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
+using CodeBreaker.Backend.SignalRHubs;
 
 DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -36,6 +37,9 @@ builder.Services.AddDbContext<CodeBreakerDbContext>(dbBuilder =>
     dbBuilder.UseSqlServer(passwordlessConnectionString);
 });
 
+// SignalR
+builder.Services.AddSignalR();
+
 // Endpoint documentation
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => options.UseOneOfForPolymorphism());
@@ -49,6 +53,7 @@ builder.Services.AddScoped<IGameTypeRepository, GameTypeRepository>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IMoveService, MoveService>();
 builder.Services.AddScoped<IGameTypeService, GameTypeService>();
+builder.Services.AddScoped<ILiveHubSender, LiveHubSender>();
 
 builder.Services.AddRequestDecompression();
 
@@ -59,6 +64,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapGameEndpoints();
+app.MapHub<LiveHub>("/live");
 
 app.Run();
 
