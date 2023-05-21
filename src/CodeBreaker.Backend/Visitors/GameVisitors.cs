@@ -7,18 +7,16 @@ namespace CodeBreaker.Backend.Visitors;
 
 public class GameLogicVisitor(Game game, List<Field> guessPegs) : IGameTypeVisitor
 {
-    public Empty Visit(GameType6x4 gameType)
+    public Move Visit(GameType6x4 gameType)
     {
         ThrowWhenGameTypeMismatch(gameType);
-        new DefaultMoveApplier(game).ApplyMove(guessPegs);
-        return new Empty();
+        return new DefaultMoveApplier(game).ApplyMove(guessPegs);
     }
 
-    public Empty Visit(GameType8x5 gameType)
+    public Move Visit(GameType8x5 gameType)
     {
         ThrowWhenGameTypeMismatch(gameType);
-        new DefaultMoveApplier(game).ApplyMove(guessPegs);
-        return new Empty();
+        return new DefaultMoveApplier(game).ApplyMove(guessPegs);
     }
 
     private void ThrowWhenGameTypeMismatch(GameType gameType)

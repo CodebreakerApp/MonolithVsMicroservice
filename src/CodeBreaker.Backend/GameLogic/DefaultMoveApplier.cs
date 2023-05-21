@@ -9,7 +9,7 @@ public class DefaultMoveApplier : MoveApplier
     {
     }
 
-    public override void ApplyMove(in List<Field> guessPegs)
+    public override Move ApplyMove(in List<Field> guessPegs)
     {
         if (Game.Type.Holes != guessPegs.Count)
             throw new InvalidOperationException($"Invalid number of guesses. Given: {guessPegs.Count}; Required: {Game.Type.Holes}");
@@ -56,5 +56,7 @@ public class DefaultMoveApplier : MoveApplier
         // all holes correct  OR  maxmoves reached
         if (keyPegs.Count(x => x == KeyPeg.Black) == Game.Type.Holes || Game.Moves.Count >= Game.Type.MaxMoves)
             Game.End = DateTime.Now;
+
+        return move;
     }
 }

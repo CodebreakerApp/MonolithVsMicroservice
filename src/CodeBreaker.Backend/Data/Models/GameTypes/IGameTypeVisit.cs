@@ -7,7 +7,7 @@ public interface IGameTypeVisitor<out TResult>
     TResult Visit(GameType8x5 gameType);
 }
 
-public interface IGameTypeVisitor : IGameTypeVisitor<Empty> { }
+public interface IGameTypeVisitor : IGameTypeVisitor<Move> { }
 
 public interface IGameTypeVisitable
 {
