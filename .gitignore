@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/src/CodeBreaker.Frontend/CodeBreaker.CLI/CodeBreaker.CLI/Properties/launchSettings.json
