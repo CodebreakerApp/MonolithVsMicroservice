@@ -1,7 +1,7 @@
 ﻿using CodeBreaker.Backend.Data.Models;
 using CodeBreaker.Backend.Data.Models.Fields;
 using CodeBreaker.Backend.Data.Models.GameTypes;
-using System.Collections.Immutable;
+using Microsoft.ApplicationInsights.Extensibility.Implementation.Tracing;
 
 namespace CodeBreaker.Backend.Visitors;
 
@@ -29,13 +29,7 @@ public class GameFactoryVisitor : IGameTypeVisitor<Game>
             Type = gameType,
             Username = Parameters.Username,
             Start = DateTime.Now,
-            Code = new List<Field>()
-            {
-                new ColorField(FieldColor.Red),
-                new ColorField(FieldColor.Green),
-                new ColorField(FieldColor.Blue),
-                new ColorField(FieldColor.Yellow)
-            }
+            Code = gameType.GetRandomFields()
         };
 
     public Game Visit(GameType8x5 gameType) =>
@@ -44,13 +38,24 @@ public class GameFactoryVisitor : IGameTypeVisitor<Game>
             Type = gameType,
             Username = Parameters.Username,
             Start = DateTime.Now,
-            Code = new List<Field>()
-            {
-                new ColorField(FieldColor.Red),
-                new ColorField(FieldColor.Green),
-                new ColorField(FieldColor.Blue),
-                new ColorField(FieldColor.Yellow),
-                new ColorField(FieldColor.Yellow)
-            }
+            Code = gameType.GetRandomFields()
         };
+}
+
+file static class FieldExtensions
+{
+    public static List<Field> GetRandomFields(this GameType gameType) =>
+        GetRandom(gameType.PossibleFields, gameType.Holes);
+
+    public static List<Field> GetRandom(this List<Field> possibleFields, int count) =>
+        Enumerable.Range(0, count)
+            .Select(_ => possibleFields.GetRandom())
+            .ToList();
+
+    public static Field GetRandom(this List<Field> possibleFields)
+    {
+        int max = possibleFields.Count;
+        int index = Random.Shared.Next(max);
+        return possibleFields[index];
+    }
 }
