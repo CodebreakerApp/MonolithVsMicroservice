@@ -14,6 +14,9 @@ public class DefaultMoveApplier : MoveApplier
         if (Game.Type.Holes != guessPegs.Count)
             throw new InvalidOperationException($"Invalid number of guesses. Given: {guessPegs.Count}; Required: {Game.Type.Holes}");
 
+        if (Game.Code.Count != guessPegs.Count)
+            throw new InvalidOperationException($"The number of pegs in the code ({Game.Code.Count}) does not match the number of guesspegs ({guessPegs.Count})");
+
         if (guessPegs.Any(guessPeg => !Game.Type.PossibleFields.Contains(guessPeg)))
             throw new InvalidOperationException("The guess contains an invalid value/invalid values");
 
