@@ -1,3 +1,3 @@
 ﻿namespace CodeBreaker.Transfer.LivePayloads;
 
-public record class GameCreatedPayload(Game game);
+public record class GameCreatedPayload(Game Game);

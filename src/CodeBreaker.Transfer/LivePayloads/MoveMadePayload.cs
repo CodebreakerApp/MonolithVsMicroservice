@@ -1,3 +1,3 @@
 ﻿namespace CodeBreaker.Transfer.LivePayloads;
 
-public record class MoveMadePayload(int GameId, Move move);
+public record class MoveMadePayload(int GameId, Move Move);
