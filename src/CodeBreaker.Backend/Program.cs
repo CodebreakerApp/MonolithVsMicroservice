@@ -7,6 +7,7 @@ using CodeBreaker.Backend.Data.DatabaseContexts;
 using Azure.Identity;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using CodeBreaker.Backend.SignalRHubs;
+using CodeBreaker.Backend.Endpoints;
 
 DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -64,6 +65,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapGameEndpoints();
+app.MapGameTypeEndpoints();
 app.MapHub<LiveHub>("/live");
 
 app.Run();
