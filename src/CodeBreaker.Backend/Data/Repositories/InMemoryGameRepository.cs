@@ -18,19 +18,19 @@ public class InMemoryGameRepository : IGameRepository
             new()
             {
                 Id = _id++,
-                Code = new List<Field>() { new ColorField(FieldColor.Green) },
+                Code = new () { new ColorField(FieldColor.Green) },
                 Start = DateTime.Now,
                 Username = "Sebastian",
                 Moves = new List<Move>()
                 {
-                    new Move(){ Fields = new List<Field> () { new ColorField(FieldColor.Red) }, KeyPegs = new List<KeyPeg> (){ KeyPeg.Black } },
+                    new Move(){ Fields = new () { new ColorField(FieldColor.Red) }, KeyPegs = new List<KeyPeg> (){ KeyPeg.Black } },
                 },
                 Type = new GameType6x4()
             },
             new()
             {
                 Id = _id++,
-                Code = new List<Field>() { new ColorField(FieldColor.Red) },
+                Code = new () { new ColorField(FieldColor.Red) },
                 Start = DateTime.Now,
                 Username = "Caro",
                 Moves = new List<Move>(),
@@ -39,7 +39,7 @@ public class InMemoryGameRepository : IGameRepository
             new()
             {
                 Id = _id++,
-                Code = new List<Field>() { new ColorField(FieldColor.Blue) },
+                Code = new () { new ColorField(FieldColor.Blue) },
                 Start = DateTime.Now,
                 Username = "Emanuel",
                 Moves = new List<Move>(),
@@ -48,7 +48,7 @@ public class InMemoryGameRepository : IGameRepository
             new()
             {
                 Id = _id++,
-                Code = new List<Field>() { new ColorField(FieldColor.White) },
+                Code = new () { new ColorField(FieldColor.White) },
                 Start = DateTime.Now,
                 Username = "Felix",
                 Moves = new List<Move>(),
