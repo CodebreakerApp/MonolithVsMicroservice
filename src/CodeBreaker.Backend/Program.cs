@@ -71,6 +71,7 @@ app.UseSwaggerUI();
 
 app.MapGameEndpoints();
 app.MapGameTypeEndpoints();
+app.MapBotEndpoints();
 app.MapHub<LiveHub>("/live");
 
 app.Run();
