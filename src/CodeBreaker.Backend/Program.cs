@@ -72,6 +72,7 @@ app.UseSwaggerUI();
 app.MapGameEndpoints();
 app.MapGameTypeEndpoints();
 app.MapBotEndpoints();
+app.MapBotTypeEndpoints();
 app.MapHub<LiveHub>("/live");
 
 app.Run();
@@ -85,4 +86,9 @@ app.Run();
 [JsonSerializable(typeof(Transfer.Responses.CreateGameResponse))]
 [JsonSerializable(typeof(Transfer.Responses.CreateMoveResponse))]
 [JsonSerializable(typeof(Transfer.Responses.CreateBotResponse))]
+[JsonSerializable(typeof(Transfer.Responses.GetBotTypesResponse))]
+[JsonSerializable(typeof(Transfer.Responses.GetGameResponse))]
+[JsonSerializable(typeof(Transfer.Responses.GetGamesResponse))]
+[JsonSerializable(typeof(Transfer.Responses.GetGameTypeResponse))]
+[JsonSerializable(typeof(Transfer.Responses.GetGameTypesResponse))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext { }

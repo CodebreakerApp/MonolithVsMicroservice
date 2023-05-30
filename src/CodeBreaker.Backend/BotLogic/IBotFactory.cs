@@ -3,5 +3,6 @@
 namespace CodeBreaker.Backend.BotLogic;
 public interface IBotFactory
 {
+    IReadOnlyList<string> AvailableBotNames { get; }
     Bot CreateBot(string name, BotFactoryArgumnets args);
 }

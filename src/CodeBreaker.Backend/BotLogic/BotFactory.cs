@@ -12,6 +12,8 @@ public class BotFactory : IBotFactory
             CreateSimpleBot
         }.ToFrozenDictionary(bot => bot(new DummyBotFactoryArguments()).GetName());
 
+    public IReadOnlyList<string> AvailableBotNames => s_mapping.Keys;
+
     public Bot CreateBot(string name, BotFactoryArgumnets args) =>
         (s_mapping.GetValueOrDefault(name) ?? throw new NotFoundException())(args);
 
