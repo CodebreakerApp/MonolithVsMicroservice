@@ -2,7 +2,6 @@
 
 namespace CodeBreaker.Backend.Data.Models.Bots;
 
-[JsonDerivedType(typeof(SimpleBot), "simple")]
 public abstract record class Bot : IBotVisitable
 {
     public int Id { get; set; }
