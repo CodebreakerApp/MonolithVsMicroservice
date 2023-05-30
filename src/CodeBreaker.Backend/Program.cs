@@ -55,6 +55,7 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IMoveService, MoveService>();
 builder.Services.AddScoped<IGameTypeService, GameTypeService>();
 builder.Services.AddScoped<ILiveHubSender, LiveHubSender>();
+builder.Services.AddTransient<IBotRunnerService, BotRunnerService>();
 
 builder.Services.AddRequestDecompression();
 
