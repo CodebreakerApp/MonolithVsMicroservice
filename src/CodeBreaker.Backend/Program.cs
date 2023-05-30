@@ -8,6 +8,7 @@ using Azure.Identity;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using CodeBreaker.Backend.SignalRHubs;
 using CodeBreaker.Backend.Endpoints;
+using CodeBreaker.Backend.BotLogic;
 
 DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -57,6 +58,8 @@ builder.Services.AddScoped<IGameTypeService, GameTypeService>();
 builder.Services.AddScoped<ILiveHubSender, LiveHubSender>();
 builder.Services.AddScoped<IBotRepository, BotRepository>();
 builder.Services.AddTransient<IBotRunnerService, BotRunnerService>();
+builder.Services.AddScoped<IBotService, BotService>();
+builder.Services.AddSingleton<IBotFactory, BotFactory>();
 
 builder.Services.AddRequestDecompression();
 
