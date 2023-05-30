@@ -30,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\DatabaseContexts\Comparers\" />
     <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
