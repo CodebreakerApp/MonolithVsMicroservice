@@ -76,7 +76,12 @@ app.MapHub<LiveHub>("/live");
 app.Run();
 
 [JsonSerializable(typeof(Transfer.Game))]
-internal partial class AppJsonSerializerContext : JsonSerializerContext
-{
-
-}
+[JsonSerializable(typeof(Transfer.Bot))]
+[JsonSerializable(typeof(Transfer.GameType))]
+[JsonSerializable(typeof(Transfer.Requests.CreateGameRequest))]
+[JsonSerializable(typeof(Transfer.Requests.CreateMoveRequest))]
+[JsonSerializable(typeof(Transfer.Requests.CreateBotRequest))]
+[JsonSerializable(typeof(Transfer.Responses.CreateGameResponse))]
+[JsonSerializable(typeof(Transfer.Responses.CreateMoveResponse))]
+[JsonSerializable(typeof(Transfer.Responses.CreateBotResponse))]
+internal partial class AppJsonSerializerContext : JsonSerializerContext { }
