@@ -1,4 +1,5 @@
 ﻿using CodeBreaker.Backend.Data.Models;
+using CodeBreaker.Backend.Data.Models.Bots;
 using CodeBreaker.Backend.Data.Models.Fields;
 using CodeBreaker.Backend.Data.Models.GameTypes;
 using CodeBreaker.Backend.Visitors;
@@ -49,4 +50,6 @@ internal static partial class TransferMapping
     public static string ToTransfer(this KeyPeg keyPeg) => Enum.GetName(keyPeg) ?? throw new InvalidOperationException("The given keypeg value does not exist");
 
     public static partial IEnumerable<string> ToTransfer(this IEnumerable<KeyPeg> keyPegs);
+
+    public static partial Transfer.Bot ToTransfer(this Bot bot);
 }
