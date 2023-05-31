@@ -29,9 +29,6 @@ internal static partial class TransferMapping
         throw new InvalidOperationException("Invalid field");
     }
 
-    //private static IReadOnlyList<Field> ToModel(IReadOnlyList<Transfer.Field> transfer) =>
-    //    transfer.Select(x => x.ToModel()).ToList();
-
     public static Transfer.Field ToTransfer(this Field field) => field.Accept(new FieldTransferMappingVisitor());
 
     public static Transfer.GameType ToTransfer(this GameType gameType) =>
