@@ -10,5 +10,5 @@ public abstract class MoveApplier
 
     public Game Game { get; protected set; }
 
-    public abstract Move ApplyMove(in List<Field> guessPegs);
+    public abstract Move ApplyMove(in IReadOnlyList<Field> guessPegs);
 }

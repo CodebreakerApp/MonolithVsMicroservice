@@ -1,5 +1,6 @@
 ﻿using CodeBreaker.Backend.Data.Models;
 using CodeBreaker.Backend.Data.Models.Fields;
+using System.Collections.Immutable;
 
 namespace CodeBreaker.Backend.GameLogic;
 
@@ -9,13 +10,13 @@ public class DefaultMoveApplier : MoveApplier
     {
     }
 
-    public override Move ApplyMove(in List<Field> guessPegs)
+    public override Move ApplyMove(in IReadOnlyList<Field> guessPegs)
     {
         if (Game.Type.Holes != guessPegs.Count)
             throw new InvalidOperationException($"Invalid number of guesses. Given: {guessPegs.Count}; Required: {Game.Type.Holes}");
 
-        if (Game.Code.Length != guessPegs.Count)
-            throw new InvalidOperationException($"The number of pegs in the code ({Game.Code.Length}) does not match the number of guesspegs ({guessPegs.Count})");
+        if (Game.Code.Count != guessPegs.Count)
+            throw new InvalidOperationException($"The number of pegs in the code ({Game.Code.Count}) does not match the number of guesspegs ({guessPegs.Count})");
 
         if (guessPegs.Any(guessPeg => !Game.Type.PossibleFields.Contains(guessPeg)))
             throw new InvalidOperationException("The guess contains an invalid value/invalid values");

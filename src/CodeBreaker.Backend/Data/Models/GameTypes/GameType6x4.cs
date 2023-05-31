@@ -1,5 +1,4 @@
 ﻿using CodeBreaker.Backend.Data.Models.Fields;
-using System.Collections.Immutable;
 
 namespace CodeBreaker.Backend.Data.Models.GameTypes;
 
@@ -9,7 +8,7 @@ public class GameType6x4 : GameType
 
     public override int MaxMoves { get; } = 12;
 
-    public override IReadOnlyList<Field> PossibleFields { get; } = new ImmutableArray<Field>()
+    public override IReadOnlyList<Field> PossibleFields { get; } = new Field[]
         {
             new ColorField(FieldColor.Red),
             new ColorField(FieldColor.Blue),

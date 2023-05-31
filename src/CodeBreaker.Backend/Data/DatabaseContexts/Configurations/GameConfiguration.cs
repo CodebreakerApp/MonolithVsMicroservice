@@ -11,7 +11,7 @@ internal class GameConfiguration : IEntityTypeConfiguration<Game>
     {
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Type).HasConversion<GameTypeNameConverter>(); // Store gameType by name
-        builder.Property(x => x.Code).HasConversion<ImmutableFieldsConverter>();
+        builder.Property(x => x.Code).HasConversion<FieldsConverter>();
         builder.OwnsMany(x => x.Moves, builder =>
         {
             builder.ToTable("Moves");

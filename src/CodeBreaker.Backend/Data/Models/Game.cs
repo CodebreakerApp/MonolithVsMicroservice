@@ -1,6 +1,5 @@
 ﻿using CodeBreaker.Backend.Data.Models.Fields;
 using CodeBreaker.Backend.Data.Models.GameTypes;
-using System.Collections.Immutable;
 
 namespace CodeBreaker.Backend.Data.Models;
 
@@ -16,7 +15,7 @@ public class Game
 
     public DateTime? End { get; set; }
 
-    public required ImmutableArray<Field> Code { get; set; }
+    public required IReadOnlyList<Field> Code { get; set; }
 
     public List<Move> Moves { get; set; } = new List<Move>();
 }
