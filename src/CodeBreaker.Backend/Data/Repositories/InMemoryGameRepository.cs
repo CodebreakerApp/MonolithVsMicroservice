@@ -23,7 +23,7 @@ public class InMemoryGameRepository : IGameRepository
                 Username = "Sebastian",
                 Moves = new List<Move>()
                 {
-                    new Move(){ Fields = new () { new ColorField(FieldColor.Red) }, KeyPegs = new List<KeyPeg> (){ KeyPeg.Black } },
+                    new Move(){ Fields = new Field[] { new ColorField(FieldColor.Red) }, KeyPegs = new List<KeyPeg> (){ KeyPeg.Black } },
                 },
                 Type = new GameType6x4()
             },

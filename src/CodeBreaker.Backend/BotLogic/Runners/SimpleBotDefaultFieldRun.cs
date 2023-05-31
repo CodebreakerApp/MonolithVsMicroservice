@@ -62,9 +62,9 @@ public class SimpleBotDefaultFieldRun(IMoveService moveService, SimpleBot bot, L
     /// <param name="prevKeyPegs">The previous key pegs.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The fields determined by this run and all subsequent runs.</returns>
-    public async IAsyncEnumerable<Field> RunAsync(List<KeyPeg> prevKeyPegs, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Field> RunAsync(IReadOnlyList<KeyPeg> prevKeyPegs, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        List<KeyPeg> currentKeyPegs = prevKeyPegs;
+        IReadOnlyList<KeyPeg> currentKeyPegs = prevKeyPegs;
         bool exit = false;
         Field previousField;
 
@@ -116,13 +116,13 @@ public class SimpleBotDefaultFieldRun(IMoveService moveService, SimpleBot bot, L
             yield return item;
     }
 
-    private (int blackDiff, int whiteDiff) GetDiff(List<KeyPeg> a, List<KeyPeg> b) =>
+    private (int blackDiff, int whiteDiff) GetDiff(IReadOnlyList<KeyPeg> a, IReadOnlyList<KeyPeg> b) =>
         (
             b.Count(x => x == KeyPeg.Black) - a.Count(x => x == KeyPeg.Black),
             b.Count(x => x == KeyPeg.White) - a.Count(x => x == KeyPeg.White)
         );
 
-    private async Task<List<KeyPeg>> ApplyField(CancellationToken cancellationToken) =>
+    private async Task<IReadOnlyList<KeyPeg>> ApplyField(CancellationToken cancellationToken) =>
         (await moveService.ApplyMoveAsync(Game.Id, slots, cancellationToken)).Moves.Last().KeyPegs
             ?? throw new InvalidOperationException("The move was made, but no keypegs were returned.");
 }

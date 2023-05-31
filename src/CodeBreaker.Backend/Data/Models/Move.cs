@@ -6,7 +6,7 @@ public class Move
 {
     public int Id { get; set; }
 
-    public required List<Field> Fields { get; init; }
+    public required IReadOnlyList<Field> Fields { get; init; }
 
-    public List<KeyPeg>? KeyPegs { get; set; }
+    public IReadOnlyList<KeyPeg>? KeyPegs { get; set; }
 }

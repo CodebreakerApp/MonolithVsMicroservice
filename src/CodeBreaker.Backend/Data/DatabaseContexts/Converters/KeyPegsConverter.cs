@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CodeBreaker.Backend.Data.DatabaseContexts.Converters;
 
-public class KeyPegsConverter : ValueConverter<List<KeyPeg>?, string?>
+public class KeyPegsConverter : ValueConverter<IReadOnlyList<KeyPeg>?, string?>
 {
     public KeyPegsConverter() : base
     (
@@ -15,6 +15,6 @@ public class KeyPegsConverter : ValueConverter<List<KeyPeg>?, string?>
             : keyPegsString
             .Split('.', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
             .Select(keyPegName => Enum.Parse<KeyPeg>(keyPegName))
-            .ToList()
+            .ToArray()
     ) { }
 }

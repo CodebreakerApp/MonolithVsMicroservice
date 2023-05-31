@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace CodeBreaker.Backend.Data.DatabaseContexts.Converters;
 
-internal class FieldsConverter : ValueConverter<List<Field>, string>
+internal class FieldsConverter : ValueConverter<IReadOnlyList<Field>, string>
 {
     private readonly static JsonSerializerOptions _jsonOptions = new();
 
@@ -19,7 +19,7 @@ internal class FieldsConverter : ValueConverter<List<Field>, string>
     public FieldsConverter() : base
     (
         fields => JsonSerializer.Serialize(fields, _jsonOptions),
-        serializedFields => JsonSerializer.Deserialize<List<Field>>(serializedFields, _jsonOptions)!
+        serializedFields => JsonSerializer.Deserialize<Field[]>(serializedFields, _jsonOptions)!
     ) { }
 }
 
