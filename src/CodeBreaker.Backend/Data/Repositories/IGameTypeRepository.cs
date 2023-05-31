@@ -3,10 +3,10 @@
 namespace CodeBreaker.Backend.Data.Repositories;
 public interface IGameTypeRepository
 {
-    IEnumerable<string> GameTypeNames { get; }
-    IEnumerable<GameType> GameTypes { get; }
+    IReadOnlyList<string> GameTypeNames { get; }
+    IReadOnlyList<GameType> GameTypes { get; }
 
     GameType GetGameType(string gameTypeName);
-    IEnumerable<string> GetGameTypeNames();
-    IEnumerable<GameType> GetGameTypes();
+    IReadOnlyList<string> GetGameTypeNames();
+    IReadOnlyList<GameType> GetGameTypes();
 }

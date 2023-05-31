@@ -2,7 +2,7 @@
 
 public class Move
 {
-    public required List<Field> Fields { get; set; }
+    public required IReadOnlyList<Field> Fields { get; set; }
 
-    public List<string>? KeyPegs { get; set; }
+    public IReadOnlyList<string>? KeyPegs { get; set; }
 }

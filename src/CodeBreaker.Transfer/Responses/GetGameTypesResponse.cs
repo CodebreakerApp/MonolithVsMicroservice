@@ -2,5 +2,5 @@
 
 public class GetGameTypesResponse
 {
-    public required IEnumerable<GameType> GameTypes { get; set; }
+    public required IReadOnlyList<GameType> GameTypes { get; set; }
 }

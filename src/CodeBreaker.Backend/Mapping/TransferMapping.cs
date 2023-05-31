@@ -43,13 +43,13 @@ internal static partial class TransferMapping
             PossibleFields = gameType.PossibleFields.Select(x => x.ToTransfer()),
         };
 
-    public static partial IEnumerable<Transfer.GameType> ToTransfer(this IEnumerable<GameType> gameTypes);
+    public static partial IReadOnlyList<Transfer.GameType> ToTransfer(this IReadOnlyList<GameType> gameTypes);
 
     public static string ToName(this GameType gameType) => gameType.GetName();
 
     public static string ToTransfer(this KeyPeg keyPeg) => Enum.GetName(keyPeg) ?? throw new InvalidOperationException("The given keypeg value does not exist");
 
-    public static partial IEnumerable<string> ToTransfer(this IEnumerable<KeyPeg> keyPegs);
+    public static partial IReadOnlyList<string> ToTransfer(this IReadOnlyList<KeyPeg> keyPegs);
 
     public static partial Transfer.Bot ToTransfer(this Bot bot);
 }

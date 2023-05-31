@@ -12,5 +12,5 @@ public class Game
 
     public DateTime? End { get; set; }
 
-    public List<Move> Moves { get; set; } = new List<Move>();
+    public IReadOnlyList<Move> Moves { get; set; } = Array.Empty<Move>();
 }

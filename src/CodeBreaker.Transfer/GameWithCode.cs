@@ -2,5 +2,5 @@
 
 public class GameWithCode : Game
 {
-    public required List<Field> Code { get; set; }
+    public required IReadOnlyList<Field> Code { get; set; }
 }

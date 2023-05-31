@@ -12,13 +12,13 @@ public class GameTypeRepository : IGameTypeRepository
             new GameType8x5(),
         }.ToFrozenDictionary(x => x.GetName());
 
-    public IEnumerable<GameType> GameTypes =>
+    public IReadOnlyList<GameType> GameTypes =>
         _mapping.Values;
 
-    public IEnumerable<string> GameTypeNames =>
+    public IReadOnlyList<string> GameTypeNames =>
         _mapping.Keys;
 
-    public IEnumerable<GameType> GetGameTypes() =>
+    public IReadOnlyList<GameType> GetGameTypes() =>
         GameTypes;
 
     public GameType GetGameType(string gameTypeName) =>
@@ -30,6 +30,6 @@ public class GameTypeRepository : IGameTypeRepository
     public string GetGameTypeName(GameType gameType) =>
         gameType.GetName();
 
-    public IEnumerable<string> GetGameTypeNames() =>
+    public IReadOnlyList<string> GetGameTypeNames() =>
         GameTypeNames;
 }

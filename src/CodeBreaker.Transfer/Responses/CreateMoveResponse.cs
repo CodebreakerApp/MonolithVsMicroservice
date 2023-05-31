@@ -2,7 +2,7 @@
 
 public class CreateMoveResponse
 {
-    public required IEnumerable<string> KeyPegs { get; set; }
+    public required IReadOnlyList<string> KeyPegs { get; set; }
 
     public bool GameEnded { get; set; }
 
