@@ -10,7 +10,7 @@ namespace CodeBreaker.Backend.Services;
 
 public class MoveService(IGameRepository gameRepository, ILiveHubSender liveHubSender) : IMoveService
 {
-    public async Task<Game> ApplyMoveAsync(int gameId, List<Field> guessPegs, CancellationToken cancellationToken = default)
+    public async Task<Game> ApplyMoveAsync(int gameId, IReadOnlyList<Field> guessPegs, CancellationToken cancellationToken = default)
     {
         var game = await gameRepository.GetAsync(gameId, cancellationToken);
 

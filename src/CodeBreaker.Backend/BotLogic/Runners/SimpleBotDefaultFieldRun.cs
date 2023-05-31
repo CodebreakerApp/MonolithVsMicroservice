@@ -14,7 +14,7 @@ namespace CodeBreaker.Backend.BotLogic.Runners;
 /// <param name="slots">The slots/fields to work with. At the end, the slots represent the result.</param>
 /// <param name="index">The index of this run. 0 ... n</param>
 /// <param name="nextRun">The run for the next field in the <paramref name="slots"/>.</param>
-public class SimpleBotDefaultFieldRun(IMoveService moveService, SimpleBot bot, List<Field> slots, int index, IFieldRun? nextRun) : IFieldRun
+public class SimpleBotDefaultFieldRun(IMoveService moveService, SimpleBot bot, Field[] slots, int index, IFieldRun? nextRun) : IFieldRun
 {
     /// <summary>
     /// Gets the hinted fields.

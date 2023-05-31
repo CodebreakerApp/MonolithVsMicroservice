@@ -5,7 +5,7 @@ using CodeBreaker.Backend.GameLogic;
 
 namespace CodeBreaker.Backend.Visitors;
 
-public class GameLogicVisitor(Game game, List<Field> guessPegs) : IGameTypeVisitor<Move>
+public class GameLogicVisitor(Game game, IReadOnlyList<Field> guessPegs) : IGameTypeVisitor<Move>
 {
     public Move Visit(GameType6x4 gameType)
     {
