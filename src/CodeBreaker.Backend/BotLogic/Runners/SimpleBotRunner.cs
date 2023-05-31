@@ -45,7 +45,7 @@ public class SimpleBotRunner
     /// <exception cref="System.InvalidOperationException">Occurs, when the keypegs returned by the game logic are null (should not be the case).</exception>
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
-        var slots = Game.Type.GetRandomFields().ToList();
+        var slots = Game.Type.GetRandomFields().ToArray();
         var firstRun = Bot.InitializeFieldRuns(MoveService, slots);
         var game = await MoveService.ApplyMoveAsync(Game.Id, slots, cancellationToken);
         var keyPegs = game.Moves.Last().KeyPegs ?? throw new InvalidOperationException("KeyPegs must not be null");

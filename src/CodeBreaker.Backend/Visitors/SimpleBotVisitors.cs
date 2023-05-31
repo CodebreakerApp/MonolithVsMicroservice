@@ -6,7 +6,7 @@ using CodeBreaker.Backend.Services;
 
 namespace CodeBreaker.Backend.Visitors;
 
-public class SimpleBotRunInitializeVisitor(IMoveService moveService, SimpleBot bot, List<Field> slots) : IGameTypeVisitor<IFieldRun>
+public class SimpleBotRunInitializeVisitor(IMoveService moveService, SimpleBot bot, Field[] slots) : IGameTypeVisitor<IFieldRun>
 {
     public IFieldRun Visit(GameType6x4 gameType) =>
         SimpleBotRunInit(0, gameType.Holes) ?? throw new InvalidOperationException("Could not create a FieldRun.");
