@@ -40,7 +40,7 @@ internal class GameCommand(IAnsiConsole Console /* PascalCased for convenience *
             Console.MarkupLineInterpolated($"{Environment.NewLine}[underline]Move #{i+1}[/]");
             var fields = Console.PromptFields(gameTypeResponse.GameType);
             Console.WriteColorsLine(fields);
-            CreateMoveRequest createMoveRequest = new() { Fields = fields.ToList() };
+            CreateMoveRequest createMoveRequest = new() { Fields = fields };
             var createMoveResponse = await Console.Status().StartAsync("Applying move...", _ => gameService.MakeMove(gameId, createMoveRequest));
             Console.WriteColorsLine(createMoveResponse.KeyPegs);
             play = !createMoveResponse.GameEnded;

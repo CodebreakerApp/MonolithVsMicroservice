@@ -2,5 +2,5 @@
 
 public class CreateMoveRequest
 {
-    public required Field[] Fields { get; set; }
+    public required IEnumerable<Field> Fields { get; set; }
 }
