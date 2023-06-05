@@ -63,6 +63,7 @@ builder.Services.AddScoped<IBotRepository, BotRepository>();
 builder.Services.AddTransient<IBotRunnerService, BotRunnerService>();
 builder.Services.AddScoped<IBotService, BotService>();
 builder.Services.AddSingleton<IBotFactory, BotFactory>();
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 builder.Services.AddRequestDecompression();
