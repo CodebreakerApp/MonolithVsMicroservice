@@ -37,6 +37,9 @@ builder.Services.AddDbContext<CodeBreakerDbContext>(dbBuilder =>
 {
     var passwordlessConnectionString = builder.Configuration.GetRequired("AzureSqlPasswordlessConnectionString");
     dbBuilder.UseSqlServer(passwordlessConnectionString);
+#if DEBUG
+    dbBuilder.EnableSensitiveDataLogging();
+#endif
 });
 
 // SignalR
