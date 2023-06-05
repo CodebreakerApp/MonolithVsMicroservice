@@ -3,6 +3,7 @@ using CodeBreaker.Backend.Data.Models.Bots;
 using CodeBreaker.Backend.Data.Models.Fields;
 using CodeBreaker.Backend.Data.Models.GameTypes;
 using CodeBreaker.Backend.Visitors;
+using CodeBreaker.Transfer.Responses;
 using Riok.Mapperly.Abstractions;
 
 namespace CodeBreaker.Backend.Mapping;
@@ -49,4 +50,6 @@ internal static partial class TransferMapping
     public static partial IReadOnlyList<string> ToTransfer(this IReadOnlyList<KeyPeg> keyPegs);
 
     public static partial Transfer.Bot ToTransfer(this Bot bot);
+
+    public static partial GetStatisticsResponse ToTransfer(this Statistics statistics);
 }

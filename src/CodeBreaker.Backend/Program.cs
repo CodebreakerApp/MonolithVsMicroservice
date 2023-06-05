@@ -78,6 +78,7 @@ app.MapGameEndpoints();
 app.MapGameTypeEndpoints();
 app.MapBotEndpoints();
 app.MapBotTypeEndpoints();
+app.MapReportEndpoints();
 app.MapHub<LiveHub>("/live");
 
 app.Run();
