@@ -11,7 +11,7 @@ namespace CodeBreaker.Backend.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("""
-CREATE OR ALTER FUNCTION QueryStatistics(@from DATETIME2, @to DATETIME2, @gameType NVARCHAR)
+CREATE OR ALTER FUNCTION QueryStatistics(@from DATETIME2, @to DATETIME2, @gameType NVARCHAR(MAX))
 RETURNS TABLE
 AS
 RETURN
