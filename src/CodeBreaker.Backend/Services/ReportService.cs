@@ -8,20 +8,16 @@ public class ReportService(IReportRepository reportRepository) : IReportService
 {
     public async Task<Statistics> GetStatisticsAsync(GetStatisticsArgs args, CancellationToken cancellationToken = default)
     {
-        return await reportRepository.GetStatisticsAsync(new()
+        return await reportRepository.GetStatisticsAsync(new(args.From, args.To)
         {
-            From = args.From,
-            To = args.To,
             GameType = args.GameType,
         }, cancellationToken);
     }
 
     public IAsyncEnumerable<Game> GetGamesAsync(GetGamesArgs args, CancellationToken cancellationToken = default)
     {
-        return reportRepository.GetGamesAsync(new()
+        return reportRepository.GetGamesAsync(new(args.From, args.To)
         {
-            From = args.From,
-            To = args.To,
             MaxCount = args.MaxCount,
         }, cancellationToken);
     }

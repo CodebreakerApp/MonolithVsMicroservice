@@ -29,7 +29,7 @@ internal static class ReportEndpoints
             {
                 From = req.From,
                 To = req.To,
-                GameType = req.GameType != null ? gameTypeRepository.GetGameType(req.GameType) : null
+                GameType = !string.IsNullOrWhiteSpace(req.GameType) ? gameTypeRepository.GetGameType(req.GameType) : null
             };
             var statistics = await reportService.GetStatisticsAsync(args, cancellationToken);
             return TypedResults.Ok(statistics.ToTransfer());

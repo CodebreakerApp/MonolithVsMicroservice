@@ -58,25 +58,24 @@ public class ReportRepository(CodeBreakerDbContext dbContext) : IReportRepositor
 
 public class GetStatisticsArgs
 {
-    private DateTime _from;
-    private DateTime _to = DateTime.Now;
-
-    public DateTime From
+    public GetStatisticsArgs()
     {
-        get => _from;
-        init
-        {
-            if (value > To)
-                throw new ArgumentOutOfRangeException(nameof(From), $"Must not be greater than {nameof(To)}");
-
-            _from = value;
-        }
     }
+
+    public GetStatisticsArgs(DateTime from, DateTime to)
+    {
+        From = from;
+        To = to;
+    }
+
+    private DateTime _to = DateTime.Today.AddDays(1);
+
+    public DateTime From { get; protected init; } = DateTime.Today.AddDays(-10);
 
     public DateTime To
     {
         get => _to;
-        init
+        protected init
         {
             if (value < From)
                 throw new ArgumentOutOfRangeException(nameof(To), $"Must not be smaller than {nameof(From)}");
@@ -90,21 +89,20 @@ public class GetStatisticsArgs
 
 public class GetGamesArgs
 {
-    private DateTime _from;
-    private DateTime _to = DateTime.Now;
+    private DateTime _to = DateTime.Today.AddDays(1);
     private int _maxCount = 1000;
 
-    public DateTime From
+    public GetGamesArgs()
     {
-        get => _from;
-        init
-        {
-            if (value > To)
-                throw new ArgumentOutOfRangeException(nameof(From), $"Must not be greater than {nameof(To)}");
-
-            _from = value;
-        }
     }
+
+    public GetGamesArgs(DateTime from, DateTime to)
+    {
+        From = from;
+        To = to;
+    }
+
+    public DateTime From { get; protected init; } = DateTime.Today.AddDays(-10);
 
     public DateTime To
     {
