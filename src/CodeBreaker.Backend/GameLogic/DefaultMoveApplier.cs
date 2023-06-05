@@ -58,8 +58,12 @@ public class DefaultMoveApplier : MoveApplier
         Game.Moves.Add(move);
 
         // all holes correct  OR  maxmoves reached
-        if (keyPegs.Count(x => x == KeyPeg.Black) == Game.Type.Holes || Game.Moves.Count >= Game.Type.MaxMoves)
+        bool won = keyPegs.Count(x => x == KeyPeg.Black) == Game.Type.Holes;
+        if (won || Game.Moves.Count >= Game.Type.MaxMoves)
+        {
             Game.End = DateTime.Now;
+            Game.Won = won;
+        }
 
         return move;
     }

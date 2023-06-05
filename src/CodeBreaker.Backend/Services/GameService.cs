@@ -1,6 +1,5 @@
 ﻿using CodeBreaker.Backend.Data.Models;
 using CodeBreaker.Backend.Data.Repositories;
-using CodeBreaker.Backend.GameLogic.Extensions;
 using CodeBreaker.Backend.SignalRHubs;
 using CodeBreaker.Backend.SignalRHubs.Models;
 
@@ -29,7 +28,7 @@ public class GameService(IGameRepository repository, ILiveHubSender liveHubSende
         if (game.End == null)
             throw new InvalidOperationException("The 'end' of the game is null, even after it was cancelled.");
 
-        GameEndedPayload payload = new(gameId, game.HasWon(), game.End.Value);
+        GameEndedPayload payload = new(gameId, game.Won, game.Cancelled, game.End.Value);
         await liveHubSender.FireGameEndedAsync(payload, cancellationToken);
     }
 
@@ -38,7 +37,7 @@ public class GameService(IGameRepository repository, ILiveHubSender liveHubSende
         await repository.DeleteAsync(gameId, cancellationToken);
         var game = await repository.GetAsync(gameId, cancellationToken);
 
-        GameEndedPayload payload = new(gameId, game.HasWon(), game.End ?? DateTime.Now);
+        GameEndedPayload payload = new(gameId, game.Won, game.Cancelled, game.End ?? DateTime.Now);
         await liveHubSender.FireGameEndedAsync(payload, cancellationToken);
     }
 }

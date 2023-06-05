@@ -111,7 +111,7 @@ internal static class GameEndpoints
 
             return TypedResults.Ok(new CreateMoveResponse()
             {
-                GameWon = game.HasWon(),
+                GameWon = game.Won,
                 GameEnded = game.HasEnded(),
                 KeyPegs = game.Moves.Last().KeyPegs?.ToTransfer() ?? Array.Empty<string>(),
             });

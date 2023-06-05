@@ -18,4 +18,8 @@ public class Game
     public required IReadOnlyList<Field> Code { get; set; }
 
     public List<Move> Moves { get; set; } = new List<Move>();
+
+    public bool Won { get; set; }
+
+    public bool Cancelled { get; set; }
 }

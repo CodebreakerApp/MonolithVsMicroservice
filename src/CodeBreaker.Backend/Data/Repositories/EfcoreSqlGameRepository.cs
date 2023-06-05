@@ -30,6 +30,7 @@ public class EfcoreSqlGameRepository(CodeBreakerDbContext dbContext) : IGameRepo
     {
         var game = await GetCoreAsync(gameId, cancellationToken);
         game.End = DateTime.Now;
+        game.Cancelled = true;
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
