@@ -9,6 +9,7 @@
     <PublishAot>false</PublishAot>
 	<LangVersion>preview</LangVersion>
 	<UserSecretsId>26b8136b-e3d2-4896-ba3c-395d0a27be74</UserSecretsId>
+	<EnableSdkContainerSupport>true</EnableSdkContainerSupport>
   </PropertyGroup>
 
   <ItemGroup>
