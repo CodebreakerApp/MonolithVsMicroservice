@@ -1,6 +1,5 @@
 using CodeBreaker.Backend.Data.Repositories;
 using CodeBreaker.Backend.Services;
-using Transfer = CodeBreaker.Transfer;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using CodeBreaker.Backend.Data.DatabaseContexts;
@@ -10,6 +9,7 @@ using CodeBreaker.Backend.SignalRHubs;
 using CodeBreaker.Backend.Endpoints;
 using CodeBreaker.Backend.BotLogic;
 using Microsoft.OpenApi.Any;
+using CodeBreaker.Backend.Serialization;
 
 DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -29,8 +29,8 @@ builder.Configuration.AddAzureAppConfiguration(options =>
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
-    options.SerializerOptions.AddContext<AppJsonSerializerContext>();
     options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    options.SerializerOptions.TypeInfoResolver = new CodebreakerJsonSerializerContext(); // JsonTypeInfoResolver.Combine could used to chain multiple contexts
 });
 
 // Database
@@ -87,19 +87,3 @@ app.MapReportEndpoints();
 app.MapHub<LiveHub>("/live");
 
 app.Run();
-
-[JsonSerializable(typeof(Transfer.Game))]
-[JsonSerializable(typeof(Transfer.Bot))]
-[JsonSerializable(typeof(Transfer.GameType))]
-[JsonSerializable(typeof(Transfer.Requests.CreateGameRequest))]
-[JsonSerializable(typeof(Transfer.Requests.CreateMoveRequest))]
-[JsonSerializable(typeof(Transfer.Requests.CreateBotRequest))]
-[JsonSerializable(typeof(Transfer.Responses.CreateGameResponse))]
-[JsonSerializable(typeof(Transfer.Responses.CreateMoveResponse))]
-[JsonSerializable(typeof(Transfer.Responses.CreateBotResponse))]
-[JsonSerializable(typeof(Transfer.Responses.GetBotTypesResponse))]
-[JsonSerializable(typeof(Transfer.Responses.GetGameResponse))]
-[JsonSerializable(typeof(Transfer.Responses.GetGamesResponse))]
-[JsonSerializable(typeof(Transfer.Responses.GetGameTypeResponse))]
-[JsonSerializable(typeof(Transfer.Responses.GetGameTypesResponse))]
-internal partial class AppJsonSerializerContext : JsonSerializerContext { }
