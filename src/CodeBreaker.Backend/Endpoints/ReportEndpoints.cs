@@ -16,6 +16,7 @@ internal static class ReportEndpoints
     {
         var group = routes
             .MapGroup("/reports")
+            .WithTags("Reporting")
             .RequireRateLimiting("default");
 
         group.MapGet("/statistics", async (
@@ -33,7 +34,10 @@ internal static class ReportEndpoints
             };
             var statistics = await reportService.GetStatisticsAsync(args, cancellationToken);
             return TypedResults.Ok(statistics.ToTransfer());
-        });
+        })
+        .WithName("GetStatistics")
+        .WithSummary("Gets statistics for the games within the given period of time.")
+        .WithOpenApi();
 
         group.MapGet("/games", (
             [AsParameters] GetReportGamesRequest req,
@@ -51,7 +55,10 @@ internal static class ReportEndpoints
             {
                 Games = reportService.GetGamesAsync(args).Select(x => x.ToTransferWithCode())
             });
-        });
+        })
+        .WithName("GetReportGames")
+        .WithSummary("Gets games within the given period of time.")
+        .WithOpenApi();
 
         group.MapGet("/games/{id:int:min(0)}", async Task<Results<Ok<GetReportGameResponse>, NotFound>> (
             [FromRoute] int id,
@@ -78,6 +85,9 @@ internal static class ReportEndpoints
             {
                 Game = game.ToTransferWithCode()
             });
-        });
+        })
+        .WithName("GetReportGame")
+        .WithSummary("Gets the game with the given id.")
+        .WithOpenApi();
     }
 }

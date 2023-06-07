@@ -14,6 +14,7 @@ internal static class GameTypeEndpoints
     {
         var group = routes
             .MapGroup("/gametypes")
+            .WithTags("GameTypes")
             .RequireRateLimiting("default");
 
         group.MapGet("/", (
@@ -25,7 +26,10 @@ internal static class GameTypeEndpoints
             {
                 GameTypes = gameTypes 
             });
-        });
+        })
+        .WithName("GetGameTypes")
+        .WithSummary("Gets the available game types.")
+        .WithOpenApi();
 
         group.MapGet("/{gameTypeName:required}", Results<Ok<GetGameTypeResponse>, NotFound> (
             [FromRoute] string gameTypeName,
@@ -42,11 +46,15 @@ internal static class GameTypeEndpoints
             catch (NotFoundException)
             {
                 return TypedResults.NotFound();
-            }   
+            }
 
-            return TypedResults.Ok(new GetGameTypeResponse() {
+            return TypedResults.Ok(new GetGameTypeResponse()
+            {
                 GameType = gameType.ToTransfer()
             });
-        });
+        })
+        .WithName("GetGameType")
+        .WithSummary("Gets the game type with the specified name.")
+        .WithOpenApi();
     }
 }

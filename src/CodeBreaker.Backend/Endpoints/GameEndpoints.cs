@@ -18,6 +18,7 @@ internal static class GameEndpoints
     {
         var group = routes
             .MapGroup("/games")
+            .WithTags("Games")
             .RequireRateLimiting("default");
 
         group.MapGet("/", (
@@ -34,7 +35,10 @@ internal static class GameEndpoints
             {
                 Games = GetGamesAsync()
             });
-        });
+        })
+        .WithName("GetGames")
+        .WithSummary("Gets the active games.")
+        .WithOpenApi();
 
         group.MapGet("/{id:int:min(0)}", async Task<Results<Ok<GetGameResponse>, NotFound>> (
             [FromRoute] int id,
@@ -57,7 +61,10 @@ internal static class GameEndpoints
             {
                 Game = game.ToTransfer()
             });
-        });
+        })
+        .WithName("GetGame")
+        .WithSummary("Gets the active game with the given id.")
+        .WithOpenApi();
 
         group.MapPost("/", async (
             [FromBody] CreateGameRequest body,
@@ -74,7 +81,10 @@ internal static class GameEndpoints
             {
                 Game = game.ToTransfer()
             });
-        });
+        })
+        .WithName("CreateGame")
+        .WithSummary("Creates a game.")
+        .WithOpenApi();
 
         group.MapDelete("/{id:int:min(0)}", async (
             [FromRoute] int id,
@@ -84,7 +94,10 @@ internal static class GameEndpoints
         {
             await gameService.CancelAsync(id, cancellationToken);
             return TypedResults.NoContent();
-        });
+        })
+        .WithName("CancelGame")
+        .WithSummary("Cancels the game with the given id.")
+        .WithOpenApi();
 
         group.MapPost("/{gameId:int:min(0)}/moves", async Task<Results<Ok<CreateMoveResponse>, NotFound, BadRequest<string>>> (
             [FromRoute] int gameId,
@@ -115,6 +128,9 @@ internal static class GameEndpoints
                 GameEnded = game.HasEnded(),
                 KeyPegs = game.Moves.Last().KeyPegs?.ToTransfer() ?? Array.Empty<string>(),
             });
-        });
+        })
+        .WithName("CreateMove")
+        .WithSummary("Creates and applies a move to the game with the given id.")
+        .WithOpenApi();
     }
 }

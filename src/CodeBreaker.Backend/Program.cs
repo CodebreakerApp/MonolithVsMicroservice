@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using CodeBreaker.Backend.SignalRHubs;
 using CodeBreaker.Backend.Endpoints;
 using CodeBreaker.Backend.BotLogic;
+using Microsoft.OpenApi.Any;
 
 DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateSlimBuilder(args);
@@ -47,7 +48,11 @@ builder.Services.AddSignalR();
 
 // Endpoint documentation
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => options.UseOneOfForPolymorphism());
+builder.Services.AddSwaggerGen(options =>
+{
+    options.UseOneOfForPolymorphism();
+    options.MapType<TimeSpan>(() => new () { Type = "string", Example = new OpenApiString("00:00:00") });
+});
 
 // Cache
 builder.Services.AddMemoryCache();

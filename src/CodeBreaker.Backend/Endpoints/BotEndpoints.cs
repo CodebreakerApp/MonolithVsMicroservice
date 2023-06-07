@@ -10,7 +10,8 @@ internal static class BotEndpoints
     public static void MapBotEndpoints(this IEndpointRouteBuilder routes)
     {
         var group = routes
-            .MapGroup("/bot")
+            .MapGroup("/bots")
+            .WithTags("Bots")
             .RequireRateLimiting("default");
 
         group.MapPost("/", async (
@@ -24,6 +25,9 @@ internal static class BotEndpoints
             CreateBotArgs args = new(body.BotName, gameType, body.ThinkTime);
             var bot = await botService.CreateBotAsync(args, cancellationToken);
             return TypedResults.Ok(bot.ToTransfer());
-        });
+        })
+        .WithName("CreateBot")
+        .WithSummary("Creates a bot and schedules its run.")
+        .WithOpenApi();
     }
 }

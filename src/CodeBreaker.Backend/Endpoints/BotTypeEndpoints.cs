@@ -10,6 +10,7 @@ internal static class BotTypeEndpoints
     {
         var group = routes
             .MapGroup("/bottypes")
+            .WithTags("BotTypes")
             .RequireRateLimiting("default");
 
         group.MapGet("/", ([FromServices] IBotFactory botFactory) =>
@@ -19,6 +20,9 @@ internal static class BotTypeEndpoints
             {
                 BotTypeNames = botTypes
             });
-        });
+        })
+        .WithName("GetBotTypes")
+        .WithSummary("Gets the available types for a bot.")
+        .WithOpenApi();
     }
 }
