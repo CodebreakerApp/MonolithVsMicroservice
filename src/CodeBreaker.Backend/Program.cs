@@ -54,9 +54,6 @@ builder.Services.AddSwaggerGen(options =>
     options.MapType<TimeSpan>(() => new () { Type = "string", Example = new OpenApiString("00:00:00") });
 });
 
-// Cache
-builder.Services.AddMemoryCache();
-
 // Application services
 builder.Services.AddScoped<IGameRepository, EfcoreSqlGameRepository>();
 builder.Services.AddScoped<IGameTypeRepository, GameTypeRepository>();
