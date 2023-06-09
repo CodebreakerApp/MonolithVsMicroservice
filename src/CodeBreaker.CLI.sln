@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33620.401
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreaker.CLI", "CodeBreaker.CLI\CodeBreaker.CLI.csproj", "{824623DF-064E-4E09-BDC1-1165869829EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreaker.CLI", "CodeBreaker.Frontend\CodeBreaker.CLI\CodeBreaker.CLI.csproj", "{824623DF-064E-4E09-BDC1-1165869829EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Transfer", "..\..\CodeBreaker.Transfer\CodeBreaker.Transfer.csproj", "{C7BD3183-AD8B-4DBC-A3F7-1CF29A5FA16D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Transfer", "CodeBreaker.Transfer\CodeBreaker.Transfer.csproj", "{C7BD3183-AD8B-4DBC-A3F7-1CF29A5FA16D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Common", "..\..\CodeBreaker.Common\CodeBreaker.Common.csproj", "{B05DF4FE-888B-40E2-B53A-CB27013954B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Common", "CodeBreaker.Common\CodeBreaker.Common.csproj", "{B05DF4FE-888B-40E2-B53A-CB27013954B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreaker.Frontend.Services", "..\CodeBreaker.Frontend.Services\CodeBreaker.Frontend.Services.csproj", "{EF699F4E-E330-418D-9F55-4EB3B43602A7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreaker.Frontend.Services", "CodeBreaker.Frontend\CodeBreaker.Frontend.Services\CodeBreaker.Frontend.Services.csproj", "{EF699F4E-E330-418D-9F55-4EB3B43602A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
