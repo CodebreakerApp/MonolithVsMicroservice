@@ -3,6 +3,8 @@ on:
   push:
     branches:
     - monolith
+  workflow_dispatch:
+  
 env:
   CONTAINER_APP_CONTAINER_NAME: codebreakerbackend
   CONTAINER_APP_NAME: codebreaker-backend
