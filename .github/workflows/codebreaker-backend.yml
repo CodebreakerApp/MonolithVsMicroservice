@@ -11,7 +11,7 @@ env:
   CONTAINER_APP_RESOURCE_GROUP_NAME: codebreakermono
   CONTAINER_REGISTRY_LOGIN_SERVER: codebreakermono.azurecr.io
   DOTNET_CORE_VERSION: 8.0.x
-  PROJECT_NAME_FOR_DOCKER: codebreaker.backend
+  PROJECT_NAME_FOR_DOCKER: codebreaker-backend
   SOLUTION_PATH: src/CodeBreaker.Backend.sln
 jobs:
   build:
