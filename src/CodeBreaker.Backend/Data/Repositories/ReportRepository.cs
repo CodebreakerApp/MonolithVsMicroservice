@@ -38,7 +38,7 @@ public class ReportRepository(CodeBreakerDbContext dbContext) : IReportRepositor
                 MaxMoveCount = result.MaxMoveCount,
                 AvgMoveCount = result.AvgMoveCount,
             })
-            .FirstAsync(cancellationToken);
+            .SingleAsync(cancellationToken);
     }
 
     public IAsyncEnumerable<Game> GetGamesAsync(GetGamesArgs args, CancellationToken cancellationToken = default)
