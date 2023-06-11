@@ -1,6 +1,7 @@
 ﻿using CodeBreaker.Backend.Data.DatabaseContexts;
 using CodeBreaker.Backend.Data.Models;
 using CodeBreaker.Backend.Data.Models.GameTypes;
+using CodeBreaker.Backend.Data.Repositories.Extensions;
 using CodeBreaker.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,14 +44,16 @@ public class ReportRepository(CodeBreakerDbContext dbContext) : IReportRepositor
     public IAsyncEnumerable<Game> GetGamesAsync(GetGamesArgs args, CancellationToken cancellationToken = default)
     {
         return dbContext.Games
-            .Where(x => x.Start >= args.From && x.Start < args.To)
+            .WhereNotActive()
+            .Where(game => game.Start >= args.From && game.Start < args.To)
             .AsAsyncEnumerable();
     }
 
     public async Task<Game> GetGameAsync(GetGameArgs args, CancellationToken cancellationToken = default)
     {
         return await dbContext.Games
-            .Where(x => x.Id == args.Id)
+            .Where(game => game.Id == args.Id)
+            .WhereNotActive()
             .SingleOrDefaultAsync(cancellationToken)
             ?? throw new NotFoundException($"The game with the id {args.Id} was not found");
     }

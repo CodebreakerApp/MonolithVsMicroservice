@@ -1,13 +1,17 @@
 ﻿using CodeBreaker.Backend.Data.DatabaseContexts;
 using CodeBreaker.Backend.Data.Models;
+using CodeBreaker.Backend.Data.Repositories.Extensions;
 using CodeBreaker.Common.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeBreaker.Backend.Data.Repositories;
 
 public class EfcoreSqlGameRepository(CodeBreakerDbContext dbContext) : IGameRepository
 {
     public IAsyncEnumerable<Game> GetAsync(CancellationToken cancellationToken = default) =>
-        dbContext.Games.AsAsyncEnumerable();
+        dbContext.Games
+        .WhereActive()
+        .AsAsyncEnumerable();
 
     public async Task<Game> GetAsync(int gameId, CancellationToken cancellationToken = default) =>
         await GetCoreAsync(gameId, cancellationToken);
@@ -48,5 +52,5 @@ public class EfcoreSqlGameRepository(CodeBreakerDbContext dbContext) : IGameRepo
     }
 
     private async ValueTask<Game> GetCoreAsync(int gameId, CancellationToken cancellationToken = default) =>
-        await dbContext.Games.FindAsync(new object?[] { gameId }, cancellationToken: cancellationToken) ?? throw new NotFoundException($"The game with the id {gameId} was not found");
+        await dbContext.Games.FindActiveAsync(gameId, cancellationToken) ?? throw new NotFoundException($"The game with the id {gameId} was not found");
 }
