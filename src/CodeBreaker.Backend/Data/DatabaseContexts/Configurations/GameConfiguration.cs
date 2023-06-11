@@ -19,5 +19,8 @@ internal class GameConfiguration : IEntityTypeConfiguration<Game>
             builder.Property(x => x.Fields).HasConversion<FieldsConverter>();
             builder.Property(x => x.KeyPegs).HasConversion<KeyPegsConverter>();
         });
+        builder.HasIndex(x => x.Start);
+        builder.HasIndex(x => x.End);
+        builder.HasIndex(x => x.Type);
     }
 }
