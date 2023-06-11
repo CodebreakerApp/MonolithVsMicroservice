@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33417.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Backend", "CodeBreaker.Backend\CodeBreaker.Backend.csproj", "{5288AC04-DA97-4170-BD0D-04B4F1513BD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Backend", "Backend\CodeBreaker.Backend.csproj", "{5288AC04-DA97-4170-BD0D-04B4F1513BD4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Transfer", "CodeBreaker.Transfer\CodeBreaker.Transfer.csproj", "{B53ECD75-0ECA-4F25-9898-6DDE46F60313}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Transfer", "Transfer\CodeBreaker.Transfer.csproj", "{B53ECD75-0ECA-4F25-9898-6DDE46F60313}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Common", "CodeBreaker.Common\CodeBreaker.Common.csproj", "{E0812B19-BA52-47EA-8957-4C7FFD511E83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Common", "Common\CodeBreaker.Common.csproj", "{E0812B19-BA52-47EA-8957-4C7FFD511E83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
