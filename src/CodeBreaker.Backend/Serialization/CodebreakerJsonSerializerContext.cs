@@ -18,6 +18,7 @@ namespace CodeBreaker.Backend.Serialization;
 [JsonSerializable(typeof(Transfer.Responses.GetGamesResponse))]
 [JsonSerializable(typeof(Transfer.Responses.GetGameTypeResponse))]
 [JsonSerializable(typeof(Transfer.Responses.GetGameTypesResponse))]
+[JsonSerializable(typeof(Transfer.Responses.GetStatisticsResponse))]
 [JsonSerializable(typeof(Transfer.Responses.GetReportGameResponse))]
 [JsonSerializable(typeof(Transfer.Responses.GetReportGamesResponse))]
 internal partial class CodebreakerJsonSerializerContext : JsonSerializerContext { }
