@@ -11,20 +11,20 @@ using CodeBreaker.Backend.BotLogic;
 using Microsoft.OpenApi.Any;
 using CodeBreaker.Backend.Serialization;
 
-DefaultAzureCredential azureCredential = new();
-var builder = WebApplication.CreateSlimBuilder(args);
-builder.Logging.AddConsole();
-builder.Services.AddApplicationInsightsTelemetry(options =>
-{
-    options.ConnectionString = builder.Configuration.GetRequired("AzureApplicationInsightsConnectionString");
-});
+AzureCliCredential azureCredential = new();
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddAzureAppConfiguration(options =>
 {
-    Uri endpoint = new (builder.Configuration["AzureAppConfigurationEndpoint"] ?? "https://codebreaker-mono-config.azconfig.io");
+    Uri endpoint = new (builder.Configuration.GetRequired("AzureAppConfigurationEndpoint"));
     options.Connect(endpoint, azureCredential)
         .Select(KeyFilter.Any, LabelFilter.Null)
         .Select(KeyFilter.Any, builder.Environment.EnvironmentName);
+});
+
+builder.Services.AddApplicationInsightsTelemetry(options =>
+{
+    options.ConnectionString = builder.Configuration.GetRequired("AzureApplicationInsightsConnectionString");
 });
 
 builder.Services.ConfigureHttpJsonOptions(options =>
