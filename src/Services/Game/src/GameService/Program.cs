@@ -14,6 +14,8 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         .Select("GameService:*", builder.Environment.EnvironmentName);
 });
 
+builder.Services.AddApplicationInsightsTelemetry();
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello from the GameService!");
