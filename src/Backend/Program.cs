@@ -11,7 +11,7 @@ using CodeBreaker.Backend.BotLogic;
 using Microsoft.OpenApi.Any;
 using CodeBreaker.Backend.Serialization;
 
-AzureCliCredential azureCredential = new();
+DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddAzureAppConfiguration(options =>
