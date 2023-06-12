@@ -1,4 +1,5 @@
 using Azure.Identity;
+using GameService.Endpoints;
 using GameService.Extensions;
 using GameService.Serialization;
 
@@ -31,6 +32,6 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapGet("/", () => "Hello from the GameService!");
+app.MapGameEndpoints();
 
 app.Run();
