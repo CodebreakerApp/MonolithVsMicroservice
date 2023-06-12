@@ -1,5 +1,6 @@
 using Azure.Identity;
 using GameService.Extensions;
+using GameService.Serialization;
 
 DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,12 @@ builder.Configuration.AddAzureAppConfiguration(options =>
 });
 
 builder.Services.AddApplicationInsightsTelemetry();
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+    options.SerializerOptions.TypeInfoResolver = new ApiJsonSerializerContext();
+});
 
 var app = builder.Build();
 
