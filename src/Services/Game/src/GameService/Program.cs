@@ -33,5 +33,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapGameEndpoints();
+app.MapGameTypeEndpoints();
 
 app.Run();
