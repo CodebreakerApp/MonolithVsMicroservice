@@ -1,6 +1,6 @@
 using Azure.Identity;
-using GameService.Endpoints;
-using GameService.Extensions;
+using CodeBreaker.Services.Game.Endpoints;
+using CodeBreaker.Services.Game.Extensions;
 using GameService.Serialization;
 
 DefaultAzureCredential azureCredential = new();

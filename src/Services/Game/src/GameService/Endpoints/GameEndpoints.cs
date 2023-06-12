@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace GameService.Endpoints;
+namespace CodeBreaker.Services.Game.Endpoints;
 
 internal static class GameEndpoints
 {
@@ -17,7 +17,8 @@ internal static class GameEndpoints
 
         group.MapGet("/{gameId:int:ming(0)", (
             [FromRoute] int gameId
-        ) => { })
+        ) =>
+        { })
         .WithName("GetGame")
         .WithSummary("Gets the game with the given id.")
         .WithOpenApi();
@@ -29,14 +30,16 @@ internal static class GameEndpoints
 
         group.MapDelete("/{gameId:int:min(0)", (
             [FromRoute] int gameId
-        ) => { })
+        ) =>
+        { })
         .WithName("CancelGame")
         .WithSummary("Cancels the game with the given id.")
         .WithOpenApi();
 
         group.MapPost("/{gameId:int:min(0)}/moves", (
             [FromRoute] int gameId
-        ) => { })
+        ) =>
+        { })
         .WithName("CreateMove")
         .WithSummary("Creates and applies a move to the game with the given id.")
         .WithOpenApi();

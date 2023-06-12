@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace GameService.Endpoints;
+namespace CodeBreaker.Services.Game.Endpoints;
 
 internal static class GameTypeEndpoints
 {
@@ -17,7 +17,8 @@ internal static class GameTypeEndpoints
 
         group.MapGet("/{gameTypeName:required", (
             [FromRoute] string gameTypeName
-        ) => { })
+        ) =>
+        { })
         .WithName("GetGameType")
         .WithSummary("Gets the game type with the specified name.")
         .WithOpenApi();
