@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.33711.374
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Game", "src\GameService\CodeBreaker.Services.Game.csproj", "{0FCD6F20-6848-4518-9680-4A8169B061C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Games", "src\GameService\CodeBreaker.Services.Games.csproj", "{0FCD6F20-6848-4518-9680-4A8169B061C8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Games.Data", "src\Data\CodeBreaker.Services.Games.Data.csproj", "{4925150A-14B1-4E13-AF00-C7417BF1D7C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreaker.Services.Games.Transfer.Api", "src\Transfer\Api\CodeBreaker.Services.Games.Transfer.Api.csproj", "{0CA654C4-D151-4F0C-88EF-549267373E3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4925150A-14B1-4E13-AF00-C7417BF1D7C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4925150A-14B1-4E13-AF00-C7417BF1D7C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4925150A-14B1-4E13-AF00-C7417BF1D7C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CA654C4-D151-4F0C-88EF-549267373E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CA654C4-D151-4F0C-88EF-549267373E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CA654C4-D151-4F0C-88EF-549267373E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CA654C4-D151-4F0C-88EF-549267373E3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
