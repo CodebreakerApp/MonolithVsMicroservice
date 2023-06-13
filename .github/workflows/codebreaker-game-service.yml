@@ -9,4 +9,4 @@ on:
 
 jobs:
   call-internal:
-    uses: ../../src/Services/Game/devops/codebreaker-game-service.yml
+    uses: ../../src/Services/Game/devops/codebreaker-game-service.yml@microservices
