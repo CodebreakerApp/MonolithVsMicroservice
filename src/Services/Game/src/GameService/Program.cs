@@ -1,7 +1,11 @@
 using Azure.Identity;
-using CodeBreaker.Services.Game.Endpoints;
-using CodeBreaker.Services.Game.Extensions;
+using CodeBreaker.Services.Games.Data.DatabaseContexts;
+using CodeBreaker.Services.Games.Data.Repositories;
+using CodeBreaker.Services.Games.Endpoints;
+using CodeBreaker.Services.Games.Extensions;
+using CodeBreaker.Services.Games.Services;
 using GameService.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +21,14 @@ builder.Configuration.AddAzureAppConfiguration(options =>
 });
 
 builder.Services.AddApplicationInsightsTelemetry();
+
+builder.Services.AddDbContext<GamesDbContext>(dbBuilder =>
+{
+    dbBuilder.UseSqlServer(builder.Configuration.GetRequired("GameService:Database:PasswordlessConnectionString"));
+#if DEBUG
+    dbBuilder.EnableSensitiveDataLogging();
+#endif
+});
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
