@@ -39,6 +39,12 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IGameRepository, GameRepository>();
+builder.Services.AddScoped<IGameTypeRepository,  GameTypeRepository>();
+builder.Services.AddScoped<IGameService, CodeBreaker.Services.Games.Services.GameService>();
+builder.Services.AddScoped<IGameTypeService, GameTypeService>();
+builder.Services.AddScoped<IMoveService, MoveService>();
+
 var app = builder.Build();
 
 app.UseSwagger();
