@@ -5,6 +5,7 @@ on:
     - microservices
     paths:
     - 'src/Services/Game/**'
+    - '.github/workflows/codebreaker-game-service.yml'
   workflow_dispatch:
   
 env:
