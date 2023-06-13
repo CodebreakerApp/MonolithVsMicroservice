@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<LangVersion>preview</LangVersion>
 	<UserSecretsId>08dbeb35-88fe-4172-8e90-b3b86c9d5939</UserSecretsId>
+	<EnableSdkContainerSupport>true</EnableSdkContainerSupport>
   </PropertyGroup>
 
   <ItemGroup>
