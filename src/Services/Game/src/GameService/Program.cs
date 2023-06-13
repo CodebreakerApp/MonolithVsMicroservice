@@ -14,10 +14,10 @@ builder.Configuration.AddAzureAppConfiguration(options =>
 {
     Uri endpoint = new(builder.Configuration.GetRequired("AzureAppConfigurationEndpoint"));
     options.Connect(endpoint, azureCredential)
-        .Select("Shared:*")
-        .Select("Shared:*", builder.Environment.EnvironmentName)
-        .Select("GameService:*")
-        .Select("GameService:*", builder.Environment.EnvironmentName);
+        .Select("Shared*")
+        .Select("Shared*", builder.Environment.EnvironmentName)
+        .Select("GameService*")
+        .Select("GameService*", builder.Environment.EnvironmentName);
 });
 
 builder.Services.AddApplicationInsightsTelemetry();
