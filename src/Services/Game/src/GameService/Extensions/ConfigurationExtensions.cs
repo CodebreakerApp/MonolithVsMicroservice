@@ -1,4 +1,4 @@
-﻿namespace CodeBreaker.Services.Game.Extensions;
+﻿namespace CodeBreaker.Services.Games.Extensions;
 
 internal static class ConfigurationExtensions
 {
