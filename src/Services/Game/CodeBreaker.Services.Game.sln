@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.33711.374
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Game", "src\GameService\CodeBreaker.Services.Game.csproj", "{0FCD6F20-6848-4518-9680-4A8169B061C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreaker.Services.Game.Data", "src\Data\CodeBreaker.Services.Game.Data.csproj", "{4925150A-14B1-4E13-AF00-C7417BF1D7C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Games.Data", "src\Data\CodeBreaker.Services.Games.Data.csproj", "{4925150A-14B1-4E13-AF00-C7417BF1D7C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
