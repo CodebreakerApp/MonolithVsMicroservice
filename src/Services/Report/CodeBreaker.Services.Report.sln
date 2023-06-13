@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.33711.374
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreaker.Services.Report", "src\ReportService\CodeBreaker.Services.Report.csproj", "{96808CF3-95D7-44B9-BD08-2E7DC1A6B3A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96808CF3-95D7-44B9-BD08-2E7DC1A6B3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96808CF3-95D7-44B9-BD08-2E7DC1A6B3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96808CF3-95D7-44B9-BD08-2E7DC1A6B3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96808CF3-95D7-44B9-BD08-2E7DC1A6B3A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F713B961-FE28-468E-BA84-4FF2F11680C4}
+	EndGlobalSection
+EndGlobal
