@@ -1,5 +1,6 @@
 using Azure.Identity;
 using CodeBreaker.Services.Report.Extensions;
+using CodeBreaker.Services.Report.Serialization;
 
 DefaultAzureCredential azureCredential = new ();
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,12 @@ builder.Configuration.AddAzureAppConfiguration(options =>
 });
 
 builder.Services.AddApplicationInsightsTelemetry();
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+    options.SerializerOptions.TypeInfoResolver = new ApiJsonSerializerContext();
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
