@@ -47,7 +47,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.codebreaker_backend_SPN }}
+        creds: ${{ secrets.codebreaker_microservices_SPN }}
     - name: Deploy to containerapp
       uses: azure/CLI@v1
       with:
