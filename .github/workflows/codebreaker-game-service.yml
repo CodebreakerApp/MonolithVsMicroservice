@@ -1,0 +1,12 @@
+name: Codebreaker Gameservice
+on:
+  push:
+    branches:
+    - microservices
+    paths:
+    - 'src/Services/Game/**'
+  workflow_dispatch:
+
+jobs:
+  call-internal:
+    uses: ../../src/Services/Game/devops/codebreaker-game-service.yml
