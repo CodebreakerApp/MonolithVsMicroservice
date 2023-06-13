@@ -1,6 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CodeBreaker.Services.Games.Data.Exceptions;
+using CodeBreaker.Services.Games.Data.Models;
+using CodeBreaker.Services.Games.GameLogic.Extensions;
+using CodeBreaker.Services.Games.GameLogic.Visitors;
+using CodeBreaker.Services.Games.Mapping;
+using CodeBreaker.Services.Games.Services;
+using CodeBreaker.Services.Games.Services.Exceptions;
+using CodeBreaker.Services.Games.Transfer.Api.Requests;
+using CodeBreaker.Services.Games.Transfer.Api.Responses;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CodeBreaker.Services.Game.Endpoints;
+namespace CodeBreaker.Services.Games.Endpoints;
 
 internal static class GameEndpoints
 {
@@ -10,36 +20,114 @@ internal static class GameEndpoints
             .MapGroup("/games")
             .WithTags("Games");
 
-        group.MapGet("/", () => { })
+        group.MapGet("/", (
+            [FromServices] IGameService gameService,
+            CancellationToken cancellationToken
+        ) =>
+        {
+            async IAsyncEnumerable<Transfer.Api.Game> GetGamesAsync()
+            {
+                await foreach (var game in gameService.GetAsync(cancellationToken))
+                    yield return game.ToTransfer();
+            }
+            return TypedResults.Ok(new GetGamesResponse()
+            {
+                Games = GetGamesAsync()
+            });
+        })
         .WithName("GetGames")
         .WithSummary("Gets the games.")
         .WithOpenApi();
 
-        group.MapGet("/{gameId:int:ming(0)", (
-            [FromRoute] int gameId
+        group.MapGet("/{gameId:int:min(0)}", async Task<Results<Ok<GetGameResponse>, NotFound>> (
+            [FromRoute] int gameId,
+            [FromServices] IGameService gameService,
+            CancellationToken cancellationToken
         ) =>
-        { })
+        {
+            Game game;
+
+            try
+            {
+                game = await gameService.GetAsync(gameId, cancellationToken);
+            }
+            catch (NotFoundException)
+            {
+                return TypedResults.NotFound();
+            }
+
+            return TypedResults.Ok(new GetGameResponse()
+            {
+                Game = game.ToTransfer()
+            });
+        })
         .WithName("GetGame")
         .WithSummary("Gets the game with the given id.")
         .WithOpenApi();
 
-        group.MapPost("/", () => { })
+        group.MapPost("/", async (
+            [FromBody] CreateGameRequest body,
+            [FromServices] IGameService gameService,
+            [FromServices] IGameTypeService gameTypeService,
+            CancellationToken cancellationToken
+        ) =>
+        {
+            var game = gameTypeService
+                .GetGameType(body.GameType)
+                .CreateGame(new(body.Username));
+            game = await gameService.CreateAsync(game, cancellationToken);
+            return TypedResults.Ok(new CreateGameResponse()
+            {
+                Game = game.ToTransfer()
+            });
+        })
         .WithName("CreateGame")
         .WithSummary("Creates a game.")
         .WithOpenApi();
 
-        group.MapDelete("/{gameId:int:min(0)", (
-            [FromRoute] int gameId
+        group.MapDelete("/{gameId:int:min(0)}", async (
+            [FromRoute] int gameId,
+            [FromServices] IGameService gameService,
+            CancellationToken cancellationToken
         ) =>
-        { })
+        {
+            await gameService.CancelAsync(gameId, cancellationToken);
+            return TypedResults.NoContent();
+        })
         .WithName("CancelGame")
         .WithSummary("Cancels the game with the given id.")
         .WithOpenApi();
 
-        group.MapPost("/{gameId:int:min(0)}/moves", (
-            [FromRoute] int gameId
+        group.MapPost("/{gameId:int:min(0)}/moves", async Task<Results<Ok<CreateMoveResponse>, NotFound, BadRequest<string>>> (
+            [FromRoute] int gameId,
+            [FromBody] CreateMoveRequest body,
+            [FromServices] IMoveService moveService,
+            CancellationToken cancellationToken
         ) =>
-        { })
+        {
+            var guessPegs = body.Fields.Select(x => x.ToModel()).ToList();
+            Game game;
+
+            try
+            {
+                game = await moveService.ApplyMoveAsync(gameId, guessPegs, cancellationToken);
+            }
+            catch (NotFoundException)
+            {
+                return TypedResults.NotFound();
+            }
+            catch (GameAlreadyEndedException)
+            {
+                return TypedResults.BadRequest("The game has already ended");
+            }
+
+            return TypedResults.Ok(new CreateMoveResponse()
+            {
+                GameWon = game.Won,
+                GameEnded = game.HasEnded(),
+                KeyPegs = game.Moves.Last().KeyPegs?.ToTransfer() ?? Array.Empty<string>(),
+            });
+        })
         .WithName("CreateMove")
         .WithSummary("Creates and applies a move to the game with the given id.")
         .WithOpenApi();
