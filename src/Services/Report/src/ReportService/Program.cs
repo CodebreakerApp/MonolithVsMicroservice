@@ -14,6 +14,8 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         .Select("ReportService*", builder.Environment.EnvironmentName);
 });
 
+builder.Services.AddApplicationInsightsTelemetry();
+
 var app = builder.Build();
 
 app.MapGet("/", () => "Hello from the report service!");
