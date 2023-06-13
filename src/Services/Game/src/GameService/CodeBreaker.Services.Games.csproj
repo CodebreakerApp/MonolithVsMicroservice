@@ -4,9 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	<LangVersion>preview</LangVersion>
-	<UserSecretsId>08dbeb35-88fe-4172-8e90-b3b86c9d5939</UserSecretsId>
-	<EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+	  <LangVersion>preview</LangVersion>
+	  <UserSecretsId>08dbeb35-88fe-4172-8e90-b3b86c9d5939</UserSecretsId>
+	  <EnableSdkContainerSupport>true</EnableSdkContainerSupport>
+    <ContainerImageName>codebreaker-game-service</ContainerImageName>
   </PropertyGroup>
 
   <ItemGroup>
