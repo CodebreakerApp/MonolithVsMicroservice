@@ -3,6 +3,7 @@ using CodeBreaker.Services.Games.Data.DatabaseContexts;
 using CodeBreaker.Services.Games.Data.Repositories;
 using CodeBreaker.Services.Games.Endpoints;
 using CodeBreaker.Services.Games.Extensions;
+using CodeBreaker.Services.Games.Messaging.Services;
 using CodeBreaker.Services.Games.Services;
 using GameService.Serialization;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +53,7 @@ builder.Services.AddScoped<IGameTypeRepository,  GameTypeRepository>();
 builder.Services.AddScoped<IGameService, CodeBreaker.Services.Games.Services.GameService>();
 builder.Services.AddScoped<IGameTypeService, GameTypeService>();
 builder.Services.AddScoped<IMoveService, MoveService>();
+builder.Services.AddSingleton<IMessagePublisher, MessagePublisher>();
 
 var app = builder.Build();
 
