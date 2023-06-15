@@ -1,4 +1,4 @@
-﻿namespace CodeBreaker.Services.Report.Extensions;
+﻿namespace CodeBreaker.Services.Report.WebApi.Extensions;
 
 internal static class ConfigurationExtensions
 {

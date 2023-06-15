@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.33711.374
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Report", "src\ReportService\CodeBreaker.Services.Report.csproj", "{96808CF3-95D7-44B9-BD08-2E7DC1A6B3A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Report.WebApi", "src\WebApi\CodeBreaker.Services.Report.WebApi.csproj", "{96808CF3-95D7-44B9-BD08-2E7DC1A6B3A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Report.Data", "src\Data\CodeBreaker.Services.Report.Data.csproj", "{B088EC63-085F-47EF-8DC7-718BAE30F698}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBreaker.Services.Report.Transfer.Api", "src\Transfer\Api\CodeBreaker.Services.Report.Transfer.Api.csproj", "{9AC9D38E-AA7C-4090-B6EA-356D8357B222}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Report.Transfer.Api", "src\Transfer\Api\CodeBreaker.Services.Report.Transfer.Api.csproj", "{9AC9D38E-AA7C-4090-B6EA-356D8357B222}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
