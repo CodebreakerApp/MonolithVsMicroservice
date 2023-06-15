@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 DefaultAzureCredential azureCredential = new();
-await Host.CreateDefaultBuilder(args)
+using var host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((context, config) =>
     {
         var existingConfiguration = config.Build();
@@ -24,7 +24,7 @@ await Host.CreateDefaultBuilder(args)
                 .Select("ReportService*", context.HostingEnvironment.EnvironmentName);
         });
     })
-    .ConfigureServices((context, services)=>
+    .ConfigureServices((context, services) =>
     {
         services.Configure<MessageServiceOptions>(context.Configuration.GetSection("ReportService:MessageWorker"));
         services.AddApplicationInsightsTelemetryWorkerService();
@@ -37,6 +37,8 @@ await Host.CreateDefaultBuilder(args)
         services.AddSingleton<IMessageSubscriber>(services => new MessageSubscriber(services.GetRequiredService<ServiceBusClient>(), "report-service"));
         services.AddSingleton<MessageService>();
     })
-    .Build()
-    .Services.GetRequiredService<MessageService>()
+    .Build();
+
+await host.Services
+    .GetRequiredService<MessageService>()
     .RunAsync();

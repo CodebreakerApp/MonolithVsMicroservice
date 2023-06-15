@@ -24,24 +24,27 @@ internal class MessageService
     {
         await _messageSubscriber.StartAsync(cancellationToken);
         
-        while (_messageSubscriber.NoMessageDuration < TimeSpan.FromSeconds(_options.Value.StopAfterSecondsOfNoMessage))
+        while (_messageSubscriber.NoMessageDuration == null || _messageSubscriber.NoMessageDuration < TimeSpan.FromSeconds(_options.Value.StopAfterSecondsOfNoMessage))
             await Task.Delay(1000);
 
         await _messageSubscriber.StopAsync(cancellationToken);
     }
 
-    private Task OnGameCreatedCallbackAsync(GameCreatedPayload payload)
+    private Task OnGameCreatedCallbackAsync(GameCreatedPayload payload, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        Console.WriteLine("OnGameCreated");
+        return Task.CompletedTask;
     }
 
-    private Task OnMoveCreatedCallbackAsync(MoveCreatedPayload payload)
+    private Task OnMoveCreatedCallbackAsync(MoveCreatedPayload payload, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        Console.WriteLine("OnMoveCreated");
+        return Task.CompletedTask;
     }
 
-    private Task OnGameEndedCallbackAsync(GameEndedPayload payload)
+    private Task OnGameEndedCallbackAsync(GameEndedPayload payload, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        Console.WriteLine("OnGameEnded");
+        return Task.CompletedTask;
     }
 }
