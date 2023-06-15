@@ -6,6 +6,7 @@ using CodeBreaker.Services.Games.Extensions;
 using CodeBreaker.Services.Games.Services;
 using GameService.Serialization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
 
 DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,13 @@ builder.Services.AddDbContext<GamesDbContext>(dbBuilder =>
 #if DEBUG
     dbBuilder.EnableSensitiveDataLogging();
 #endif
+});
+
+builder.Services.AddAzureClients(clientBuilder =>
+{
+    var serviceBusNamespace = builder.Configuration.GetRequired("GameService:ServiceBus:Namespace");
+    clientBuilder.AddServiceBusClientWithNamespace(serviceBusNamespace);
+    clientBuilder.UseCredential(azureCredential);
 });
 
 builder.Services.ConfigureHttpJsonOptions(options =>
