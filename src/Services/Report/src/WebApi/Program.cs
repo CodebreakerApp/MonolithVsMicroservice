@@ -57,44 +57,5 @@ app.UseSwaggerUI();
 
 app.MapGameEndpoints();
 app.MapStatisticsEndpoint();
-app.MapPost("/debug", ([FromServices] IGameRepository repository) =>
-{
-    // DEBUG
-    Game game = new()
-    {
-        Type = "6x4",
-        Username = "Sebastian",
-        Start = DateTime.Now.AddHours(-1),
-        End = DateTime.Now,
-        Code = new Field[]
-        {
-            new ColorField(FieldColor.Red),
-            new ColorField(FieldColor.Blue),
-            new ColorField(FieldColor.Green),
-            new ColorField(FieldColor.White),
-        },
-        Moves = new()
-        {
-            new Move()
-            {
-                Fields = new Field[]
-                {
-                    new ColorField(FieldColor.Red),
-                    new ColorField(FieldColor.Blue),
-                    new ColorField(FieldColor.Green),
-                    new ColorField(FieldColor.White),
-                },
-                KeyPegs = new KeyPeg[]
-                {
-                    KeyPegColor.Black,
-                    KeyPegColor.Black,
-                    KeyPegColor.Black,
-                    KeyPegColor.Black
-                }
-            }
-        }
-        };
-    repository.CreateAsync(game).Wait();
-});
 
 app.Run();
