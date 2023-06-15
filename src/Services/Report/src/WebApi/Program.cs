@@ -1,14 +1,10 @@
 using Azure.Identity;
 using CodeBreaker.Services.Report.Common.Extensions;
 using CodeBreaker.Services.Report.Data.DatabaseContexts;
-using CodeBreaker.Services.Report.Data.Models;
-using CodeBreaker.Services.Report.Data.Models.Fields;
-using CodeBreaker.Services.Report.Data.Models.KeyPegs;
 using CodeBreaker.Services.Report.Data.Repositories;
 using CodeBreaker.Services.Report.Serialization;
 using CodeBreaker.Services.Report.WebApi.Endpoints;
 using CodeBreaker.Services.Report.WebApi.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 
