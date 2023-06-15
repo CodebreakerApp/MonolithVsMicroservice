@@ -7,7 +7,6 @@ using CodeBreaker.Services.Report.Data.Models.KeyPegs;
 using CodeBreaker.Services.Report.Data.Repositories;
 using CodeBreaker.Services.Report.Serialization;
 using CodeBreaker.Services.Report.WebApi.Endpoints;
-using CodeBreaker.Services.Report.WebApi.Extensions;
 using CodeBreaker.Services.Report.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
