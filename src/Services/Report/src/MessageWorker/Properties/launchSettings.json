@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CodeBreaker.Service.Report.MessageWorker": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
