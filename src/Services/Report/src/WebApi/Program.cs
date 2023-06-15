@@ -1,4 +1,5 @@
 using Azure.Identity;
+using CodeBreaker.Services.Report.Common.Extensions;
 using CodeBreaker.Services.Report.Data.DatabaseContexts;
 using CodeBreaker.Services.Report.Data.Models;
 using CodeBreaker.Services.Report.Data.Models.Fields;
@@ -12,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 
-AzureCliCredential azureCredential = new (); // TODO Change to DefaultAzureCredential
+DefaultAzureCredential azureCredential = new ();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddAzureAppConfiguration(options =>

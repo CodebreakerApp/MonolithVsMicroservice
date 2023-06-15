@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common\CodeBreaker.Services.Report.Common.csproj" />
     <ProjectReference Include="..\Data\CodeBreaker.Services.Report.Data.csproj" />
     <ProjectReference Include="..\Transfer\Api\CodeBreaker.Services.Report.Transfer.Api.csproj" />
   </ItemGroup>
