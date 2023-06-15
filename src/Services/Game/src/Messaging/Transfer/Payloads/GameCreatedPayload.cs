@@ -11,5 +11,7 @@ public partial class GameCreatedPayload
 
     public required string Username { get; init; }
 
+    public required IReadOnlyList<Field> Code { get; init; }
+
     public required DateTime Start { get; init; }
 }
