@@ -1,6 +1,6 @@
 ﻿using CodeBreaker.Service.Report.MessageWorker.Options;
 using CodeBreaker.Services.Games.Messaging.Services;
-using CodeBreaker.Services.Games.Transfer.Messaging.Payloads;
+using CodeBreaker.Services.Games.Messaging.Transfer.Payloads;
 using Microsoft.Extensions.Options;
 
 namespace CodeBreaker.Service.Report.MessageWorker.Services;

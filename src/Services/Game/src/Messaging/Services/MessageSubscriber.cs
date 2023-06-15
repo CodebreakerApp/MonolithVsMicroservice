@@ -1,6 +1,7 @@
 ﻿using Azure.Messaging.ServiceBus;
 using CodeBreaker.Services.Games.Messaging.Args;
-using CodeBreaker.Services.Games.Transfer.Messaging.Payloads;
+using CodeBreaker.Services.Games.Messaging.AsyncEvent;
+using CodeBreaker.Services.Games.Messaging.Transfer.Payloads;
 using MemoryPack;
 
 namespace CodeBreaker.Services.Games.Messaging.Services;
@@ -23,16 +24,16 @@ public class MessageSubscriber : IMessageSubscriber
         {
             serviceBusClient
                 .CreateProcessor(MessagingTopics.Game_Created, subscriptionName, _options)
-                .RegisterMessageCallback(this, OnGameCreatedAsync)
-                .RegisterErrorCallback(OnGameCreatedErrorAsync),
+                .RegisterMessageCallback(this, () => OnGameCreatedAsync)
+                .RegisterErrorCallback(() => OnGameCreatedErrorAsync),
             serviceBusClient
                 .CreateProcessor(MessagingTopics.Game_Move_Created, subscriptionName, _options)
-                .RegisterMessageCallback(this, OnMoveCreatedAsync)
-                .RegisterErrorCallback(OnMoveCreatedErrorAsync),
+                .RegisterMessageCallback(this, () => OnMoveCreatedAsync)
+                .RegisterErrorCallback(() => OnMoveCreatedErrorAsync),
             serviceBusClient
                 .CreateProcessor(MessagingTopics.Game_Ended, subscriptionName, _options)
-                .RegisterMessageCallback(this, OnGameEndedAsync)
-                .RegisterErrorCallback(OnGameEndedErrorAsync)
+                .RegisterMessageCallback(this, () => OnGameEndedAsync)
+                .RegisterErrorCallback(() => OnGameEndedErrorAsync)
         };
     }
 
@@ -41,19 +42,19 @@ public class MessageSubscriber : IMessageSubscriber
     public TimeSpan? NoMessageDuration => DateTime.Now - LastMessageReceivedAt;
 
 
-    public event Func<GameCreatedPayload, Task>? OnGameCreatedAsync;
+    public event AsyncEventHandler<GameCreatedPayload>? OnGameCreatedAsync;
 
-    public event Func<OnErrorArgs, Task>? OnGameCreatedErrorAsync;
-
-
-    public event Func<MoveCreatedPayload, Task>? OnMoveCreatedAsync;
-
-    public event Func<OnErrorArgs, Task>? OnMoveCreatedErrorAsync;
+    public event AsyncEventHandler<OnErrorArgs>? OnGameCreatedErrorAsync;
 
 
-    public event Func<GameEndedPayload, Task>? OnGameEndedAsync;
+    public event AsyncEventHandler<MoveCreatedPayload>? OnMoveCreatedAsync;
 
-    public event Func<OnErrorArgs, Task>? OnGameEndedErrorAsync;
+    public event AsyncEventHandler<OnErrorArgs>? OnMoveCreatedErrorAsync;
+
+
+    public event AsyncEventHandler<GameEndedPayload>? OnGameEndedAsync;
+
+    public event AsyncEventHandler<OnErrorArgs>? OnGameEndedErrorAsync;
 
     public async Task StartAsync(CancellationToken cancellationToken = default) =>
         await Task.WhenAll(_processors.Select(p => p.StartProcessingAsync(cancellationToken)));
@@ -64,28 +65,24 @@ public class MessageSubscriber : IMessageSubscriber
 
 file static class MessageSubscriberExtensions
 {
-    public static ServiceBusProcessor RegisterMessageCallback<TPayload>(this ServiceBusProcessor processor, MessageSubscriber messageSubscriber, Func<TPayload, Task>? resultEventToInvoke)
+    public static ServiceBusProcessor RegisterMessageCallback<TPayload>(this ServiceBusProcessor processor, MessageSubscriber messageSubscriber, Func<AsyncEventHandler<TPayload>?> eventResolver)
     {
-        messageSubscriber.LastMessageReceivedAt = DateTime.Now;
-        processor.ProcessMessageAsync += args => resultEventToInvoke?.InvokeAsync(args);
+        processor.ProcessMessageAsync += async args =>
+        {
+            messageSubscriber.LastMessageReceivedAt = DateTime.Now;
+            var payload = MemoryPackSerializer.Deserialize<TPayload>(args.Message.Body) ?? throw new InvalidOperationException("Could not deserialize the message body.");
+            await eventResolver.InvokeAsync(payload, args.CancellationToken);
+        };
         return processor;
     }
 
-    public static ServiceBusProcessor RegisterErrorCallback(this ServiceBusProcessor processor, Func<OnErrorArgs, Task>? errorEventToInvoke)
+    public static ServiceBusProcessor RegisterErrorCallback(this ServiceBusProcessor processor, Func<AsyncEventHandler<OnErrorArgs>?> eventResolver)
     {
-        processor.ProcessErrorAsync += args => errorEventToInvoke?.InvokeAsync(args);
+        processor.ProcessErrorAsync += async args =>
+        {
+            OnErrorArgs onErrorArgs = new() { Exception = args.Exception };
+            await eventResolver.InvokeAsync(onErrorArgs, args.CancellationToken);
+        };
         return processor;
-    }
-
-    public static async Task InvokeAsync<TPayload>(this Func<TPayload, Task> eventToInvoke, ProcessMessageEventArgs args)
-    {
-        var payload = MemoryPackSerializer.Deserialize<TPayload>(args.Message.Body) ?? throw new InvalidOperationException("Could not deserialize the message body.");
-        await eventToInvoke(payload);
-    }
-
-    public static async Task InvokeAsync(this Func<OnErrorArgs, Task> eventToInvoke, ProcessErrorEventArgs args)
-    {
-        OnErrorArgs onErrorArgs = new() { Exception = args.Exception };
-        await eventToInvoke(onErrorArgs);
     }
 }

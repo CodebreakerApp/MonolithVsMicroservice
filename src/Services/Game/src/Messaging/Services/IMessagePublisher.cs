@@ -1,4 +1,4 @@
-﻿using CodeBreaker.Services.Games.Transfer.Messaging.Payloads;
+﻿using CodeBreaker.Services.Games.Messaging.Transfer.Payloads;
 
 namespace CodeBreaker.Services.Games.Messaging.Services;
 public interface IMessagePublisher

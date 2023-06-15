@@ -1,15 +1,16 @@
 ﻿using CodeBreaker.Services.Games.Messaging.Args;
-using CodeBreaker.Services.Games.Transfer.Messaging.Payloads;
+using CodeBreaker.Services.Games.Messaging.AsyncEvent;
+using CodeBreaker.Services.Games.Messaging.Transfer.Payloads;
 
 namespace CodeBreaker.Services.Games.Messaging.Services;
 public interface IMessageSubscriber
 {
-    event Func<GameCreatedPayload, Task>? OnGameCreatedAsync;
-    event Func<OnErrorArgs, Task>? OnGameCreatedErrorAsync;
-    event Func<GameEndedPayload, Task>? OnGameEndedAsync;
-    event Func<OnErrorArgs, Task>? OnGameEndedErrorAsync;
-    event Func<MoveCreatedPayload, Task>? OnMoveCreatedAsync;
-    event Func<OnErrorArgs, Task>? OnMoveCreatedErrorAsync;
+    event AsyncEventHandler<GameCreatedPayload>? OnGameCreatedAsync;
+    event AsyncEventHandler<OnErrorArgs>? OnGameCreatedErrorAsync;
+    event AsyncEventHandler<GameEndedPayload>? OnGameEndedAsync;
+    event AsyncEventHandler<OnErrorArgs>? OnGameEndedErrorAsync;
+    event AsyncEventHandler<MoveCreatedPayload>? OnMoveCreatedAsync;
+    event AsyncEventHandler<OnErrorArgs>? OnMoveCreatedErrorAsync;
 
     DateTime? LastMessageReceivedAt { get; }
     TimeSpan? NoMessageDuration { get; }

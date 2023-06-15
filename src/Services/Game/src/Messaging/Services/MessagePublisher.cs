@@ -1,5 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
-using CodeBreaker.Services.Games.Transfer.Messaging.Payloads;
+using CodeBreaker.Services.Games.Messaging.Transfer.Payloads;
 using MemoryPack;
 
 namespace CodeBreaker.Services.Games.Messaging.Services;
