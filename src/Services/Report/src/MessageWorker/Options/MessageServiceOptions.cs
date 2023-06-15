@@ -1,4 +1,4 @@
-﻿namespace CodeBreaker.Service.Report.MessageWorker.Options;
+﻿namespace CodeBreaker.Services.Report.MessageWorker.Options;
 
 internal class MessageServiceOptions
 {

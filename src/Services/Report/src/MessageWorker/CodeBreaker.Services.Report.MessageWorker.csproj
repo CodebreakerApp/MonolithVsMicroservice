@@ -30,14 +30,17 @@
     <PackageReference Include="Azure.Identity" Version="1.9.0" />
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.15.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.21.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0-preview.4.23259.3" />
     <PackageReference Include="Microsoft.Extensions.Azure" Version="1.6.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureAppConfiguration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="Riok.Mapperly" Version="2.8.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Game\src\Messaging\CodeBreaker.Services.Games.Messaging.csproj" />
     <ProjectReference Include="..\Common\CodeBreaker.Services.Report.Common.csproj" />
+    <ProjectReference Include="..\Data\CodeBreaker.Services.Report.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,12 @@
 ﻿using Azure.Identity;
 using Azure.Messaging.ServiceBus;
-using CodeBreaker.Service.Report.MessageWorker.Options;
-using CodeBreaker.Service.Report.MessageWorker.Services;
 using CodeBreaker.Services.Games.Messaging.Services;
 using CodeBreaker.Services.Report.Common.Extensions;
+using CodeBreaker.Services.Report.Data.DatabaseContexts;
+using CodeBreaker.Services.Report.Data.Repositories;
+using CodeBreaker.Services.Report.MessageWorker.Options;
+using CodeBreaker.Services.Report.MessageWorker.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +37,14 @@ using var host = Host.CreateDefaultBuilder(args)
             clientBuilder.AddServiceBusClientWithNamespace(serviceBusNamespace);
             clientBuilder.UseCredential(azureCredential);
         });
+        services.AddDbContext<ReportDbContext>(dbBuilder =>
+        {
+            dbBuilder.UseSqlServer(context.Configuration.GetRequired("ReportService:Database:PasswordlessConnectionString"));
+#if DEBUG
+            dbBuilder.EnableSensitiveDataLogging();
+#endif
+        });
+        services.AddSingleton<IGameRepository, GameRepository>();
         services.AddSingleton<IMessageSubscriber>(services => new MessageSubscriber(services.GetRequiredService<ServiceBusClient>(), "report-service"));
         services.AddSingleton<MessageService>();
     })
