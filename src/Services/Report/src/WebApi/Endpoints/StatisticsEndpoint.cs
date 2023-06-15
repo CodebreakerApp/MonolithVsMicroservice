@@ -1,5 +1,5 @@
-﻿using CodeBreaker.Services.Report.Mapping;
-using CodeBreaker.Services.Report.Transfer.Api.Requests;
+﻿using CodeBreaker.Services.Report.Transfer.Api.Requests;
+using CodeBreaker.Services.Report.WebApi.Mapping;
 using CodeBreaker.Services.Report.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 

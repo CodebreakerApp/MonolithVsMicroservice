@@ -1,8 +1,8 @@
 ﻿using CodeBreaker.Services.Report.Data.Exceptions;
 using CodeBreaker.Services.Report.Data.Models;
-using CodeBreaker.Services.Report.Mapping;
 using CodeBreaker.Services.Report.Transfer.Api.Requests;
 using CodeBreaker.Services.Report.Transfer.Api.Responses;
+using CodeBreaker.Services.Report.WebApi.Mapping;
 using CodeBreaker.Services.Report.WebApi.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

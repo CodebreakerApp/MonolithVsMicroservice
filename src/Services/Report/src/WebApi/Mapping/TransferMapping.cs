@@ -4,7 +4,7 @@ using CodeBreaker.Services.Report.Data.Models.KeyPegs;
 using CodeBreaker.Services.Report.Transfer.Api.Responses;
 using Riok.Mapperly.Abstractions;
 
-namespace CodeBreaker.Services.Report.Mapping;
+namespace CodeBreaker.Services.Report.WebApi.Mapping;
 
 [Mapper(EnumMappingStrategy = EnumMappingStrategy.ByName, EnabledConversions = MappingConversionType.All & ~MappingConversionType.ToStringMethod)]
 internal static partial class TransferMapping
