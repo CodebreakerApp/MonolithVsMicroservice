@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Messaging\CodeBreaker.Services.Games.Messaging.csproj" />
     <ProjectReference Include="..\Transfer\Api\CodeBreaker.Services.Games.Transfer.Api.csproj" />
     <ProjectReference Include="..\Data\CodeBreaker.Services.Games.Data.csproj" />
   </ItemGroup>

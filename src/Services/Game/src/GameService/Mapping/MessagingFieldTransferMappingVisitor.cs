@@ -2,16 +2,16 @@
 
 namespace CodeBreaker.Services.Games.Mapping;
 
-internal class FieldTransferMappingVisitor : IFieldVisitor<Transfer.Api.Field>
+internal class MessagingFieldTransferMappingVisitor : IFieldVisitor<Messaging.Transfer.Field>
 {
-    public Transfer.Api.Field Visit(ColorField field) =>
-        new Transfer.Api.Field()
+    public Messaging.Transfer.Field Visit(ColorField field) =>
+        new ()
         {
             Color = Enum.GetName(field.Color)
         };
 
-    public Transfer.Api.Field Visit(ColorShapeField field) =>
-        new Transfer.Api.Field()
+    public Messaging.Transfer.Field Visit(ColorShapeField field) =>
+        new ()
         {
             Color = Enum.GetName(field.Color),
             Shape = Enum.GetName(field.Shape)

@@ -7,7 +7,7 @@ using Riok.Mapperly.Abstractions;
 namespace CodeBreaker.Services.Games.Mapping;
 
 [Mapper(EnumMappingStrategy = EnumMappingStrategy.ByName, EnabledConversions = MappingConversionType.All & ~MappingConversionType.ToStringMethod)]
-internal static partial class TransferMapping
+internal static partial class ApiTransferMapping
 {
     public static partial Transfer.Api.Game ToTransfer(this Game model);
 
@@ -31,7 +31,7 @@ internal static partial class TransferMapping
     public static IReadOnlyList<Field> ToModel(this IReadOnlyList<Transfer.Api.Field> transfer) =>
         transfer.Select(field => field.ToModel()).ToList();
 
-    public static Transfer.Api.Field ToTransfer(this Field field) => field.Accept(new FieldTransferMappingVisitor());
+    public static Transfer.Api.Field ToTransfer(this Field field) => field.Accept(new ApiFieldTransferMappingVisitor());
 
     public static Transfer.Api.GameType ToTransfer(this GameType gameType) =>
         new()
