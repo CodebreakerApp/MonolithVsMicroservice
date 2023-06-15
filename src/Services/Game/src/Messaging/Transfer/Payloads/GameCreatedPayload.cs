@@ -1,9 +1,9 @@
 ﻿using MemoryPack;
 
-namespace CodeBreaker.Services.Games.Transfer.Messaging.Payloads;
+namespace CodeBreaker.Services.Games.Messaging.Transfer.Payloads;
 
 [MemoryPackable]
-public class GameCreatedPayload
+public partial class GameCreatedPayload
 {
     public required int Id { get; init; }
 

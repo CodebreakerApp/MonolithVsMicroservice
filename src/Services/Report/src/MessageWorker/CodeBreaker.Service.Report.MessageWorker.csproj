@@ -37,7 +37,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Game\src\Messaging\CodeBreaker.Services.Games.Messaging.csproj" />
-    <ProjectReference Include="..\..\..\Game\src\Transfer\Messaging\CodeBreaker.Services.Games.Transfer.Messaging.csproj" />
     <ProjectReference Include="..\Common\CodeBreaker.Services.Report.Common.csproj" />
   </ItemGroup>
 

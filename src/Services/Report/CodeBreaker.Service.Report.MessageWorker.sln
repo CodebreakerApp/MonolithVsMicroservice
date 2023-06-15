@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Report
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Games.Messaging", "..\Game\src\Messaging\CodeBreaker.Services.Games.Messaging.csproj", "{A8482D08-9DBA-4AE4-8356-DA4FB8C13C41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Games.Transfer.Messaging", "..\Game\src\Transfer\Messaging\CodeBreaker.Services.Games.Transfer.Messaging.csproj", "{6C629C54-5089-4550-8BC8-E31149EB9464}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{A8482D08-9DBA-4AE4-8356-DA4FB8C13C41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8482D08-9DBA-4AE4-8356-DA4FB8C13C41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8482D08-9DBA-4AE4-8356-DA4FB8C13C41}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6C629C54-5089-4550-8BC8-E31149EB9464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6C629C54-5089-4550-8BC8-E31149EB9464}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6C629C54-5089-4550-8BC8-E31149EB9464}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6C629C54-5089-4550-8BC8-E31149EB9464}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
