@@ -2,7 +2,7 @@
 
 public abstract record class Field : IFieldVisitable
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public abstract TResult Accept<TResult>(IFieldVisitor<TResult> visitor);
 

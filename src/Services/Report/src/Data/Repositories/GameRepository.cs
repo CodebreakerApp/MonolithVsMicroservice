@@ -19,7 +19,7 @@ public class GameRepository(ReportDbContext dbContext) : IGameRepository
             .Where(x => x.Start >= from && x.Start < to)
             .AsAsyncEnumerable();
 
-    public async Task<Game> GetAsync(int gameId, CancellationToken cancellationToken = default) =>
+    public async Task<Game> GetAsync(Guid gameId, CancellationToken cancellationToken = default) =>
         await GetCoreAsync(gameId, cancellationToken);
 
     public async Task<Game> CreateAsync(Game game, CancellationToken cancellationToken = default)
@@ -30,21 +30,21 @@ public class GameRepository(ReportDbContext dbContext) : IGameRepository
         return game;
     }
 
-    public async Task DeleteAsync(int gameId, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Guid gameId, CancellationToken cancellationToken = default)
     {
         var game = await GetCoreAsync(gameId, cancellationToken);
         dbContext.Games.Remove(game);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdateAsync(int gameId, Game game, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid gameId, Game game, CancellationToken cancellationToken = default)
     {
         SyncPositions(game);
         dbContext.Games.Update(game);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private async Task<Game> GetCoreAsync(int gameId, CancellationToken cancellationToken = default) =>
+    private async Task<Game> GetCoreAsync(Guid gameId, CancellationToken cancellationToken = default) =>
         await dbContext.Games
             .Include(x => x.Code.OrderBy(x => x.Position))
             .Include(x => x.Moves.OrderBy(x => x.Position))

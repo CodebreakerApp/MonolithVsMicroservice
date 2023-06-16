@@ -39,8 +39,8 @@ internal static class GameEndpoints
         .WithSummary("Gets games within the given period of time.")
         .WithOpenApi();
 
-        group.MapGet("/games/{id:int:min(0)}", async Task<Results<Ok<GetGameResponse>, NotFound>> (
-            [FromRoute] int id,
+        group.MapGet("/games/{id:guid}", async Task<Results<Ok<GetGameResponse>, NotFound>> (
+            [FromRoute] Guid id,
             [FromServices] IGameService gameService,
             CancellationToken cancellationToken
         ) =>

@@ -23,5 +23,5 @@ internal class GetGamesArgs
 
 internal class GetGameArgs
 {
-    public required int Id { get; init; }
+    public required Guid Id { get; init; }
 }

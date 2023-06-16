@@ -5,7 +5,7 @@ namespace CodeBreaker.Services.Report.Data.Models;
 
 public class Move
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public required IReadOnlyList<Field> Fields { get; init; }
 

@@ -4,7 +4,7 @@ namespace CodeBreaker.Services.Report.Data.Models;
 
 public class Game
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public required string Type { get; set; }
 

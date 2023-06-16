@@ -7,7 +7,7 @@ public class KeyPeg
         Color = color;
     }
 
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public KeyPegColor Color { get; init; }
 

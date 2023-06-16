@@ -8,7 +8,7 @@ using CodeBreaker.Services.Report.WebApi.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 
-DefaultAzureCredential azureCredential = new ();
+AzureCliCredential azureCredential = new ();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddAzureAppConfiguration(options =>
