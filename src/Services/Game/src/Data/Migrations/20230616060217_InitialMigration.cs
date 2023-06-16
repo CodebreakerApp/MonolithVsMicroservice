@@ -15,15 +15,13 @@ namespace CodeBreaker.Services.Games.Data.Migrations
                 name: "Games",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Start = table.Column<DateTime>(type: "datetime2", nullable: false),
                     End = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Won = table.Column<bool>(type: "bit", nullable: false),
-                    Cancelled = table.Column<bool>(type: "bit", nullable: false)
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,11 +32,11 @@ namespace CodeBreaker.Services.Games.Data.Migrations
                 name: "Moves",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Fields = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    KeyPegs = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GameId = table.Column<int>(type: "int", nullable: false)
+                    KeyPegs = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {

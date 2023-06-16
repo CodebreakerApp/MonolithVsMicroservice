@@ -24,14 +24,9 @@ namespace CodeBreaker.Services.Games.Data.Migrations
 
             modelBuilder.Entity("CodeBreaker.Services.Games.Data.Models.Game", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Cancelled")
-                        .HasColumnType("bit");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -43,6 +38,10 @@ namespace CodeBreaker.Services.Games.Data.Migrations
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -50,9 +49,6 @@ namespace CodeBreaker.Services.Games.Data.Migrations
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Won")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -69,20 +65,22 @@ namespace CodeBreaker.Services.Games.Data.Migrations
                 {
                     b.OwnsMany("CodeBreaker.Services.Games.Data.Models.Move", "Moves", b1 =>
                         {
-                            b1.Property<int>("Id")
+                            b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
+                                .HasColumnType("uniqueidentifier");
 
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
+                            b1.Property<DateTime>("CreatedAt")
+                                .HasColumnType("datetime2");
 
                             b1.Property<string>("Fields")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<int>("GameId")
-                                .HasColumnType("int");
+                            b1.Property<Guid>("GameId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("KeyPegs")
+                                .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("Id");
