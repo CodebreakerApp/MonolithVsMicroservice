@@ -7,13 +7,13 @@ internal static class GameQueryableExtensions
 {
     public static IQueryable<Game> WhereActive(this IQueryable<Game> games) =>
         games.Where(game =>
-            game.End == null &&                             // active
+            game.State == GameState.Active &&                             // active
             game.Start >= DateTime.Now.AddDays(-1)    // not orphaned (1 day)
         );
 
     public static IQueryable<Game> WhereNotActive(this IQueryable<Game> games) =>
         games.Where(game =>
-            game.End != null ||                             // not active
+            game.State != GameState.Active ||                             // not active
             game.Start < DateTime.Now.AddDays(-1)     // orphaned (1 day)
         );
 

@@ -19,7 +19,5 @@ public class Game
 
     public List<Move> Moves { get; set; } = new List<Move>();
 
-    public bool Won { get; set; }
-
-    public bool Cancelled { get; set; }
+    public required GameState State { get; set; }
 }

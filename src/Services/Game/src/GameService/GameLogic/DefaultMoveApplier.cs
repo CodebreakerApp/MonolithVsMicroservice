@@ -62,7 +62,7 @@ internal class DefaultMoveApplier : MoveApplier
         if (won || Game.Moves.Count >= Game.Type.MaxMoves)
         {
             Game.End = DateTime.Now;
-            Game.Won = won;
+            Game.State = won ? GameState.Won : GameState.Lost;
         }
 
         return move;

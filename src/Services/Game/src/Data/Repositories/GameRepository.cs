@@ -30,7 +30,7 @@ public class GameRepository(GamesDbContext dbContext) : IGameRepository
     {
         var game = await GetCoreAsync(gameId, cancellationToken);
         game.End = DateTime.Now;
-        game.Cancelled = true;
+        game.State = GameState.Cancelled;
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 

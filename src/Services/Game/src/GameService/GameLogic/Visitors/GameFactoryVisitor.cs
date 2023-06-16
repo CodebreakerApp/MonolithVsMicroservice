@@ -19,7 +19,8 @@ internal class GameFactoryVisitor : IGameTypeVisitor<Game>
             Type = gameType,
             Username = Parameters.Username,
             Start = DateTime.Now,
-            Code = gameType.GetRandomFields().ToArray()
+            Code = gameType.GetRandomFields().ToArray(),
+            State = GameState.Active
         };
 
     public Game Visit(GameType8x5 gameType) =>
@@ -28,7 +29,8 @@ internal class GameFactoryVisitor : IGameTypeVisitor<Game>
             Type = gameType,
             Username = Parameters.Username,
             Start = DateTime.Now,
-            Code = gameType.GetRandomFields().ToArray()
+            Code = gameType.GetRandomFields().ToArray(),
+            State = GameState.Active
         };
 }
 
