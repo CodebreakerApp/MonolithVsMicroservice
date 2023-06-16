@@ -11,7 +11,7 @@ namespace CodeBreaker.Services.Games.Services;
 
 internal class MoveService(IGameRepository gameRepository, IMessagePublisher messagePublisher) : IMoveService
 {
-    public async Task<Game> ApplyMoveAsync(int gameId, IReadOnlyList<Field> guessPegs, CancellationToken cancellationToken = default)
+    public async Task<Game> ApplyMoveAsync(Guid gameId, IReadOnlyList<Field> guessPegs, CancellationToken cancellationToken = default)
     {
         var game = await gameRepository.GetAsync(gameId, cancellationToken);
 

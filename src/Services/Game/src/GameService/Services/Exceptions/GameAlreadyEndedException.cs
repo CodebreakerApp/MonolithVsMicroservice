@@ -4,7 +4,7 @@ namespace CodeBreaker.Services.Games.Services.Exceptions;
 
 internal class GameAlreadyEndedException : Exception
 {
-    public GameAlreadyEndedException(int gameId) : base($"The game with the {gameId} has already ended.")
+    public GameAlreadyEndedException(Guid gameId) : base($"The game with the {gameId} has already ended.")
     {
         GameId = gameId;
     }
@@ -21,5 +21,5 @@ internal class GameAlreadyEndedException : Exception
     {
     }
 
-    public int GameId { get; init; }
+    public Guid GameId { get; init; }
 }

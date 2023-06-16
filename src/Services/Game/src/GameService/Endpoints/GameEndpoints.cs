@@ -39,8 +39,8 @@ internal static class GameEndpoints
         .WithSummary("Gets the games.")
         .WithOpenApi();
 
-        group.MapGet("/{gameId:int:min(0)}", async Task<Results<Ok<GetGameResponse>, NotFound>> (
-            [FromRoute] int gameId,
+        group.MapGet("/{gameId:guid}", async Task<Results<Ok<GetGameResponse>, NotFound>> (
+            [FromRoute] Guid gameId,
             [FromServices] IGameService gameService,
             CancellationToken cancellationToken
         ) =>
@@ -85,8 +85,8 @@ internal static class GameEndpoints
         .WithSummary("Creates a game.")
         .WithOpenApi();
 
-        group.MapDelete("/{gameId:int:min(0)}", async (
-            [FromRoute] int gameId,
+        group.MapDelete("/{gameId:guid}", async (
+            [FromRoute] Guid gameId,
             [FromServices] IGameService gameService,
             CancellationToken cancellationToken
         ) =>
@@ -98,8 +98,8 @@ internal static class GameEndpoints
         .WithSummary("Cancels the game with the given id.")
         .WithOpenApi();
 
-        group.MapPost("/{gameId:int:min(0)}/moves", async Task<Results<Ok<CreateMoveResponse>, NotFound, BadRequest<string>>> (
-            [FromRoute] int gameId,
+        group.MapPost("/{gameId:guid}/moves", async Task<Results<Ok<CreateMoveResponse>, NotFound, BadRequest<string>>> (
+            [FromRoute] Guid gameId,
             [FromBody] CreateMoveRequest body,
             [FromServices] IMoveService moveService,
             CancellationToken cancellationToken

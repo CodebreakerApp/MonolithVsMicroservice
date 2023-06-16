@@ -5,5 +5,5 @@ namespace CodeBreaker.Services.Games.Services;
 
 internal interface IMoveService
 {
-    Task<Game> ApplyMoveAsync(int gameId, IReadOnlyList<Field> guessPegs, CancellationToken cancellationToken = default);
+    Task<Game> ApplyMoveAsync(Guid gameId, IReadOnlyList<Field> guessPegs, CancellationToken cancellationToken = default);
 }

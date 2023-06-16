@@ -14,7 +14,7 @@ internal static partial class MessagingTransferMapping
 
     public static partial GameEndedPayload ToGameEndedPayload(this Game game);
 
-    public static MoveCreatedPayload ToMoveCreatedPayload(this Move move, int gameId) =>
+    public static MoveCreatedPayload ToMoveCreatedPayload(this Move move, Guid gameId) =>
         new()
         {
             GameId = gameId,

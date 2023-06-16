@@ -14,7 +14,7 @@ internal class GameFactoryVisitor : IGameTypeVisitor<Game>
     public GameFactoryParameters Parameters { get; protected init; }
 
     public Game Visit(GameType6x4 gameType) =>
-        new Game()
+        new ()
         {
             Type = gameType,
             Username = Parameters.Username,
@@ -23,7 +23,7 @@ internal class GameFactoryVisitor : IGameTypeVisitor<Game>
         };
 
     public Game Visit(GameType8x5 gameType) =>
-        new Game()
+        new ()
         {
             Type = gameType,
             Username = Parameters.Username,

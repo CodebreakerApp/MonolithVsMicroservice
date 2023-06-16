@@ -17,6 +17,6 @@ internal static class GameQueryableExtensions
             game.Start < DateTime.Now.AddDays(-1)     // orphaned (1 day)
         );
 
-    public static Task<Game?> FindActiveAsync(this IQueryable<Game> games, int id, CancellationToken cancellationToken = default) =>
+    public static Task<Game?> FindActiveAsync(this IQueryable<Game> games, Guid id, CancellationToken cancellationToken = default) =>
         games.WhereActive().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 }

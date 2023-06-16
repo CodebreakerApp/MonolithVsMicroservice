@@ -10,7 +10,7 @@ internal class GameService(IGameRepository repository, IMessagePublisher message
     public IAsyncEnumerable<Game> GetAsync(CancellationToken cancellationToken = default) =>
         repository.GetAsync(cancellationToken);
 
-    public Task<Game> GetAsync(int gameId, CancellationToken cancellationToken = default) =>
+    public Task<Game> GetAsync(Guid gameId, CancellationToken cancellationToken = default) =>
         repository.GetAsync(gameId, cancellationToken);
 
     public async Task<Game> CreateAsync(Game game, CancellationToken cancellationToken = default)
@@ -20,7 +20,7 @@ internal class GameService(IGameRepository repository, IMessagePublisher message
         return game;
     }
 
-    public async Task CancelAsync(int gameId, CancellationToken cancellationToken = default)
+    public async Task CancelAsync(Guid gameId, CancellationToken cancellationToken = default)
     {
         await repository.CancelAsync(gameId, cancellationToken);
         var game = await repository.GetAsync(gameId, cancellationToken);

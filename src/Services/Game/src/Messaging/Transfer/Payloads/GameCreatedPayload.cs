@@ -5,7 +5,7 @@ namespace CodeBreaker.Services.Games.Messaging.Transfer.Payloads;
 [MemoryPackable]
 public partial class GameCreatedPayload
 {
-    public required int Id { get; init; }
+    public required Guid Id { get; init; }
 
     public required string Type { get; init; }
 

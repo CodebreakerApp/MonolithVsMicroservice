@@ -5,7 +5,7 @@ namespace CodeBreaker.Services.Games.Data.Models;
 
 public class Game
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public required GameType Type { get; set; }
 

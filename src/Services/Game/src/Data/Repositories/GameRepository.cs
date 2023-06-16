@@ -9,7 +9,7 @@ public class GameRepository(GamesDbContext dbContext) : IGameRepository
     public IAsyncEnumerable<Game> GetAsync(CancellationToken cancellationToken = default) =>
         dbContext.Games.AsAsyncEnumerable();
 
-    public async Task<Game> GetAsync(int gameId, CancellationToken cancellationToken = default) =>
+    public async Task<Game> GetAsync(Guid gameId, CancellationToken cancellationToken = default) =>
         await GetCoreAsync(gameId, cancellationToken);
 
     public async Task<Game> CreateAsync(Game game, CancellationToken cancellationToken = default)
@@ -19,14 +19,14 @@ public class GameRepository(GamesDbContext dbContext) : IGameRepository
         return game;
     }
 
-    public async Task AddMoveAsync(int gameId, Move move, CancellationToken cancellationToken = default)
+    public async Task AddMoveAsync(Guid gameId, Move move, CancellationToken cancellationToken = default)
     {
         var game = await GetCoreAsync(gameId, cancellationToken);
         game.Moves.Add(move);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task CancelAsync(int gameId, CancellationToken cancellationToken = default)
+    public async Task CancelAsync(Guid gameId, CancellationToken cancellationToken = default)
     {
         var game = await GetCoreAsync(gameId, cancellationToken);
         game.End = DateTime.Now;
@@ -34,19 +34,19 @@ public class GameRepository(GamesDbContext dbContext) : IGameRepository
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteAsync(int gameId, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(Guid gameId, CancellationToken cancellationToken = default)
     {
         var game = await GetCoreAsync(gameId, cancellationToken);
         dbContext.Games.Remove(game);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdateAsync(int gameId, Game game, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(Guid gameId, Game game, CancellationToken cancellationToken = default)
     {
         dbContext.Games.Update(game);
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private async ValueTask<Game> GetCoreAsync(int gameId, CancellationToken cancellationToken = default) =>
+    private async ValueTask<Game> GetCoreAsync(Guid gameId, CancellationToken cancellationToken = default) =>
         await dbContext.Games.FindAsync(gameId, cancellationToken) ?? throw new NotFoundException($"The game with the id {gameId} was not found");
 }
