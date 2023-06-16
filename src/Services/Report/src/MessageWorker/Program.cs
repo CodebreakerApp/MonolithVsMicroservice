@@ -43,7 +43,7 @@ using var host = Host.CreateDefaultBuilder(args)
 #if DEBUG
             dbBuilder.EnableSensitiveDataLogging();
 #endif
-        });
+        }, ServiceLifetime.Singleton);
         services.AddSingleton<IGameRepository, GameRepository>();
         services.AddSingleton<IMessageSubscriber>(services => new MessageSubscriber(services.GetRequiredService<ServiceBusClient>(), "report-service"));
         services.AddSingleton<MessageService>();
