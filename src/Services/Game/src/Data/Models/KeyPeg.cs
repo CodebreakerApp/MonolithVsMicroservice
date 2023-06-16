@@ -1,7 +1,7 @@
 ﻿namespace CodeBreaker.Services.Games.Data.Models;
 
-public enum KeyPeg
+public enum KeyPeg : byte
 {
-    Black,
-    White
+    Black = 0,
+    White = 1,
 }
