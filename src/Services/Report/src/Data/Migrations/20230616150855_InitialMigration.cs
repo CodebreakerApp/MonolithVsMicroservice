@@ -15,14 +15,12 @@ namespace CodeBreaker.Services.Report.Data.Migrations
                 name: "Games",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Start = table.Column<DateTime>(type: "datetime2", nullable: false),
                     End = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Won = table.Column<bool>(type: "bit", nullable: false),
-                    Cancelled = table.Column<bool>(type: "bit", nullable: false)
+                    State = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,10 +31,9 @@ namespace CodeBreaker.Services.Report.Data.Migrations
                 name: "Moves",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Position = table.Column<int>(type: "int", nullable: false),
-                    GameId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,18 +42,18 @@ namespace CodeBreaker.Services.Report.Data.Migrations
                         name: "FK_Moves_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Fields",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Position = table.Column<int>(type: "int", nullable: false),
-                    GameId = table.Column<int>(type: "int", nullable: true),
-                    MoveId = table.Column<int>(type: "int", nullable: true),
+                    GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    MoveId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     field_type = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
                     Color = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Shape = table.Column<string>(type: "nvarchar(450)", nullable: true)
@@ -80,11 +77,10 @@ namespace CodeBreaker.Services.Report.Data.Migrations
                 name: "KeyPegs",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Color = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Position = table.Column<int>(type: "int", nullable: false),
-                    MoveId = table.Column<int>(type: "int", nullable: true)
+                    MoveId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -133,6 +129,11 @@ namespace CodeBreaker.Services.Report.Data.Migrations
                 column: "Start");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Games_State",
+                table: "Games",
+                column: "State");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Games_Type",
                 table: "Games",
                 column: "Type");
@@ -157,12 +158,6 @@ namespace CodeBreaker.Services.Report.Data.Migrations
                 name: "IX_Moves_GameId",
                 table: "Moves",
                 column: "GameId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Moves_Id_Position",
-                table: "Moves",
-                columns: new[] { "Id", "Position" },
-                unique: true);
         }
 
         /// <inheritdoc />

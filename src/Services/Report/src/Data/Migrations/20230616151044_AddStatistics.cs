@@ -5,11 +5,27 @@
 namespace CodeBreaker.Services.Report.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddStatisticsFunction : Migration
+    public partial class AddStatistics : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("""
+CREATE OR ALTER FUNCTION QueryCount(@from DATETIME2, @to DATETIME2, @gameType NVARCHAR(450), @gameState NVARCHAR(MAX))
+RETURNS INT
+AS
+BEGIN
+    DECLARE @return INT;
+    SELECT @return = COUNT([Id]) FROM [Games]
+    WHERE
+    [Start] >= @from AND                                                -- within period of time
+    [Start] < @to AND                                                   -- within period of time
+    ([Type] = @gameType OR @gameType IS NULL) AND                       -- matching gametype
+    [State] = @gameState;                                               -- matching gamestate
+
+    RETURN @return
+END;
+""");
             migrationBuilder.Sql("""
 CREATE OR ALTER FUNCTION QueryStatistics(@from DATETIME2, @to DATETIME2, @gameType NVARCHAR(450))
 RETURNS TABLE
@@ -18,22 +34,11 @@ RETURN
 (
     SELECT
         COUNT([Games].[Id])                                                         AS TotalGames,
-        (   -- WonGames
-            SELECT COUNT([Id]) FROM [Games]
-            WHERE
-            [Start] >= @from AND                                                -- within period of time
-            [Start] < @to AND                                                   -- within period of time
-            ([Type] = @gameType OR @gameType IS NULL) AND                       -- matching gametype
-            [Won] = 1                                                           -- won
-        )                                                                           AS WonGames,
-        (   -- CancelledGames
-            SELECT COUNT([Id]) FROM [Games]
-            WHERE
-            [Start] >= @from AND                                                -- within period of time
-            [Start] < @to AND                                                   -- within period of time
-            ([Type] = @gameType OR @gameType IS NULL) AND                       -- matching gametype
-            [Cancelled] = 1                                                     -- cancelled
-        )                                                                           AS CancelledGames,
+        dbo.QueryCount(@from, @to, @gameType, 'Active')                             AS ActiveGames,
+        dbo.QueryCount(@from, @to, @gameType, 'Won')                                AS WonGames,
+        dbo.QueryCount(@from, @to, @gameType, 'Lost')                               AS LostGames,
+        dbo.QueryCount(@from, @to, @gameType, 'Cancelled')                          AS CancelledGames,
+        dbo.QueryCount(@from, @to, @gameType, 'Orphaned')                          AS OrphanedGames,
         ISNULL(MIN(DATEDIFF(MILLISECOND, [Games].[Start], [Games].[End])), 0)       AS MinGameDuration,
         ISNULL(AVG(DATEDIFF(MILLISECOND, [Games].[Start], [Games].[End])), 0)       AS AvgGameDuration,
         ISNULL(MAX(DATEDIFF(MILLISECOND, [Games].[Start], [Games].[End])), 0)       AS MaxGameDuration,
@@ -66,7 +71,8 @@ RETURN
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("DROP FUNCTION [QueryStatistics]");
+            migrationBuilder.Sql("DROP FUNCTION dbo.QueryStatistics");
+            migrationBuilder.Sql("DROP FUNCTION dbo.QueryCount");
         }
     }
 }

@@ -24,17 +24,15 @@ namespace CodeBreaker.Services.Report.Data.Migrations
 
             modelBuilder.Entity("CodeBreaker.Services.Report.Data.Models.Fields.Field", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<Guid?>("GameId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MoveId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("MoveId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
@@ -62,20 +60,19 @@ namespace CodeBreaker.Services.Report.Data.Migrations
 
             modelBuilder.Entity("CodeBreaker.Services.Report.Data.Models.Game", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Cancelled")
-                        .HasColumnType("bit");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("End")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -85,14 +82,13 @@ namespace CodeBreaker.Services.Report.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Won")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("End");
 
                     b.HasIndex("Start");
+
+                    b.HasIndex("State");
 
                     b.HasIndex("Type");
 
@@ -101,18 +97,16 @@ namespace CodeBreaker.Services.Report.Data.Migrations
 
             modelBuilder.Entity("CodeBreaker.Services.Report.Data.Models.KeyPegs.KeyPeg", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("MoveId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("MoveId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Position")
                         .HasColumnType("int");
@@ -131,24 +125,19 @@ namespace CodeBreaker.Services.Report.Data.Migrations
 
             modelBuilder.Entity("CodeBreaker.Services.Report.Data.Models.Move", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
-
-                    b.HasIndex("Id", "Position")
-                        .IsUnique();
 
                     b.ToTable("Moves");
                 });
@@ -201,7 +190,9 @@ namespace CodeBreaker.Services.Report.Data.Migrations
                 {
                     b.HasOne("CodeBreaker.Services.Report.Data.Models.Game", null)
                         .WithMany("Moves")
-                        .HasForeignKey("GameId");
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CodeBreaker.Services.Report.Data.Models.Game", b =>
