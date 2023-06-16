@@ -20,7 +20,8 @@ internal static partial class MessagingTransferMapping
             GameId = gameId,
             MoveId = move.Id,
             Fields = move.Fields.Select(ToTransfer).ToArray(),
-            KeyPegs = move.KeyPegs?.Select(ToTransfer).ToArray() ?? Array.Empty<string>()
+            KeyPegs = move.KeyPegs?.Select(ToTransfer).ToArray() ?? Array.Empty<string>(),
+            CreatedAt = move.CreatedAt,
         };
 
     private static string ToTransfer(this GameType gameType) => gameType.GetName();
