@@ -10,7 +10,7 @@ on:
   
 env:
   CONTAINER_APP_CONTAINER_NAME: codebreaker-game-service
-  CONTAINER_APP_NAME: codebreaker-game-service
+  CONTAINER_APP_NAME: game-service
   CONTAINER_APP_RESOURCE_GROUP_NAME: codebreakermono
   CONTAINER_REGISTRY_LOGIN_SERVER: codebreakermono.azurecr.io
   DOTNET_CORE_VERSION: 8.0.x
