@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace CodeBreaker.Services.Games.Services.Exceptions;
+﻿namespace CodeBreaker.Services.Games.Services.Exceptions;
 
 internal class GameAlreadyEndedException : Exception
 {
@@ -14,10 +12,6 @@ internal class GameAlreadyEndedException : Exception
     }
 
     public GameAlreadyEndedException(string? message, Exception? innerException) : base(message, innerException)
-    {
-    }
-
-    protected GameAlreadyEndedException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 

@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace CodeBreaker.Common.Exceptions;
+﻿namespace CodeBreaker.Common.Exceptions;
 
 public class NotFoundException : Exception
 {
@@ -13,10 +11,6 @@ public class NotFoundException : Exception
     }
 
     public NotFoundException(string? message, Exception? innerException) : base(message, innerException)
-    {
-    }
-
-    protected NotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
     }
 }
