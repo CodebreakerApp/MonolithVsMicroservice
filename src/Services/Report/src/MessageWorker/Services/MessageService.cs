@@ -30,7 +30,7 @@ internal class MessageService
         await _messageSubscriber.StartAsync(cancellationToken);
 
         while (_messageSubscriber.NoMessageDuration == null || _messageSubscriber.NoMessageDuration < TimeSpan.FromSeconds(_options.Value.StopAfterSecondsOfNoMessage))
-            await Task.Delay(1000);
+            await Task.Delay(1000, cancellationToken);
 
         await _messageSubscriber.StopAsync(cancellationToken);
     }
