@@ -14,7 +14,6 @@ env:
   CONTAINER_APP_RESOURCE_GROUP_NAME: codebreakermono
   CONTAINER_REGISTRY_LOGIN_SERVER: codebreakermono.azurecr.io
   DOTNET_CORE_VERSION: 8.0.x
-  PROJECT_NAME_FOR_DOCKER: codebreaker-game-service
   SOLUTION_PATH: src/Services/Game/CodeBreaker.Services.Game.sln
 jobs:
   build:
@@ -57,7 +56,7 @@ jobs:
 
           az containerapp registry set --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.CONTAINER_APP_RESOURCE_GROUP_NAME }} --server ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.codebreakermono_USERNAME_5947 }} --password ${{ secrets.codebreakermono_PASSWORD_5947 }}
 
-          az containerapp update --name ${{ env.CONTAINER_APP_NAME }} --container-name ${{ env.CONTAINER_APP_CONTAINER_NAME }} --resource-group ${{ env.CONTAINER_APP_RESOURCE_GROUP_NAME }} --image ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.PROJECT_NAME_FOR_DOCKER }}:${{ github.sha }}
+          az containerapp update --name ${{ env.CONTAINER_APP_NAME }} --container-name ${{ env.CONTAINER_APP_CONTAINER_NAME }} --resource-group ${{ env.CONTAINER_APP_RESOURCE_GROUP_NAME }} --image ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.CONTAINER_APP_CONTAINER_NAME }}:${{ github.sha }}
     - name: logout
       run: >
         az logout
