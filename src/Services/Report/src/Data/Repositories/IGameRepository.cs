@@ -8,4 +8,5 @@ public interface IGameRepository
     IAsyncEnumerable<Game> GetAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default);
     Task<Game> GetAsync(Guid gameId, CancellationToken cancellationToken = default);
     Task UpdateAsync(Guid gameId, Game game, CancellationToken cancellationToken = default);
+    Task AddMoveAsync(Guid gameId, Move move, CancellationToken cancellationToken = default);
 }

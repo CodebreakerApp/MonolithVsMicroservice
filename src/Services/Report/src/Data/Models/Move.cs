@@ -7,6 +7,8 @@ public class Move
 {
     public Guid Id { get; set; }
 
+    public Guid GameId { get; set; }
+
     public required IReadOnlyList<Field> Fields { get; init; }
 
     public IReadOnlyList<KeyPeg>? KeyPegs { get; set; }

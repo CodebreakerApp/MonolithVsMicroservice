@@ -44,6 +44,13 @@ public class GameRepository(ReportDbContext dbContext) : IGameRepository
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task AddMoveAsync(Guid gameId, Move move, CancellationToken cancellationToken = default)
+    {
+        move.GameId = gameId;
+        dbContext.Moves.Add(move);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     private async Task<Game> GetCoreAsync(Guid gameId, CancellationToken cancellationToken = default) =>
         await dbContext.Games
             .Include(x => x.Code.OrderBy(x => x.Position))
@@ -54,13 +61,13 @@ public class GameRepository(ReportDbContext dbContext) : IGameRepository
             .Where(x => x.Id == gameId)
             .SingleOrDefaultAsync(cancellationToken) ?? throw new NotFoundException($"The game with the id {gameId} was not found");
 
-    private void SyncPositions(Game game)
+    private static void SyncPositions(Game game)
     {
         SyncPositions(game.Code);
         SyncPositions(game.Moves);
     }
 
-    private void SyncPositions(IEnumerable<Move> moves)
+    private static void SyncPositions(IEnumerable<Move> moves)
     {
         foreach (var move in moves)
         {
@@ -70,14 +77,14 @@ public class GameRepository(ReportDbContext dbContext) : IGameRepository
         }
     }
 
-    private void SyncPositions(IEnumerable<Field> fields)
+    private static void SyncPositions(IEnumerable<Field> fields)
     {
         int i = 0;
         foreach (var field in fields)
             field.Position = i++;
     }
 
-    private void SyncPositions(IEnumerable<KeyPeg> keyPegs)
+    private static void SyncPositions(IEnumerable<KeyPeg> keyPegs)
     {
         int i = 0;
         foreach (var keyPeg in keyPegs)

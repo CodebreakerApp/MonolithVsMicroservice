@@ -44,9 +44,7 @@ internal class MessageService
     private async Task OnMoveCreatedCallbackAsync(MoveCreatedPayload payload, CancellationToken cancellationToken)
     {
         Console.WriteLine("OnMoveCreated");
-        var game = await _gameRepository.GetAsync(payload.GameId, cancellationToken);
-        game.Moves.Add(payload.ToMoveModel());
-        await _gameRepository.UpdateAsync(payload.GameId, game, cancellationToken);
+        await _gameRepository.AddMoveAsync(payload.GameId, payload.ToMoveModel(), cancellationToken);
     }
 
     private async Task OnGameEndedCallbackAsync(GameEndedPayload payload, CancellationToken cancellationToken)
