@@ -2,6 +2,7 @@
 
 namespace CodeBreaker.Services.Games.Data.Models.Fields;
 
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "$t")]
 [JsonDerivedType(typeof(ColorField), "color")]
 [JsonDerivedType(typeof(ColorShapeField), "color-shape")]
 public abstract record class Field : IFieldVisitable
