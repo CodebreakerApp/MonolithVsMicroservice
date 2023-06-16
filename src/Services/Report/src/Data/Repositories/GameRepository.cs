@@ -12,9 +12,9 @@ public class GameRepository(ReportDbContext dbContext) : IGameRepository
     public IAsyncEnumerable<Game> GetAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default) =>
         dbContext.Games
             .Include(x => x.Code)
-            .Include(game => game.Moves.OrderBy(move => move.Position))
+            .Include(game => game.Moves.OrderBy(move => move.CreatedAt))
             .ThenInclude(move => move.Fields.OrderBy(field => field.Position))
-            .Include(game => game.Moves.OrderBy(move => move.Position))
+            .Include(game => game.Moves.OrderBy(move => move.CreatedAt))
             .ThenInclude(move => move.KeyPegs!.OrderBy(keyPeg => keyPeg.Position))
             .Where(x => x.Start >= from && x.Start < to)
             .AsAsyncEnumerable();
@@ -47,9 +47,9 @@ public class GameRepository(ReportDbContext dbContext) : IGameRepository
     private async Task<Game> GetCoreAsync(Guid gameId, CancellationToken cancellationToken = default) =>
         await dbContext.Games
             .Include(x => x.Code.OrderBy(x => x.Position))
-            .Include(x => x.Moves.OrderBy(x => x.Position))
+            .Include(x => x.Moves.OrderBy(x => x.CreatedAt))
             .ThenInclude(move => move.Fields.OrderBy(field => field.Position))
-            .Include(game => game.Moves.OrderBy(move => move.Position))
+            .Include(game => game.Moves.OrderBy(move => move.CreatedAt))
             .ThenInclude(move => move.KeyPegs!.OrderBy(keyPeg => keyPeg.Position))
             .Where(x => x.Id == gameId)
             .SingleOrDefaultAsync(cancellationToken) ?? throw new NotFoundException($"The game with the id {gameId} was not found");

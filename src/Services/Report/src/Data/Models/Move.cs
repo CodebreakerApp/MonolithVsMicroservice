@@ -11,5 +11,5 @@ public class Move
 
     public IReadOnlyList<KeyPeg>? KeyPegs { get; set; }
 
-    internal int Position { get; set; }
+    public required DateTime CreatedAt { get; set; }
 }

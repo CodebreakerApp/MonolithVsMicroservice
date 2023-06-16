@@ -9,7 +9,6 @@ internal class MoveConfiguration : IEntityTypeConfiguration<Move>
     public void Configure(EntityTypeBuilder<Move> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.HasIndex(x => new { x.Id, x.Position }).IsUnique();
         builder.HasMany(x => x.Fields);
         builder.HasMany(x => x.KeyPegs);
     }
