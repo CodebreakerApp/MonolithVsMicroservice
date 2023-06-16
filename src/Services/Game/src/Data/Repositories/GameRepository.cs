@@ -9,7 +9,7 @@ public class GameRepository(GamesDbContext dbContext) : IGameRepository
 {
     public IAsyncEnumerable<Game> GetAsync(CancellationToken cancellationToken = default) =>
         dbContext.Games
-        .Include(game => game.Moves.OrderByDescending(move => move.CreatedAt))
+        .Include(game => game.Moves.OrderBy(move => move.CreatedAt))
         .AsAsyncEnumerable();
 
     public async Task<Game> GetAsync(Guid gameId, CancellationToken cancellationToken = default) =>
@@ -52,6 +52,6 @@ public class GameRepository(GamesDbContext dbContext) : IGameRepository
 
     private async Task<Game> GetCoreAsync(Guid gameId, CancellationToken cancellationToken = default) =>
         await dbContext.Games
-        .Include(game => game.Moves.OrderByDescending(move => move.CreatedAt))
+        .Include(game => game.Moves.OrderBy(move => move.CreatedAt))
         .SingleOrDefaultAsync(game => game.Id == gameId, cancellationToken) ?? throw new NotFoundException($"The game with the id {gameId} was not found");
 }
