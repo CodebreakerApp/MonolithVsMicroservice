@@ -1,13 +1,16 @@
 ﻿using CodeBreaker.Services.Games.Data.DatabaseContexts;
 using CodeBreaker.Services.Games.Data.Exceptions;
 using CodeBreaker.Services.Games.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeBreaker.Services.Games.Data.Repositories;
 
 public class GameRepository(GamesDbContext dbContext) : IGameRepository
 {
     public IAsyncEnumerable<Game> GetAsync(CancellationToken cancellationToken = default) =>
-        dbContext.Games.AsAsyncEnumerable();
+        dbContext.Games
+        .Include(game => game.Moves.OrderByDescending(move => move.CreatedAt))
+        .AsAsyncEnumerable();
 
     public async Task<Game> GetAsync(Guid gameId, CancellationToken cancellationToken = default) =>
         await GetCoreAsync(gameId, cancellationToken);
@@ -47,6 +50,8 @@ public class GameRepository(GamesDbContext dbContext) : IGameRepository
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private async ValueTask<Game> GetCoreAsync(Guid gameId, CancellationToken cancellationToken = default) =>
-        await dbContext.Games.FindAsync(gameId, cancellationToken) ?? throw new NotFoundException($"The game with the id {gameId} was not found");
+    private async Task<Game> GetCoreAsync(Guid gameId, CancellationToken cancellationToken = default) =>
+        await dbContext.Games
+        .Include(game => game.Moves.OrderByDescending(move => move.CreatedAt))
+        .SingleOrDefaultAsync(game => game.Id == gameId, cancellationToken) ?? throw new NotFoundException($"The game with the id {gameId} was not found");
 }

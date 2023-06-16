@@ -53,8 +53,12 @@ internal class DefaultMoveApplier : MoveApplier
         if (keyPegs.Count > Game.Type.Holes)
             throw new InvalidOperationException("There are more keyPegs than holes for the given gameType"); // Should not be the case
 
-        Move move = new() { Fields = guessPegs };
-        move.KeyPegs = keyPegs;
+        Move move = new()
+        {
+            Fields = guessPegs,
+            CreatedAt = DateTime.Now,
+            KeyPegs = keyPegs
+        };
         Game.Moves.Add(move);
 
         // all holes correct  OR  maxmoves reached

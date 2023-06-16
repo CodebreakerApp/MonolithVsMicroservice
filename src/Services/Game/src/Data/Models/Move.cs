@@ -8,5 +8,7 @@ public class Move
 
     public required IReadOnlyList<Field> Fields { get; init; }
 
-    public IReadOnlyList<KeyPeg>? KeyPegs { get; set; }
+    public required IReadOnlyList<KeyPeg> KeyPegs { get; set; }
+
+    public required DateTime CreatedAt { get; init; }
 }
