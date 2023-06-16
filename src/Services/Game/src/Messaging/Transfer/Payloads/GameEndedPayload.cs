@@ -5,11 +5,45 @@ namespace CodeBreaker.Services.Games.Messaging.Transfer.Payloads;
 [MemoryPackable]
 public partial class GameEndedPayload
 {
-    public required Guid Id { get; init; }
+    private readonly Guid _id;
 
-    public required DateTime End { get; init; }
+    private readonly DateTime _end;
 
-    public required bool Won { get; init; }
+    private readonly GameState _state;
 
-    public required bool Cancelled { get; init; }
+    public required Guid Id
+    {
+        get => _id;
+        init
+        {
+            if (value == default)
+                throw new ArgumentOutOfRangeException(nameof(Id), "Must not be default.");
+
+            _id = value;
+        }
+    }
+
+    public required DateTime End
+    {
+        get => _end;
+        init
+        {
+            if (value == default)
+                throw new ArgumentOutOfRangeException(nameof(End), "Must not be default.");
+
+            _end = value;
+        }
+    }
+
+    public required GameState State
+    {
+        get => _state;
+        init
+        {
+            if (value == GameState.Active)
+                throw new ArgumentOutOfRangeException(nameof(State), $"{nameof(State)} must not be {nameof(GameState.Active)}, when the game ended.");
+
+            _state = value;
+        }
+    }
 }
