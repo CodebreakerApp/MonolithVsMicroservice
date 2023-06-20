@@ -7,4 +7,9 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.15.0" />
+    <PackageReference Include="MemoryPack" Version="1.9.16" />
+  </ItemGroup>
+
 </Project>
