@@ -14,5 +14,5 @@ public class Game
 
     public IReadOnlyList<Move> Moves { get; set; } = Array.Empty<Move>();
 
-    public required GameState State { get; set; }
+    public required string State { get; set; }
 }
