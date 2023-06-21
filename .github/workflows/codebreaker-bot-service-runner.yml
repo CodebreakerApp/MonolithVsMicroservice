@@ -1,0 +1,65 @@
+name: Codebreaker Botervice-Runner
+on:
+  push:
+    branches:
+    - microservices
+    paths:
+    - 'src/Services/Bot/src/Common/**'
+    - 'src/Services/Bot/src/Data/**'
+    - 'src/Services/Bot/src/Messaging/**'
+    - 'src/Services/Bot/src/Runner/**'
+    - '.github/workflows/codebreaker-bot-service-runner.yml'
+  workflow_dispatch:
+  
+env:
+  CONTAINER_APP_CONTAINER_NAME: codebreaker-bot-service-runner
+  CONTAINER_APP_NAME: bot-service-runner
+  CONTAINER_APP_RESOURCE_GROUP_NAME: codebreakermono
+  CONTAINER_REGISTRY_LOGIN_SERVER: codebreakermono.azurecr.io
+  DOTNET_CORE_VERSION: 8.0.x
+  PROJECT_PATH: src/Services/Bot/src/Runner/CodeBreaker.Services.Bot.Runner.csproj
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout to the branch
+      uses: actions/checkout@v3
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1.8.0
+      with:
+        include-prerelease: True
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+    - name: Log in to container registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.codebreakermono_USERNAME_5947 }}
+        password: ${{ secrets.codebreakermono_PASSWORD_5947 }}
+    - name: Build and push container image to registry
+      run: dotnet publish ${{ env.PROJECT_PATH }} /t:PublishContainer -c Release -r linux-x64 -p:ContainerImageTag=${{ github.sha }} --no-self-contained -p:ContainerRegistry=${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }} -bl
+    - name: Upload binlog for investigation
+      uses: actions/upload-artifact@v3
+      with:
+        if-no-files-found: error
+        name: binlog
+        path: msbuild.binlog
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.codebreaker_microservices_SPN }}
+    - name: Deploy to containerapp
+      uses: azure/CLI@v1
+      with:
+        inlineScript: >
+          az config set extension.use_dynamic_install=yes_without_prompt
+
+          az containerapp registry set --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.CONTAINER_APP_RESOURCE_GROUP_NAME }} --server ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }} --username ${{ secrets.codebreakermono_USERNAME_5947 }} --password ${{ secrets.codebreakermono_PASSWORD_5947 }}
+
+          az containerapp update --name ${{ env.CONTAINER_APP_NAME }} --container-name ${{ env.CONTAINER_APP_CONTAINER_NAME }} --resource-group ${{ env.CONTAINER_APP_RESOURCE_GROUP_NAME }} --image ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ env.CONTAINER_APP_CONTAINER_NAME }}:${{ github.sha }}
+    - name: logout
+      run: >
+        az logout
