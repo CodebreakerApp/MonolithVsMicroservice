@@ -98,7 +98,7 @@ internal static class GameEndpoints
         .WithSummary("Cancels the game with the given id.")
         .WithOpenApi();
 
-        group.MapPost("/{gameId:guid}/moves", async Task<Results<Ok<CreateMoveResponse>, NotFound, BadRequest<string>>> (
+        group.MapPost("/{gameId:guid}/moves", async Task<Results<Ok<CreateMoveResponse>, NotFound, Conflict<string>>> (
             [FromRoute] Guid gameId,
             [FromBody] CreateMoveRequest body,
             [FromServices] IMoveService moveService,
@@ -118,7 +118,7 @@ internal static class GameEndpoints
             }
             catch (GameAlreadyEndedException)
             {
-                return TypedResults.BadRequest("The game has already ended");
+                return TypedResults.Conflict("The game has already ended");
             }
 
             return TypedResults.Ok(new CreateMoveResponse()

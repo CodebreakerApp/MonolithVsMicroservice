@@ -1,10 +1,12 @@
-﻿using CodeBreaker.Services.Bot.Runner.Mapping;
+﻿using CodeBreaker.Services.Bot.Runner.BotLogic.Exceptions;
+using CodeBreaker.Services.Bot.Runner.Mapping;
 using CodeBreaker.Services.Bot.Runner.Models;
 using CodeBreaker.Services.Bot.Runner.Models.Fields;
 using CodeBreaker.Services.Bot.Runner.Models.Visitors;
 using CodeBreaker.Services.Bot.Runner.Services.Args;
 using CodeBreaker.Services.Games.Transfer.Api.Requests;
 using CodeBreaker.Services.Games.Transfer.Api.Responses;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace CodeBreaker.Services.Bot.Runner.Services;
@@ -34,6 +36,10 @@ internal class MoveService(HttpClient httpClient) : IMoveService
             Fields = guessPegs.ToTransfer(),
         };
         var result = await httpClient.PostAsJsonAsync($"/games/{game.Id}/moves", req, cancellationToken);
+
+        if (result.StatusCode == HttpStatusCode.Conflict)
+            throw new GameEndedException(game);
+
         result.EnsureSuccessStatusCode();
         var resultContent = (await result.Content.ReadFromJsonAsync<CreateMoveResponse>(cancellationToken)) ?? throw new InvalidOperationException("Could not deserialize the content of the HTTP-result.");
         Move appliedMove = new()

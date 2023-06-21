@@ -7,5 +7,5 @@ public interface IFieldRun
 {
     List<Field> HintedFields { get; }
 
-    IAsyncEnumerable<Field> RunAsync(IReadOnlyList<KeyPeg> prevKeyPegs, [EnumeratorCancellation] CancellationToken cancellationToken = default);
+    IAsyncEnumerable<Field> RunAsync(IReadOnlyList<KeyPeg> prevKeyPegs, int remainingAttempts, [EnumeratorCancellation] CancellationToken cancellationToken = default);
 }

@@ -56,7 +56,8 @@ internal class SimpleBotRunner
 
         try
         {
-            var result = await firstRun.RunAsync(keyPegs, cancellationToken).ToArrayAsync();
+            int remainingAttempts = game.Type.MaxMoves - 1;
+            var result = await firstRun.RunAsync(keyPegs, remainingAttempts, cancellationToken).ToArrayAsync();
             _logger.LogInformation("Completed game {gameId}: {code}", game.Id, result);
         }
         catch (GameEndedException e) when (e.GameState == GameState.Lost)
