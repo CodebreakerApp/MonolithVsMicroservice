@@ -31,19 +31,15 @@ public class BotRepository(BotDbContext dbContext) : IBotRepository
             .Where(x => x.Id == botId)
             .ExecuteUpdateAsync(x => x.SetProperty(bot => bot.GameId, gameId), cancellationToken);
 
-    public async Task UpdateStateAsync(Guid id, BotState newState, CancellationToken cancellationToken = default) =>
-        await dbContext.Bots
-            .Where(x => x.Id == id)
-            .ExecuteUpdateAsync(x => x
-                .SetProperty(bot => bot.State, newState)
-                .SetPropertyIf(bot => bot.EndedAt, DateTime.Now, newState.HasEnded())
-            , cancellationToken);
-}
+    public async Task UpdateStateAsync(Guid id, BotState newState, CancellationToken cancellationToken = default)
+    {
+        var queryable = dbContext.Bots.Where(x => x.Id == id);
 
-file static class SetPropertyExtensions
-{
-    public static SetPropertyCalls<T> SetPropertyIf<T, TValue>(this SetPropertyCalls<T> calls, Func<T, TValue> propertySelector, TValue value, bool condition) =>
-        condition
-            ? calls.SetProperty(propertySelector, value)
-            : calls;
+        if (newState.HasEnded())
+            await queryable.ExecuteUpdateAsync(x => x
+                    .SetProperty(bot => bot.State, newState)
+                    .SetProperty(bot => bot.EndedAt, DateTime.Now), cancellationToken);
+        else
+            await queryable.ExecuteUpdateAsync(x => x.SetProperty(bot => bot.State, newState), cancellationToken);
+    }
 }
