@@ -8,6 +8,7 @@
     <LangVersion>preview</LangVersion>
     <EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>true</EnableMicrosoftExtensionsConfigurationBinderSourceGenerator>
     <UserSecretsId>1cf40534-2b8c-45b4-b878-3e9a58a5c6dc</UserSecretsId>
+    <ContainerImageName>codebreaker-bot-service-runner</ContainerImageName>
   </PropertyGroup>
 
   <ItemGroup>
