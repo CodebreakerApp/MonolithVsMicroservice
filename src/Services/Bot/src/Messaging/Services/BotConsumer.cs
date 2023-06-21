@@ -13,10 +13,15 @@ namespace CodeBreaker.Services.Bot.Messaging.Services;
 public class BotConsumer : IBotConsumer
 {
     private readonly ServiceBusProcessor _botScheduledProcessor;
+    
+    private readonly static ServiceBusProcessorOptions _options = new ServiceBusProcessorOptions()
+    {
+        AutoCompleteMessages = false
+    };
 
     public BotConsumer(ServiceBusClient serviceBusClient)
     {
-        _botScheduledProcessor = serviceBusClient.CreateProcessor(MessageQueueNames.ScheduledBBots);
+        _botScheduledProcessor = serviceBusClient.CreateProcessor(MessageQueueNames.ScheduledBBots, _options);
         RegisterMessageCallback();
         RegisterErrorCallback();
     }
@@ -40,7 +45,18 @@ public class BotConsumer : IBotConsumer
         {
             LastMessageReceivedAt = DateTime.Now;
             var payload = MemoryPackSerializer.Deserialize<BotScheduledPayload>(args.Message.Body) ?? throw new InvalidOperationException("Could not deserialize the message body.");
-            await OnBotScheduledAsync.InvokeAsync(payload, args.CancellationToken);
+
+            try
+            {
+                await OnBotScheduledAsync.InvokeAsync(payload, args.CancellationToken);
+            }
+            catch (Exception)
+            {
+                // message does not get completed and will be rescheduled
+                throw;
+            }
+
+            await args.CompleteMessageAsync(args.Message);
         };
 
     private void RegisterErrorCallback() =>
