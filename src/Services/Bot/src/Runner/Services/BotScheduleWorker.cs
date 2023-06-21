@@ -33,6 +33,9 @@ internal class BotScheduleWorker : IDisposable
     {
         await _botConsumer.StartAsync(cancellationToken);
 
+        while (_options.Value.StopAfterSecondsOfNoMessage < 0) // A value < 0 means, that the service should never stop. But the option may change.
+            await Task.Delay(TimeSpan.FromMinutes(10), cancellationToken);
+        
         while (_botConsumer.NoMessageDuration == null || _botConsumer.NoMessageDuration < TimeSpan.FromSeconds(_options.Value.StopAfterSecondsOfNoMessage))
             await Task.Delay(1000, cancellationToken);
 
