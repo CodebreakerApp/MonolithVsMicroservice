@@ -25,4 +25,6 @@ internal static partial class ApiTransferMapper
     public static partial IReadOnlyList<Games.Transfer.Api.Field> ToTransfer(this IReadOnlyList<Field> fields);
 
     public static partial IReadOnlyList<KeyPeg> ToModel(this IReadOnlyList<string> keyPegStrings);
+
+    public static partial string ToTransfer(this GameState model);
 }
