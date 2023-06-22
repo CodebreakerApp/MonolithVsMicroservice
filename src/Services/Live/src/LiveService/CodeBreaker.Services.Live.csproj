@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+    <ContainerImageName>codebreaker-live-service</ContainerImageName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.9.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+    <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Azure" Version="1.6.3" />
+    <PackageReference Include="Riok.Mapperly" Version="2.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Game\src\Messaging\CodeBreaker.Services.Games.Messaging.csproj" />
+    <ProjectReference Include="..\Common\CodeBreaker.Services.Live.Common.csproj" />
+    <ProjectReference Include="..\Transfer\CodeBreaker.Services.Live.Transfer.csproj" />
+  </ItemGroup>
+
+</Project>
