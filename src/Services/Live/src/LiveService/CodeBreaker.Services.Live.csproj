@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Game\src\Messaging\CodeBreaker.Services.Games.Messaging.csproj" />
+    <ProjectReference Include="..\..\..\Game\src\Messaging\CodeBreaker.Services.Games.Messaging.csproj" />
     <ProjectReference Include="..\Common\CodeBreaker.Services.Live.Common.csproj" />
     <ProjectReference Include="..\Transfer\CodeBreaker.Services.Live.Transfer.csproj" />
   </ItemGroup>
