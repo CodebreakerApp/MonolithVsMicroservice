@@ -15,7 +15,7 @@ public class GameType8x5 : GameType
             new ColorField(FieldColor.Green),
             new ColorField(FieldColor.Yellow),
             new ColorField(FieldColor.White),
-            new ColorField(FieldColor.Blue),
+            new ColorField(FieldColor.Black),
             new ColorField(FieldColor.Magenta),
             new ColorField(FieldColor.Orange),
         };
