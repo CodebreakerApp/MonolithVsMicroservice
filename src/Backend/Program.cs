@@ -37,7 +37,10 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 builder.Services.AddDbContext<CodeBreakerDbContext>(dbBuilder =>
 {
     var passwordlessConnectionString = builder.Configuration.GetRequired("AzureSqlPasswordlessConnectionString");
-    dbBuilder.UseSqlServer(passwordlessConnectionString);
+    dbBuilder.UseSqlServer(passwordlessConnectionString, sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure();
+    });
 #if DEBUG
     dbBuilder.EnableSensitiveDataLogging();
 #endif
