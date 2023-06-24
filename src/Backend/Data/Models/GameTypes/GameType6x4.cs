@@ -15,7 +15,7 @@ public class GameType6x4 : GameType
             new ColorField(FieldColor.Green),
             new ColorField(FieldColor.Yellow),
             new ColorField(FieldColor.White),
-            new ColorField(FieldColor.Blue),
+            new ColorField(FieldColor.Black),
         };
 
     public override TResult Accept<TResult>(IGameTypeVisitor<TResult> visitor) =>
