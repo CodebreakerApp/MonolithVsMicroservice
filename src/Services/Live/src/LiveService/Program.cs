@@ -6,7 +6,7 @@ using CodeBreaker.Services.Live.Services;
 using CodeBreaker.Services.Games.Messaging.Services;
 using Azure.Messaging.ServiceBus;
 
-DefaultAzureCredential azureCredential = new();
+AzureCliCredential azureCredential = new();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddAzureAppConfiguration(options =>

@@ -1,7 +1,7 @@
 ﻿using CodeBreaker.CLI.Extensions;
 using CodeBreaker.Frontend.Services;
-using CodeBreaker.Transfer.Requests;
-using CodeBreaker.Transfer.Responses;
+using CodeBreaker.Services.Games.Transfer.Api.Requests;
+using CodeBreaker.Services.Games.Transfer.Api.Responses;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -31,7 +31,7 @@ internal class GameCommand(IAnsiConsole Console /* PascalCased for convenience *
             var gameRes = await gameService.StartGame(req);
             return (gameRes, await gameTypeService.GetGameTypeAsync(gameRes.Game.Type));
         });
-        int gameId = gameResponse.Game.Id;
+        Guid gameId = gameResponse.Game.Id;
 
         bool play = true;
         bool won = false;

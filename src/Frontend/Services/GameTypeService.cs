@@ -1,4 +1,4 @@
-﻿using CodeBreaker.Transfer.Responses;
+﻿using CodeBreaker.Services.Games.Transfer.Api.Responses;
 using System.Net.Http.Json;
 
 namespace CodeBreaker.Frontend.Services;

@@ -9,7 +9,7 @@ using GameService.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 
-DefaultAzureCredential azureCredential = new();
+AzureCliCredential azureCredential = new();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddAzureAppConfiguration(options =>

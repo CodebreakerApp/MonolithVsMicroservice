@@ -1,5 +1,5 @@
-﻿using CodeBreaker.Transfer.Requests;
-using CodeBreaker.Transfer.Responses;
+﻿using CodeBreaker.Services.Report.Transfer.Api.Requests;
+using CodeBreaker.Services.Report.Transfer.Api.Responses;
 using System.Net.Http.Json;
 using System.Text;
 
@@ -18,19 +18,19 @@ public class ReportService(HttpClient httpClient)
         return responseBody ?? throw new InvalidOperationException();
     }
 
-    public async Task<GetReportGameResponse> GetGameAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<GetGameResponse> GetGameAsync(int id, CancellationToken cancellationToken = default)
     {
-        var responseBody = await httpClient.GetFromJsonAsync<GetReportGameResponse>($"/reports/games/{id}", cancellationToken);
+        var responseBody = await httpClient.GetFromJsonAsync<GetGameResponse>($"/reports/games/{id}", cancellationToken);
         return responseBody ?? throw new InvalidOperationException();
     }
 
-    public async Task<GetReportGamesResponse> GetGamesAsync(GetReportGamesRequest req, CancellationToken cancellationToken = default)
+    public async Task<GetGamesResponse> GetGamesAsync(GetGamesRequest req, CancellationToken cancellationToken = default)
     {
         string query = QueryBuilder
             .Create("from", req.From.ToString("s"))
             .Add("to", req.To.ToString("s"))
             .Query;
-        var responseBody = await httpClient.GetFromJsonAsync<GetReportGamesResponse>($"/reports/games{query}", cancellationToken);
+        var responseBody = await httpClient.GetFromJsonAsync<GetGamesResponse>($"/reports/games{query}", cancellationToken);
         return responseBody ?? throw new InvalidOperationException();
     }
 }

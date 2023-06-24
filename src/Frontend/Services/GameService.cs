@@ -1,12 +1,12 @@
-﻿using CodeBreaker.Transfer.Requests;
-using CodeBreaker.Transfer.Responses;
+﻿using CodeBreaker.Services.Games.Transfer.Api.Requests;
+using CodeBreaker.Services.Games.Transfer.Api.Responses;
 using System.Net.Http.Json;
 
 namespace CodeBreaker.Frontend.Services;
 
 public class GameService(HttpClient httpClient)
 {
-    public async Task<GetGameResponse> GetGameAsync(int gameId, CancellationToken cancellationToken = default)
+    public async Task<GetGameResponse> GetGameAsync(Guid gameId, CancellationToken cancellationToken = default)
     {
         var responseBody = await httpClient.GetFromJsonAsync<GetGameResponse>($"/games/{gameId}", cancellationToken);
         return responseBody ?? throw new InvalidOperationException();
@@ -20,7 +20,7 @@ public class GameService(HttpClient httpClient)
         return responseBody ?? throw new InvalidOperationException();
     }
 
-    public async Task<CreateMoveResponse> MakeMove(int gameId, CreateMoveRequest req, CancellationToken cancellationToken = default)
+    public async Task<CreateMoveResponse> MakeMove(Guid gameId, CreateMoveRequest req, CancellationToken cancellationToken = default)
     {
         var res = await httpClient.PostAsJsonAsync($"/games/{gameId}/moves", req, cancellationToken);
         res.EnsureSuccessStatusCode();

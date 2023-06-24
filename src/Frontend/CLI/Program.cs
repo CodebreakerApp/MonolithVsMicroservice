@@ -1,21 +1,26 @@
 ﻿using CodeBreaker.CLI.Commands;
+using CodeBreaker.CLI.Extensions;
 using CodeBreaker.CLI.Infrastructure;
 using CodeBreaker.Frontend.Services;
 using CodeBreaker.Frontend.Services.Options;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 
-Uri baseUrl = new ("http://localhost:5026");
-var services = new ServiceCollection();
-services.Configure<LiveServiceOptions>(options =>
-{
-    options.Url = $"{baseUrl}/live";
-    options.AutomaticReconnect = true;
-});
+var configBuilder = new ConfigurationBuilder();
+configBuilder.AddJsonFile("appsettings.json", false, true);
+
+var environment = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
+if (environment != null)
+    configBuilder.AddJsonFile($"appsettings.{environment}.json", true, true);
+
+var config = configBuilder.Build();
+var services = new ServiceCollection();;
+services.Configure<LiveServiceOptions>(config.GetRequiredSection("live"));
 services.AddSingleton<LiveService>();
-services.AddHttpClient<GameService>(options => options.BaseAddress = baseUrl);
-services.AddHttpClient<GameTypeService>(options => options.BaseAddress = baseUrl);
-services.AddHttpClient<ReportService>(options => options.BaseAddress = baseUrl);
+services.AddHttpClient<GameService>(options => options.BaseAddress = new (config.GetRequired("game:base")));
+services.AddHttpClient<GameTypeService>(options => options.BaseAddress = new (config.GetRequired("game:base")));
+services.AddHttpClient<ReportService>(options => options.BaseAddress = new(config.GetRequired("report:base")));
 services.AddTransient<GameCommand.Settings>();
 services.AddTransient<ReportStatisticsCommand.Settings>();
 

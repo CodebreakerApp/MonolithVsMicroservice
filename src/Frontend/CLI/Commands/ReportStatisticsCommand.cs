@@ -1,5 +1,5 @@
 ﻿using CodeBreaker.Frontend.Services;
-using CodeBreaker.Transfer.Requests;
+using CodeBreaker.Services.Report.Transfer.Api.Requests;
 using Spectre.Console;
 using Spectre.Console.Cli;
 

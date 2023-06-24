@@ -1,6 +1,6 @@
 ﻿using CodeBreaker.CLI.Extensions;
 using CodeBreaker.Frontend.Services;
-using CodeBreaker.Transfer.LivePayloads;
+using CodeBreaker.Services.Live.Transfer;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
@@ -35,20 +35,20 @@ internal class LiveCommand : AsyncCommand
 
     private void OnGameCreated(object? sender, GameCreatedPayload e)
     {
-        Console.MarkupLineInterpolated($"[bold]{e.Game.Username}[/] startet a {e.Game.Type}-game ({e.Game.Id})");
+        Console.MarkupLineInterpolated($"[bold]{e.Username}[/] startet a {e.Type}-game ({e.Id})");
     }
 
     private void OnGameEnded(object? sender, GameEndedPayload e)
     {
-        var wonText = e.Won ? string.Empty : "not ";
-        Console.MarkupLineInterpolated($"Game ([bold]{e.GameId}[/]) ended at {e.End} and was {wonText}won");
+        var wonText = e.State == "Won" ? string.Empty : "not ";
+        Console.MarkupLineInterpolated($"Game ([bold]{e.Id}[/]) ended at {e.End} and was {wonText}won");
     }
 
-    private void OnMoveMade(object? sender, MoveMadePayload e)
+    private void OnMoveMade(object? sender, MoveCreatedPayload e)
     {
         Console.Write("Move ");
-        Console.WriteColors(e.Move.Fields);
+        Console.WriteColors(e.Fields);
         Console.Write($" was made for game ({e.GameId}) - ");
-        Console.WriteColorsLine(e.Move.KeyPegs);
+        Console.WriteColorsLine(e.KeyPegs);
     }
 }

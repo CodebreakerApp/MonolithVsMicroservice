@@ -12,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Transfer\CodeBreaker.Transfer.csproj" />
+    <ProjectReference Include="..\..\Services\Game\src\Transfer\Api\CodeBreaker.Services.Games.Transfer.Api.csproj" />
+    <ProjectReference Include="..\..\Services\Live\src\Transfer\CodeBreaker.Services.Live.Transfer.csproj" />
+    <ProjectReference Include="..\..\Services\Report\src\Transfer\Api\CodeBreaker.Services.Report.Transfer.Api.csproj" />
   </ItemGroup>
 
 </Project>

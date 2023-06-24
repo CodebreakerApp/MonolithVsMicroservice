@@ -1,4 +1,4 @@
-﻿using CodeBreaker.Transfer;
+﻿using CodeBreaker.Services.Games.Transfer.Api;
 using Spectre.Console;
 
 namespace CodeBreaker.CLI.Extensions;
@@ -29,6 +29,9 @@ internal static class ConsoleExtensions
     }
 
     public static void WriteColors(this IAnsiConsole console, IEnumerable<Field>? fields) =>
+        WriteColors(console, fields?.Select(x => x.Color));
+
+    public static void WriteColors(this IAnsiConsole console, IEnumerable<Services.Live.Transfer.Field>? fields) =>
         WriteColors(console, fields?.Select(x => x.Color));
 
     public static void WriteColors(this IAnsiConsole console, IEnumerable<string?>? colors) =>

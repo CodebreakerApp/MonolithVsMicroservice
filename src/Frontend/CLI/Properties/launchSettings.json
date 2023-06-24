@@ -2,7 +2,10 @@
   "profiles": {
     "CodeBreaker.CLI": {
       "commandName": "Project",
-      "commandLineArgs": "report -f 2023-01-01 -t 2023-10-01"
+      "commandLineArgs": "live",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
     }
   }
 }
