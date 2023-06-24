@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33620.401
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.CLI", "Frontend\CLI\CodeBreaker.CLI.csproj", "{824623DF-064E-4E09-BDC1-1165869829EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.CLI", "CLI\CodeBreaker.CLI.csproj", "{824623DF-064E-4E09-BDC1-1165869829EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Frontend.Services", "Frontend\Services\CodeBreaker.Frontend.Services.csproj", "{EF699F4E-E330-418D-9F55-4EB3B43602A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Frontend.Services", "Services\CodeBreaker.Frontend.Services.csproj", "{EF699F4E-E330-418D-9F55-4EB3B43602A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Games.Transfer.Api", "Services\Game\src\Transfer\Api\CodeBreaker.Services.Games.Transfer.Api.csproj", "{36EF8FF7-9333-47E8-88F0-7435A6541C99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Games.Transfer.Api", "..\Services\Game\src\Transfer\Api\CodeBreaker.Services.Games.Transfer.Api.csproj", "{36EF8FF7-9333-47E8-88F0-7435A6541C99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Report.Transfer.Api", "Services\Report\src\Transfer\Api\CodeBreaker.Services.Report.Transfer.Api.csproj", "{66F48E59-4E5E-4C85-94FC-0748C5824324}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Report.Transfer.Api", "..\Services\Report\src\Transfer\Api\CodeBreaker.Services.Report.Transfer.Api.csproj", "{66F48E59-4E5E-4C85-94FC-0748C5824324}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Live.Transfer", "Services\Live\src\Transfer\CodeBreaker.Services.Live.Transfer.csproj", "{59365167-E99C-4289-A659-8A756C100807}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBreaker.Services.Live.Transfer", "..\Services\Live\src\Transfer\CodeBreaker.Services.Live.Transfer.csproj", "{59365167-E99C-4289-A659-8A756C100807}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
