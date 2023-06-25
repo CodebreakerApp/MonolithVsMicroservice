@@ -37,7 +37,10 @@ using var host = Host.CreateDefaultBuilder(args)
         });
         services.AddDbContext<BotDbContext>(dbBuilder =>
         {
-            dbBuilder.UseSqlServer(context.Configuration.GetRequired("BotService:Database:PasswordlessConnectionString"));
+            dbBuilder.UseSqlServer(context.Configuration.GetRequired("BotService:Database:PasswordlessConnectionString"), sqlOptions =>
+            {
+                sqlOptions.EnableRetryOnFailure();
+            });
 #if DEBUG
             dbBuilder.EnableSensitiveDataLogging();
 #endif

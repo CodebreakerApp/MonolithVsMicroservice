@@ -39,7 +39,10 @@ using var host = Host.CreateDefaultBuilder(args)
         });
         services.AddDbContext<ReportDbContext>(dbBuilder =>
         {
-            dbBuilder.UseSqlServer(context.Configuration.GetRequired("ReportService:Database:PasswordlessConnectionString"));
+            dbBuilder.UseSqlServer(context.Configuration.GetRequired("ReportService:Database:PasswordlessConnectionString"), sqlOptions =>
+            {
+                sqlOptions.EnableRetryOnFailure();
+            });
 #if DEBUG
             dbBuilder.EnableSensitiveDataLogging();
 #endif

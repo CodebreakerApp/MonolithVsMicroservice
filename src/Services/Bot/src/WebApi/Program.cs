@@ -25,7 +25,10 @@ builder.Services.AddApplicationInsightsTelemetry(options => options.ConnectionSt
 
 builder.Services.AddDbContext<BotDbContext>(dbBuilder =>
 {
-    dbBuilder.UseSqlServer(builder.Configuration.GetRequired("BotService:Database:PasswordlessConnectionString"));
+    dbBuilder.UseSqlServer(builder.Configuration.GetRequired("BotService:Database:PasswordlessConnectionString"), sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure();
+    });
 #if DEBUG
     dbBuilder.EnableSensitiveDataLogging();
 #endif
