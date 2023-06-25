@@ -21,7 +21,7 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         .Select("ReportService*", builder.Environment.EnvironmentName);
 });
 
-builder.Services.AddApplicationInsightsTelemetry();
+builder.Services.AddApplicationInsightsTelemetry(options => options.ConnectionString = builder.Configuration.GetRequired("ReportService:ApplicationInsights:ConnectionString"));
 
 builder.Services.AddDbContext<ReportDbContext>(dbBuilder =>
 {

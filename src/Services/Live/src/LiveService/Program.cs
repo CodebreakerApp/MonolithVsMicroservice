@@ -6,7 +6,7 @@ using CodeBreaker.Services.Live.Services;
 using CodeBreaker.Services.Games.Messaging.Services;
 using Azure.Messaging.ServiceBus;
 
-AzureCliCredential azureCredential = new();
+DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddAzureAppConfiguration(options =>
@@ -19,7 +19,7 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         .Select("LiveService*", builder.Environment.EnvironmentName);
 });
 
-builder.Services.AddApplicationInsightsTelemetry();
+builder.Services.AddApplicationInsightsTelemetry(options => options.ConnectionString = builder.Configuration.GetRequired("LiveService:ApplicationInsights:ConnectionString"));
 
 builder.Services.AddAzureClients(clientBuilder =>
 {

@@ -21,7 +21,7 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         .Select("BotService*", builder.Environment.EnvironmentName);
 });
 
-builder.Services.AddApplicationInsightsTelemetry();
+builder.Services.AddApplicationInsightsTelemetry(options => options.ConnectionString = builder.Configuration.GetRequired("BotService:ApplicationInsights:ConnectionString"));
 
 builder.Services.AddDbContext<BotDbContext>(dbBuilder =>
 {

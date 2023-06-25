@@ -9,7 +9,7 @@ using GameService.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 
-AzureCliCredential azureCredential = new();
+DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddAzureAppConfiguration(options =>
@@ -22,7 +22,7 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         .Select("GameService*", builder.Environment.EnvironmentName);
 });
 
-builder.Services.AddApplicationInsightsTelemetry();
+builder.Services.AddApplicationInsightsTelemetry(options => options.ConnectionString = builder.Configuration.GetRequired("GameService:ApplicationInsights:ConnectionString"));
 
 builder.Services.AddDbContext<GamesDbContext>(dbBuilder =>
 {

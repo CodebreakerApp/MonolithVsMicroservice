@@ -28,7 +28,7 @@ using var host = Host.CreateDefaultBuilder(args)
     })
     .ConfigureServices((context, services) =>
     {
-        services.AddApplicationInsightsTelemetryWorkerService();
+        services.AddApplicationInsightsTelemetryWorkerService(options => options.ConnectionString = context.Configuration.GetRequired("BotService:ApplicationInsights:ConnectionString"));
         services.AddAzureClients(clientBuilder =>
         {
             var serviceBusNamespace = context.Configuration.GetRequired("BotService:ServiceBus:Namespace");

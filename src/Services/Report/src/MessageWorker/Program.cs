@@ -30,7 +30,7 @@ using var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         services.Configure<MessageServiceOptions>(context.Configuration.GetSection("ReportService:MessageWorker"));
-        services.AddApplicationInsightsTelemetryWorkerService();
+        services.AddApplicationInsightsTelemetryWorkerService(options => options.ConnectionString = context.Configuration.GetRequired("ReportService:ApplicationInsights:ConnectionString"));
         services.AddAzureClients(clientBuilder =>
         {
             var serviceBusNamespace = context.Configuration.GetRequired("ReportService:ServiceBus:Namespace");
