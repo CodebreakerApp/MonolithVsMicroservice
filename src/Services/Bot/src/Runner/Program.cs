@@ -44,11 +44,11 @@ using var host = Host.CreateDefaultBuilder(args)
 #if DEBUG
             dbBuilder.EnableSensitiveDataLogging();
 #endif
-        });
+        }, ServiceLifetime.Transient);
 
         services.Configure<BotScheduleWorkerOptions>(context.Configuration.GetSection("BotService:BotScheduleWorker"));
-        services.AddScoped<IBotRepository, BotRepository>();
-        services.AddScoped<IBotConsumer, BotConsumer>();
+        services.AddTransient<IBotRepository, BotRepository>();
+        services.AddSingleton<IBotConsumer, BotConsumer>();
         services.AddHttpClient<IGameTypeService, GameTypeService>(options =>
         {
             options.BaseAddress = new(context.Configuration.GetRequired("BotService:GameTypeBaseAddress"));
