@@ -9,7 +9,7 @@ using CodeBreaker.Services.Games.Services.Exceptions;
 
 namespace CodeBreaker.Services.Games.Services;
 
-internal class MoveService(IGameRepository gameRepository, IMessagePublisher messagePublisher) : IMoveService
+internal class MoveService(IGameRepository gameRepository, IMessagePublisher messagePublisher, ILogger<MoveService> logger) : IMoveService
 {
     public async Task<Game> ApplyMoveAsync(Guid gameId, IReadOnlyList<Field> guessPegs, CancellationToken cancellationToken = default)
     {
@@ -18,13 +18,15 @@ internal class MoveService(IGameRepository gameRepository, IMessagePublisher mes
         if (game.HasEnded())
             throw new GameAlreadyEndedException(gameId);
 
-        game.ApplyMove(guessPegs);
+        var appliedMove = game.ApplyMove(guessPegs);
+
         await gameRepository.UpdateAsync(gameId, game, cancellationToken);
-        var appliedMove = game.Moves.Last();
-        await messagePublisher.PublishMoveCreatedAsync(appliedMove.ToMoveCreatedPayload(gameId), cancellationToken);
+        messagePublisher.PublishMoveCreatedAsync(appliedMove.ToMoveCreatedPayload(gameId), cancellationToken)
+            .FireAndForgetButLogExceptions(logger);
 
         if (game.HasEnded())
-            await messagePublisher.PublishGameEndedAsync(game.ToGameEndedPayload(), cancellationToken);
+            messagePublisher.PublishGameEndedAsync(game.ToGameEndedPayload(), cancellationToken)
+                .FireAndForgetButLogExceptions(logger);
 
         return game;
     }

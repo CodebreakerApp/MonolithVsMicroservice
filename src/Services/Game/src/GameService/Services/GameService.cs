@@ -5,7 +5,7 @@ using CodeBreaker.Services.Games.Messaging.Services;
 
 namespace CodeBreaker.Services.Games.Services;
 
-internal class GameService(IGameRepository repository, IMessagePublisher messagePublisher) : IGameService
+internal class GameService(IGameRepository repository, IMessagePublisher messagePublisher, ILogger<GameService> logger) : IGameService
 {
     public IAsyncEnumerable<Game> GetAsync(CancellationToken cancellationToken = default) =>
         repository.GetAsync(cancellationToken);
@@ -16,7 +16,8 @@ internal class GameService(IGameRepository repository, IMessagePublisher message
     public async Task<Game> CreateAsync(Game game, CancellationToken cancellationToken = default)
     {
         await repository.CreateAsync(game, cancellationToken);
-        await messagePublisher.PublishGameCreatedAsync(game.ToGameCreatedPayload(), cancellationToken);
+        messagePublisher.PublishGameCreatedAsync(game.ToGameCreatedPayload(), cancellationToken)
+            .FireAndForgetButLogExceptions(logger);
         return game;
     }
 
@@ -28,6 +29,7 @@ internal class GameService(IGameRepository repository, IMessagePublisher message
         if (game.End == null)
             throw new InvalidOperationException("The 'end' of the game is null, even after it was cancelled.");
 
-        await messagePublisher.PublishGameEndedAsync(game.ToGameEndedPayload(), cancellationToken);
+        messagePublisher.PublishGameEndedAsync(game.ToGameEndedPayload(), cancellationToken).
+            FireAndForgetButLogExceptions(logger);
     }
 }
