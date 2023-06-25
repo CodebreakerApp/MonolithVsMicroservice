@@ -3,6 +3,7 @@ using CodeBreaker.Services.Games.Messaging.Transfer.Payloads;
 using CodeBreaker.Services.Report.Data.Repositories;
 using CodeBreaker.Services.Report.MessageWorker.Mapping;
 using CodeBreaker.Services.Report.MessageWorker.Options;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -14,15 +15,15 @@ internal class MessageService
 
     private readonly IOptions<MessageServiceOptions> _options;
 
-    private readonly IGameRepository _gameRepository;
+    private readonly IServiceProvider _services;
 
     private readonly ILogger _logger;
 
-    public MessageService(IMessageSubscriber messageSubscriber, IOptions<MessageServiceOptions> options, IGameRepository gameRepository, ILogger<MessageService> logger)
+    public MessageService(IMessageSubscriber messageSubscriber, IOptions<MessageServiceOptions> options, IServiceProvider services, ILogger<MessageService> logger)
     {
         _messageSubscriber = messageSubscriber;
         _options = options;
-        _gameRepository = gameRepository;
+        _services = services;
         _logger = logger;
         messageSubscriber.OnGameCreatedAsync += OnGameCreatedCallbackAsync;
         messageSubscriber.OnMoveCreatedAsync += OnMoveCreatedCallbackAsync;
@@ -45,20 +46,23 @@ internal class MessageService
     private async Task OnGameCreatedCallbackAsync(GameCreatedPayload payload, CancellationToken cancellationToken)
     {
         _logger.LogInformation("OnGameCreated");
-        await _gameRepository.CreateAsync(payload.ToModel(), cancellationToken);
+        var repository = _services.GetRequiredService<IGameRepository>();
+        await repository.CreateAsync(payload.ToModel(), cancellationToken);
     }
 
     private async Task OnMoveCreatedCallbackAsync(MoveCreatedPayload payload, CancellationToken cancellationToken)
     {
         _logger.LogInformation("OnMoveCreated");
-        await _gameRepository.AddMoveAsync(payload.GameId, payload.ToMoveModel(), cancellationToken);
+        var repository = _services.GetRequiredService<IGameRepository>();
+        await repository.AddMoveAsync(payload.GameId, payload.ToMoveModel(), cancellationToken);
     }
 
     private async Task OnGameEndedCallbackAsync(GameEndedPayload payload, CancellationToken cancellationToken)
     {
         _logger.LogInformation("OnGameEnded");
-        var game = await _gameRepository.GetAsync(payload.Id, cancellationToken);
+        var repository = _services.GetRequiredService<IGameRepository>();
+        var game = await repository.GetAsync(payload.Id, cancellationToken);
         payload.ToModel(game);
-        await _gameRepository.UpdateAsync(payload.Id, game, cancellationToken);
+        await repository.UpdateAsync(payload.Id, game, cancellationToken);
     }
 }
