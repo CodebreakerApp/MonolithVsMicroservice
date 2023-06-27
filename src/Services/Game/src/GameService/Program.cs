@@ -6,6 +6,7 @@ using CodeBreaker.Services.Games.Extensions;
 using CodeBreaker.Services.Games.Messaging.Services;
 using CodeBreaker.Services.Games.Services;
 using GameService.Serialization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 
@@ -42,6 +43,9 @@ builder.Services.AddAzureClients(clientBuilder =>
     clientBuilder.UseCredential(azureCredential);
 });
 
+builder.Services.AddSingleton<IMessagePublisher, MessagePublisher>(); builder.Services.AddHealthChecks()
+    .AddDbContextCheck<GamesDbContext>("Ready", tags: new[] { "ready" });
+
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
@@ -56,7 +60,6 @@ builder.Services.AddScoped<IGameTypeRepository,  GameTypeRepository>();
 builder.Services.AddScoped<IGameService, CodeBreaker.Services.Games.Services.GameService>();
 builder.Services.AddScoped<IGameTypeService, GameTypeService>();
 builder.Services.AddScoped<IMoveService, MoveService>();
-builder.Services.AddSingleton<IMessagePublisher, MessagePublisher>();
 
 var app = builder.Build();
 
@@ -65,5 +68,13 @@ app.UseSwaggerUI();
 
 app.MapGameEndpoints();
 app.MapGameTypeEndpoints();
+app.MapHealthChecks("/health/ready", new HealthCheckOptions
+{
+    Predicate = healthCheck => healthCheck.Tags.Contains("ready")
+});
+app.MapHealthChecks("/health/live", new HealthCheckOptions
+{
+    Predicate = _ => false
+});
 
 app.Run();
