@@ -5,6 +5,7 @@ using CodeBreaker.Services.Bot.Messaging.Services;
 using CodeBreaker.Services.Bot.WebApi.Endpoints;
 using CodeBreaker.Services.Bot.WebApi.Serialization;
 using CodeBreaker.Services.Bot.WebApi.Services;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Azure;
 
@@ -41,6 +42,9 @@ builder.Services.AddAzureClients(clientBuilder =>
     clientBuilder.UseCredential(azureCredential);
 });
 
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<BotDbContext>("Ready", tags: new[] { "ready" });
+
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
@@ -61,5 +65,13 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.MapBotEndpoints();
+app.MapHealthChecks("/health/ready", new HealthCheckOptions
+{
+    Predicate = healthCheck => healthCheck.Tags.Contains("ready")
+});
+app.MapHealthChecks("/health/live", new HealthCheckOptions
+{
+    Predicate = _ => false
+});
 
 app.Run();
