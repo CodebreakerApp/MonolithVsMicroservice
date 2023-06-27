@@ -10,6 +10,7 @@ using CodeBreaker.Backend.Endpoints;
 using CodeBreaker.Backend.BotLogic;
 using Microsoft.OpenApi.Any;
 using CodeBreaker.Backend.Serialization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 DefaultAzureCredential azureCredential = new();
 var builder = WebApplication.CreateBuilder(args);
@@ -73,6 +74,9 @@ builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 builder.Services.AddRequestDecompression();
 
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<CodeBreakerDbContext>("Ready", tags: new[] { "ready" });
+
 var app = builder.Build();
 
 app.UseRequestDecompression();
@@ -85,5 +89,13 @@ app.MapBotEndpoints();
 app.MapBotTypeEndpoints();
 app.MapReportEndpoints();
 app.MapHub<LiveHub>("/live");
+app.MapHealthChecks("/health/ready", new HealthCheckOptions
+{
+    Predicate = healthCheck => healthCheck.Tags.Contains("ready")
+});
+app.MapHealthChecks("/health/live", new HealthCheckOptions
+{
+    Predicate = _ => false
+});
 
 app.Run();
