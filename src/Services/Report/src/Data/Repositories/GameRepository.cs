@@ -4,19 +4,21 @@ using Microsoft.EntityFrameworkCore;
 using CodeBreaker.Services.Report.Data.Models;
 using CodeBreaker.Services.Report.Data.Models.Fields;
 using CodeBreaker.Services.Report.Data.Models.KeyPegs;
+using CodeBreaker.Services.Report.Data.Repositories.Args;
 
 namespace CodeBreaker.Services.Report.Data.Repositories;
 
 public class GameRepository(ReportDbContext dbContext) : IGameRepository
 {
-    public IAsyncEnumerable<Game> GetAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default) =>
+    public IAsyncEnumerable<Game> GetAsync(GetGamesArgs args, CancellationToken cancellationToken = default) =>
         dbContext.Games
             .Include(x => x.Code)
             .Include(game => game.Moves.OrderBy(move => move.CreatedAt))
             .ThenInclude(move => move.Fields.OrderBy(field => field.Position))
             .Include(game => game.Moves.OrderBy(move => move.CreatedAt))
             .ThenInclude(move => move.KeyPegs!.OrderBy(keyPeg => keyPeg.Position))
-            .Where(x => x.Start >= from && x.Start < to)
+            .Where(x => x.Start >= args.From && x.Start < args.To)
+            .Take(args.MaxCount)
             .AsAsyncEnumerable();
 
     public async Task<Game> GetAsync(Guid gameId, CancellationToken cancellationToken = default) =>

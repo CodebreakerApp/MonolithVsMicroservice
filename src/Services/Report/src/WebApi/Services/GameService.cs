@@ -6,7 +6,7 @@ namespace CodeBreaker.Services.Report.WebApi.Services;
 internal class GameService(IGameRepository repository) : IGameService
 {
     public IAsyncEnumerable<Game> GetGamesAsync(GetGamesArgs args, CancellationToken cancellationToken = default) =>
-        repository.GetAsync(args.From, args.To, cancellationToken);
+        repository.GetAsync(new Data.Repositories.Args.GetGamesArgs (args.From, args.To) { MaxCount = args.MaxCount }, cancellationToken);
 
     public async Task<Game> GetGameAsync(GetGameArgs args, CancellationToken cancellationToken = default) =>
         await repository.GetAsync(args.Id, cancellationToken);
