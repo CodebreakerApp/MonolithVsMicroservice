@@ -5,6 +5,7 @@ using CodeBreaker.Services.Report.Data.Repositories;
 using CodeBreaker.Services.Report.Serialization;
 using CodeBreaker.Services.Report.WebApi.Endpoints;
 using CodeBreaker.Services.Report.WebApi.Services;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 
@@ -34,6 +35,9 @@ builder.Services.AddDbContext<ReportDbContext>(dbBuilder =>
 #endif
 });
 
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<ReportDbContext>("Ready", tags: new[] { "ready" });
+
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
@@ -55,5 +59,13 @@ app.UseSwaggerUI();
 
 app.MapGameEndpoints();
 app.MapStatisticsEndpoint();
+app.MapHealthChecks("/health/ready", new HealthCheckOptions
+{
+    Predicate = healthCheck => healthCheck.Tags.Contains("ready")
+});
+app.MapHealthChecks("/health/live", new HealthCheckOptions
+{
+    Predicate = _ => false
+});
 
 app.Run();
