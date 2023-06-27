@@ -47,7 +47,7 @@ public class GetGamesArgs
 
     public DateTime To { get; init; } = DateTime.Now;
 
-    public int MaxCount { get; init; } = 1000;
+    public int MaxCount { get; init; } = 100;
 }
 
 public class GetGameArgs

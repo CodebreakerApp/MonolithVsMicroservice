@@ -46,6 +46,7 @@ public class ReportRepository(CodeBreakerDbContext dbContext) : IReportRepositor
         return dbContext.Games
             .WhereNotActive()
             .Where(game => game.Start >= args.From && game.Start < args.To)
+            .Take(args.MaxCount)
             .AsAsyncEnumerable();
     }
 
