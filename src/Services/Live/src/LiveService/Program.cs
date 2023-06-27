@@ -28,6 +28,8 @@ builder.Services.AddAzureClients(clientBuilder =>
     clientBuilder.UseCredential(azureCredential);
 });
 
+builder.Services.AddHealthChecks();
+
 builder.Services.AddSignalR();
 
 builder.Services.AddSingleton<ILiveHubSender, LiveHubSender>();
@@ -37,5 +39,6 @@ builder.Services.AddHostedService<MessageWorkerService>();
 var app = builder.Build();
 
 app.MapHub<LiveHub>("/live");
+app.MapHealthChecks("/health/live");
 
 app.Run();
