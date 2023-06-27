@@ -18,7 +18,7 @@ internal static class GameEndpoints
             .WithTags("Games")
             .RequireRateLimiting("default");
 
-        group.MapGet("/games", (
+        group.MapGet("/", (
             [AsParameters] GetGamesRequest req,
             [FromServices] IGameService gameService,
             CancellationToken cancellationToken
@@ -39,7 +39,7 @@ internal static class GameEndpoints
         .WithSummary("Gets games within the given period of time.")
         .WithOpenApi();
 
-        group.MapGet("/games/{id:guid}", async Task<Results<Ok<GetGameResponse>, NotFound>> (
+        group.MapGet("/{id:guid}", async Task<Results<Ok<GetGameResponse>, NotFound>> (
             [FromRoute] Guid id,
             [FromServices] IGameService gameService,
             CancellationToken cancellationToken
