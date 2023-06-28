@@ -46,21 +46,21 @@ internal class MessageService
     private async Task OnGameCreatedCallbackAsync(GameCreatedPayload payload, CancellationToken cancellationToken)
     {
         _logger.LogInformation("OnGameCreated");
-        var repository = _services.GetRequiredService<IGameRepository>();
+        using var repository = _services.GetRequiredService<IGameRepository>();
         await repository.CreateAsync(payload.ToModel(), cancellationToken);
     }
 
     private async Task OnMoveCreatedCallbackAsync(MoveCreatedPayload payload, CancellationToken cancellationToken)
     {
         _logger.LogInformation("OnMoveCreated");
-        var repository = _services.GetRequiredService<IGameRepository>();
+        using var repository = _services.GetRequiredService<IGameRepository>();
         await repository.AddMoveAsync(payload.GameId, payload.ToMoveModel(), cancellationToken);
     }
 
     private async Task OnGameEndedCallbackAsync(GameEndedPayload payload, CancellationToken cancellationToken)
     {
         _logger.LogInformation("OnGameEnded");
-        var repository = _services.GetRequiredService<IGameRepository>();
+        using var repository = _services.GetRequiredService<IGameRepository>();
         var game = await repository.GetAsync(payload.Id, cancellationToken);
         payload.ToModel(game);
         await repository.UpdateAsync(payload.Id, game, cancellationToken);

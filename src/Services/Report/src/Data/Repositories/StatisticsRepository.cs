@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodeBreaker.Services.Report.Data.Repositories;
 
-public class StatisticsRepository(ReportDbContext dbContext) : IStatisticsRepository
+public class StatisticsRepository(ReportDbContext dbContext) : IStatisticsRepository, IDisposable
 {
     private class StatisticsResult
     {
@@ -36,6 +36,11 @@ public class StatisticsRepository(ReportDbContext dbContext) : IStatisticsReposi
                 AvgMoveCount = result.AvgMoveCount,
             })
             .SingleAsync(cancellationToken);
+    }
+
+    public void Dispose()
+    {
+        dbContext.Dispose();
     }
 }
 

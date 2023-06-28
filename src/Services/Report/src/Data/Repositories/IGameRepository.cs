@@ -2,7 +2,7 @@
 using CodeBreaker.Services.Report.Data.Repositories.Args;
 
 namespace CodeBreaker.Services.Report.Data.Repositories;
-public interface IGameRepository
+public interface IGameRepository : IDisposable
 {
     Task<Game> CreateAsync(Game game, CancellationToken cancellationToken = default);
     Task DeleteAsync(Guid gameId, CancellationToken cancellationToken = default);

@@ -8,7 +8,7 @@ using CodeBreaker.Services.Report.Data.Repositories.Args;
 
 namespace CodeBreaker.Services.Report.Data.Repositories;
 
-public class GameRepository(ReportDbContext dbContext) : IGameRepository
+public class GameRepository(ReportDbContext dbContext) : IGameRepository, IDisposable
 {
     public IAsyncEnumerable<Game> GetAsync(GetGamesArgs args, CancellationToken cancellationToken = default) =>
         dbContext.Games
@@ -91,5 +91,10 @@ public class GameRepository(ReportDbContext dbContext) : IGameRepository
         int i = 0;
         foreach (var keyPeg in keyPegs)
             keyPeg.Position = i++;
+    }
+
+    public void Dispose()
+    {
+        dbContext.Dispose();
     }
 }
