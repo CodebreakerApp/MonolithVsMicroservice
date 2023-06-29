@@ -2,7 +2,7 @@
 using CodeBreaker.Services.Bot.Data.Repositories.Args;
 
 namespace CodeBreaker.Services.Bot.Data.Repositories;
-public interface IBotRepository
+public interface IBotRepository : IDisposable
 {
     Task<Models.Bot> CreateAsync(Models.Bot bot, CancellationToken cancellationToken = default);
     Task<Models.Bot> GetBotAsync(Guid id, CancellationToken cancellationToken);

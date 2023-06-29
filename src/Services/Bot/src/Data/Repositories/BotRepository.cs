@@ -4,11 +4,10 @@ using CodeBreaker.Services.Bot.Data.Models;
 using CodeBreaker.Services.Bot.Data.Models.Extensions;
 using CodeBreaker.Services.Bot.Data.Repositories.Args;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace CodeBreaker.Services.Bot.Data.Repositories;
 
-public class BotRepository(BotDbContext dbContext) : IBotRepository
+public class BotRepository(BotDbContext dbContext) : IBotRepository, IDisposable
 {
     public IAsyncEnumerable<Models.Bot> GetBotsAsync(GetBotsArgs args) =>
         dbContext.Bots
@@ -41,5 +40,10 @@ public class BotRepository(BotDbContext dbContext) : IBotRepository
                     .SetProperty(bot => bot.EndedAt, DateTime.Now), cancellationToken);
         else
             await queryable.ExecuteUpdateAsync(x => x.SetProperty(bot => bot.State, newState), cancellationToken);
+    }
+
+    public void Dispose()
+    {
+        dbContext.Dispose();
     }
 }
