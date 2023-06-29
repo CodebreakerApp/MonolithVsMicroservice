@@ -16,6 +16,11 @@ public class MessagePublisher(ServiceBusClient serviceBusClient) : IMessagePubli
 
     private readonly ServiceBusSender _gameEndedSender = serviceBusClient.CreateSender(MessagingTopics.Game_Ended);
 
+    public bool IsClosed =>
+        _gameCreatedSender.IsClosed ||
+        _moveCreatedSender.IsClosed ||
+        _gameEndedSender.IsClosed;
+
     public async Task PublishGameCreatedAsync(GameCreatedPayload payload, CancellationToken cancellationToken) =>
         await Publish(_gameCreatedSender, payload, cancellationToken);
 

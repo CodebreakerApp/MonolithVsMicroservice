@@ -3,6 +3,7 @@ using CodeBreaker.Services.Games.Data.DatabaseContexts;
 using CodeBreaker.Services.Games.Data.Repositories;
 using CodeBreaker.Services.Games.Endpoints;
 using CodeBreaker.Services.Games.Extensions;
+using CodeBreaker.Services.Games.HealthChecks;
 using CodeBreaker.Services.Games.Messaging.Services;
 using CodeBreaker.Services.Games.Services;
 using GameService.Serialization;
@@ -36,15 +37,19 @@ builder.Services.AddDbContext<GamesDbContext>(dbBuilder =>
 #endif
 });
 
+var serviceBusNamespace = builder.Configuration.GetRequired("GameService:ServiceBus:Namespace");
 builder.Services.AddAzureClients(clientBuilder =>
 {
-    var serviceBusNamespace = builder.Configuration.GetRequired("GameService:ServiceBus:Namespace");
     clientBuilder.AddServiceBusClientWithNamespace(serviceBusNamespace);
     clientBuilder.UseCredential(azureCredential);
 });
 
-builder.Services.AddSingleton<IMessagePublisher, MessagePublisher>(); builder.Services.AddHealthChecks()
-    .AddDbContextCheck<GamesDbContext>("Ready", tags: new[] { "ready" });
+builder.Services.AddSingleton<IMessagePublisher, MessagePublisher>();
+
+string[] readyHealthCheckTags = { "ready" };
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<GamesDbContext>("DbReady", tags: readyHealthCheckTags)
+    .AddCheck<MessagePublisherReadyCheck>("MessagePublisherReady", tags: readyHealthCheckTags);
 
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
